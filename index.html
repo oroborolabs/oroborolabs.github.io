@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oroboro Labs — tools built for you and your AI agent</title>
+<meta name="description" content="Second Brain Starter: an Obsidian vault template designed for two first-class readers — you and your AI agent. MAPA index, snippet search, ebook. US$15.">
+<link rel="icon" href="emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:52px;height:52px;border-radius:50%}
+  .brand{font-size:22px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase}
+  .sub{color:var(--dim);font-size:13px;letter-spacing:.12em}
+  .hero{padding:44px 0 28px;border-bottom:1px solid var(--line)}
+  .hero h1{font-size:34px;line-height:1.25;font-weight:normal;max-width:640px}
+  .hero h1 b{color:var(--gold);font-weight:normal}
+  .hero p.tag{color:var(--dim);margin-top:14px;font-size:15px}
+  section.prod{padding:36px 0;border-bottom:1px solid var(--line)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px 28px 24px}
+  .kicker{color:var(--gold);font-size:12px;letter-spacing:.28em;text-transform:uppercase}
+  .card h2{font-size:24px;font-weight:normal;margin:10px 0 4px}
+  .card h2 small{display:block;font-size:15px;color:var(--dim);margin-top:4px}
+  ul.feat{list-style:none;margin:18px 0 6px}
+  ul.feat li{padding:7px 0 7px 26px;position:relative;font-size:15px}
+  ul.feat li::before{content:" serpent-bite: ";position:absolute;left:0;color:var(--gold);font-size:11px;top:12px}
+  ul.feat li::before{content:"◆"}
+  .price{margin-top:18px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .price .v{font-size:30px;color:var(--gold)}
+  .price .n{color:var(--dim);font-size:14px}
+  .cta{display:inline-block;margin-top:18px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  .note{color:var(--dim);font-size:13px;margin-top:12px}
+  section.pt{padding:30px 0;border-bottom:1px solid var(--line);color:var(--dim);font-size:15px}
+  section.pt b{color:var(--ink);font-weight:normal}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="emblema.jpg" alt="Ouroboros emblem">
+    <div>
+      <div class="brand">Oroboro Labs</div>
+      <div class="sub">tools where human &amp; AI agents work as one</div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Your second brain has <b>two readers</b> — you, and the AI agent that works for you.</h1>
+    <p class="tag">Oroboro Labs builds tools that treat both as first-class readers.</p>
+  </div>
+
+  <section class="prod">
+    <div class="card">
+      <div class="kicker">First release</div>
+      <h2>Second Brain Starter
+        <small>Obsidian vault template built for AI agents — vault + index map + search + ebook · template Obsidian feito para agentes de IA</small>
+      </h2>
+      <ul class="feat">
+        <li>Complete Obsidian vault: notes/, people/, projects/, inbox/ — with example notes teaching each folder's pattern</li>
+        <li><b>AGENTS.md</b>: the index your AI agent (Claude Code, Cursor, ZCode) reads on its own when opening the folder — it learns where things live and never writes unasked</li>
+        <li><b>gerar_mapa.py</b>: builds MAPA.md — one line per note. Your agent reads the map instead of the whole vault. Works on ANY Obsidian vault</li>
+        <li><b>buscar.py</b>: search that returns ranked snippets (idf-style rarity) with a file &gt; section trail — not a list of files to open one by one</li>
+        <li>10-minute tutorial in 6 steps + ebook "Second brain with agents: the method" (10 sections, including what NOT to do)</li>
+      </ul>
+      <div class="price">
+        <span class="v">US$ 15</span>
+        <span class="n">one-time · digital delivery (.zip: vault + ebook + tools)</span>
+      </div>
+      <a class="cta" href="mailto:oroborolabs@tutamail.com?subject=Second%20Brain%20Starter%20—%20reserve">Reserve by email — store opening soon</a>
+      <p class="note">Requirements: Obsidian (free) and Python 3.8+ for the two tools — the vault works 100% without them. Works as a plain vault if you don't use an agent yet.</p>
+    </div>
+  </section>
+
+  <section class="pt">
+    <b>Em português:</b> cofre Obsidian pronto para você <b>e</b> seu agente de IA — índice MAPA, busca por trecho ranqueada, tutorial de 10 minutos e e-book do método. US$ 15, entrega digital. Reserve pelo e-mail acima enquanto a loja abre.
+  </section>
+
+  <footer>
+    © 2026 Oroboro Labs · <a href="mailto:oroborolabs@tutamail.com">oroborolabs@tutamail.com</a> · emblem: the alchemical serpent
+  </footer>
+</div>
+</body>
+</html>
