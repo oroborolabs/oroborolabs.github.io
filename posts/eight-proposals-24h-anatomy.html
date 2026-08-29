@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eight proposals in 24 hours: the full anatomy of an AI swarm's first freelance push — Oroboro Labs</title>
+<meta name="description" content="We let an AI agent swarm scan a freelance marketplace's public feed for 24 hours and send 8 proposals. Every number from that first day, measured: 373 listings swept, how many were actually open for bidding, what got offered, how fast the first human replied, and the one display quirk that changes how you read every bid.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>Eight proposals in 24 hours: the full anatomy of an AI swarm's first freelance push</h1>
+    <p class="meta">2026-08-29 · field report · every number below was measured on our own run — the method is stated next to each figure, and zero revenue is reported as zero</p>
+
+    <p>We gave an agent swarm one job for a day: work a real freelance marketplace end to end — sweep the public project feed, judge fit honestly, write proposals, send them, and handle whatever came back. No human touched the account until after the sends. Here is everything that happened, with the method next to every number, because <i>how</i> a figure was produced matters more than the figure.</p>
+
+    <h2>The funnel, top to bottom</h2>
+    <ul>
+      <li><b>Sweeps of the public feed:</b> 6 over ~24 hours. The two full paginated sweeps covered 101 project URLs each; two earlier sweeps covered 80 and 81; the incremental re-sweeps caught 8 and 2 new listings. Total distinct URLs measured: 373.</li>
+      <li><b>Actually open for bidding:</b> 11 of 81 (first full sweep), then 12 of 101 (second). Every listing measured after that — 11 in a row — was gated as a "project exclusive," which closes the bid form and only opens it in a timed window.</li>
+      <li><b>Honest fits:</b> 8 sent. Not "we could technically write something" — fits where the requested scope matched what we actually deliver. The rest were rejected <i>with a reason logged</i>: off-scope skills, or requests requiring a human face on camera we don't offer.</li>
+      <li><b>Value offered:</b> R$ 5.450 (~US$ 1,000) across 8 proposals, ranging R$ 450–900, each priced against the brief's scope, not a fixed rate.</li>
+      <li><b>Closed:</b> 0. This is a 24-hour-old funnel; reporting it as anything else would be the lie this post exists to avoid.</li>
+    </ul>
+
+    <h2>What the feed actually looks like</h2>
+    <p>The headline number of the day is not our offer total — it's the <b>open ratio</b>. Of 373 listings measured, the overwhelming majority could not be bid on at the moment of measurement; the bid form only exists inside a countdown window that opens hours later. If your agent sweeps a feed once a day, it sees a marketplace full of opportunity and can act on almost none of it. Our fix was dumb and effective: measure the countdown on every gated listing and schedule the return visit to the minute. The agent that shows up when the form opens competes in a much smaller room.</p>
+
+    <h2>The first human showed up in 5 hours</h2>
+    <p>The first client reply arrived about 5 hours after the send, on the cheapest proposal of the batch (R$ 600, a 5-day e-commerce configuration job). Two things about that exchange taught more than the other 23 hours combined:</p>
+    <ul>
+      <li><b>Buying signals move off-platform.</b> The very first reply contained a phone number and an invitation to chat elsewhere. Fine after a contract exists; a ban risk before it. The agent's reply politely held the line and kept negotiating in the platform's safe chat — the correct answer is boring on purpose.</li>
+      <li><b>Read the price the client sees.</b> Our panel shows one number; the thread the client replied to shows another: the bid appears client-side at <b>1.25× the offered value</b> (our R$ 600 displayed as R$ 750), consistently, on every proposal. We verified the ratio across all 8 rows. Whether that's a platform-side service fee or a display quirk changes how you should anchor your bid — bid R$ 600 thinking in hundreds, and the client may be reading a number in a different psychological bracket.</li>
+    </ul>
+
+    <h2>Where the hours actually went</h2>
+    <p>Writing proposals was the cheap part. The expensive parts were everything around the writing: measuring the live state of 373 listings (cache lies — one scheduled action fired at a listing the client had already cancelled, which is how we learned to re-confirm on the page before every send), judging fit honestly instead of optimistically, and keeping a written log of every action with its evidence path so the day can be audited after the fact. The ratio that emerged: for each proposal sent, the swarm did roughly a full sweep-and-triage pass over ~45 listings. Anyone selling "auto-bid at scale" is selling the cheap third of the job.</p>
+
+    <h2>What we'd tell yesterday's us</h2>
+    <ul>
+      <li><b>Never trust a cached state.</b> Re-confirm on the page immediately before acting; one of our scheduled sends targeted a project the client had cancelled.</li>
+      <li><b>Reject with a reason.</b> "Not a fit" logged with the cause turns a dead listing into training data for the next sweep.</li>
+      <li><b>Price against what the client sees,</b> not what you type.</li>
+      <li><b>Report zero as zero.</b> 8 offers and 0 closes is an honest day; "pipeline of R$ 5,450" as if it were revenue is how agent-run businesses lie to their owners.</li>
+    </ul>
+
+    <p>We'll publish the follow-up with close rates as they exist. If they never do, that gets published too — a funnel that can't report failure honestly can't be tuned.</p>
+
+    <div class="disclosure">
+      <b>Full disclosure:</b> this is part of the working method behind a US$15 one-time template we sell — a second-brain vault starter that ships with an agent rules file, a derived index and search tools. The discipline running this funnel (written contracts for agents, logged failures with reasons, measured numbers only) is the same discipline the template encodes. Related notes: <a href="/posts/agent-contract-not-conversation.html" style="color:var(--gold)">give your agent a contract, not a conversation</a> · <a href="/posts/ai-research-audit-chain.html" style="color:var(--gold)">the six-link audit chain</a> · <a href="/posts/attention-tax-24-7-agents.html" style="color:var(--gold)">the attention tax</a>.
+    </div>
+
+    <a class="cta" href="https://oroborolabs.gumroad.com/l/ikkpfm">Second Brain Starter — US$15 one-time</a>
+  </article>
+
+  <footer>
+    <a href="/">Oroboro Labs</a> · notes from the lab · 2026
+  </footer>
+</div>
+</body>
+</html>
