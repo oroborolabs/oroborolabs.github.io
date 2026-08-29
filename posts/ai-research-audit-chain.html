@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI research isn't trash — unaudited research is — Oroboro Labs</title>
+<meta name="description" content="The five classic failure modes of AI-assisted research are method failures, not model failures. A six-link audit chain: index before search, corpus on disk with paths in prompts, declared scope, an adversarial reviewer whose only job is to reject, chained audits, and empty-field-over-guess.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ol,ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>AI research isn't trash — unaudited research is</h1>
+    <p class="meta">Method note · 2026-08-29 · Oroboro Labs</p>
+
+    <p>AI-assisted research has a reputation for producing garbage, and the reputation is earned: a confident summary, an invented source, a wall of text that collapses the moment you open the first reference. But the diagnosis is wrong. The problem is not that AI researches. It's that most pipelines research <em>without an audit stage</em>.</p>
+
+    <p>We run research agents nearly every day, and the method has one component almost nobody uses: a second agent whose <strong>only</strong> job is to reject. Here are the five failure modes we've actually hit, and the six-link chain that catches them.</p>
+
+    <h2>The five diseases</h2>
+    <ol>
+      <li><strong>Hallucinated source</strong> — the model cites what "sounds right", not what exists.</li>
+      <li><strong>Shallow reading</strong> — it stops at the first page and generalizes the rest.</li>
+      <li><strong>Artificial ceiling</strong> — "the top 20 results" and done, silently cutting two-thirds of the material.</li>
+      <li><strong>Pasted payload</strong> — the whole corpus crammed into the prompt. It truncates, and nobody notices what vanished.</li>
+      <li><strong>Unmeasured number</strong> — a third-party statistic repeated as if it were a verified fact.</li>
+    </ol>
+    <p>Notice: none of the five is "the model is dumb". All five are failures of <em>method</em>, which means all five are fixable without waiting for a better model.</p>
+
+    <h2>The six-link chain</h2>
+    <ol>
+      <li><strong>Index before search.</strong> Any decent source has a catalog. Locate the index and read it <em>entirely</em>, into a file. Search only covers what the index doesn't. This alone kills half the garbage.</li>
+      <li><strong>Corpus on disk, path in the prompt.</strong> Downloaded material lives in a file; the next agent receives the <em>path</em>, never the pasted content. Pasted payloads truncate silently.</li>
+      <li><strong>No ceiling — with a declared cut.</strong> The target is the size of the source's universe, not "the first 20". And when something <em>must</em> be left out, the final product says what was left and why. Undeclared cuts are how scope decisions get smuggled past the reader.</li>
+      <li><strong>The adversarial reviewer.</strong> A second agent with a single mission: <em>reject</em>. It checks coverage (confer against the file, list what's missing), depth (reopen a sample and compare with the source), and fidelity (sample claims, verify against origin). A reviewer who can approve everything is not a reviewer.</li>
+      <li><strong>Chained audits.</strong> Round N+1 verifies round N's <em>corrections</em> — because fixing things introduces new errors too. A report that came out "corrected" wrong is worse than the first draft.</li>
+      <li><strong>Empty field over guess.</strong> Source blocked? It becomes a record <em>with the reason</em>. A documented access failure; never an inference dressed up as a fact.</li>
+    </ol>
+
+    <h2>What changes in practice</h2>
+    <ul>
+      <li>The final product is traceable: every claim resolves to a file. Not "the AI said" — "file X says, verified at the source."</li>
+      <li>It takes longer, and that's a feature. Verification costs about twice the effort and avoids the far larger cost of <em>deciding on rotten material</em>.</li>
+      <li>You can trust it enough to <strong>act</strong> — which is the only test of research that matters.</li>
+    </ul>
+
+    <p>One standing rule worth stealing: a savings number is either <em>measured</em> or it's advertising. If a report quotes a third-party number as if it were our measurement, that's a mislabeled fact, and mislabeled facts poison everything downstream of them.</p>
+
+    <h2>Start tomorrow</h2>
+    <p>Minimum viable version: source with an index → save the index → filter locally → one agent extracts with written rules → <em>you</em> play the adversarial reviewer with three questions: what's missing? does a sample match the source? is any claim an inference posing as a fact? When volume grows, the reviewer becomes a second agent. Don't start with full automation — start with the audit.</p>
+
+    <div class="disclosure">Everything above comes from running this chain daily on real material — including the failures; each rule in our written doctrine was born from a concrete mistake that cost something. We didn't invent the diseases. We just stopped pretending they wouldn't happen to us.</div>
+
+    <p>Our <a style="color:var(--gold)" href="/">Second Brain Starter</a> ships the written-contract + index approach end to end: a vault that both you and your agent can read cheaply, with the reading ladder and tools included.</p>
+    <a class="cta" href="https://oroborolabs.gumroad.com/l/ikkpfm">Second Brain Starter — US$15 one-time</a>
+  </article>
+
+  <footer>© 2026 Oroboro Labs · <a href="/">all notes</a> · <a href="mailto:oroborolabs@tutamail.com">oroborolabs@tutamail.com</a></footer>
+</div>
+</body>
+</html>
