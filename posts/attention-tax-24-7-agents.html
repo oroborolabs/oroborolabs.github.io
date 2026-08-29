@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The attention tax: what nobody tells you about 24/7 AI agents — Oroboro Labs</title>
+<meta name="description" content="An always-on agent is not passive income. It charges three hidden bills in the only currency you can't mint more of: your attention. Context tolls for every tool left on, interruptions that train you to ignore, and a human review step that doesn't shrink. Three legal ways to pay less.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>The attention tax: what nobody tells you about 24/7 AI agents</h1>
+    <p class="meta">2026-08-29 · method note · every number in here is measured on our own setup or marked as qualitative — no vendor benchmarks</p>
+
+    <p>An agent that runs around the clock is sold as passive income. It isn't. It's a business that pays <i>you</i> nothing and bills <i>you</i> constantly — in the one currency you can't mint more of. We run such agents daily; here are the three bills nobody itemizes, and what legally reduces them.</p>
+
+    <h2>Bill 1 — the context toll</h2>
+    <p>A tool that stays <b>connected</b> to your agent publishes its own definition in <b>every request</b>, whether or not that task uses it. Five servers left on is a toll collected five times per call. The fix is embarrassingly mechanical: prefer the tool that doesn't live in the context, and turn off what the task doesn't touch. We measured the same effect on a bigger scale with documents — reading a derived index instead of a raw vault made agent reading ~150× cheaper <a href="/posts/vault-index-150x.html" style="color:var(--gold)">(the measurement is here)</a>. Same principle, different layer: <b>what you keep loaded, you pay for on every turn.</b></p>
+
+    <h2>Bill 2 — interruptions that train you to ignore</h2>
+    <p>An agent that notifies you of <i>everything</i> is training you to notice <i>nothing</i>. A notification that doesn't demand a decision is noise wearing a productivity costume. This one is qualitative — we have no counter for attention residue, and we won't invent a number (rule in our house: a number without a method doesn't travel). But the design fix is structural: batch reporting. One morning digest of what failed and what it cost beats a ping per event, for the same reason cron beats a daemon spinning in your peripheral vision.</p>
+
+    <h2>Bill 3 — the review step that doesn't shrink</h2>
+    <p>The worst one, because it can't be automated away honestly. A 24/7 agent produces 24 hours of output; <b>reviewing it honestly also takes time</b>, and if you don't budget for that, you haven't automated the work — you've relocated it to 2 a.m., where nobody audits it. Our answer is to make review <i>sampled and adversarial</i> instead of total and sleepy: a second agent whose explicit job is to <b>reject</b> the first one's work, with checks that produce a count (coverage: what's missing and why; fidelity: sample the claims against the source). Auditing a rejection attempt is much cheaper than vigilance.</p>
+
+    <h2>Paying less, without lying to yourself</h2>
+    <ul>
+      <li><b>Context:</b> a tool not in use for this task stays off. Between two equivalent options, prefer the one that doesn't sit in the context — a CLI called on demand costs nothing while idle; a connected server bills per request.</li>
+      <li><b>Attention:</b> batch reports on a schedule, not pings per event. One item per line, each with its evidence path.</li>
+      <li><b>Review:</b> give the agent a written contract — it logs its own failures with reasons and keeps going. You audit the record once, not the day.</li>
+    </ul>
+
+    <p>The punchline: <b>automating what you can't afford to audit isn't scale — it's debt, with interest collected in sleep.</b></p>
+
+    <div class="disclosure">
+      <b>Full disclosure:</b> this is part of the working method behind a US$15 one-time template I sell — a second-brain vault starter that ships with an agent rules file, a derived index and search tools, plus a short ebook covering what NOT to do. Everything above works with nothing but a text file and discipline. Related notes: <a href="/posts/agent-contract-not-conversation.html" style="color:var(--gold)">give your agent a contract, not a conversation</a> · <a href="/posts/vault-index-150x.html" style="color:var(--gold)">the measured 150× case for a derived index</a> · <a href="/posts/routing-local-r0-day.html" style="color:var(--gold)">the routing ladder</a>.
+    </div>
+
+    <a class="cta" href="https://oroborolabs.gumroad.com/l/ikkpfm">Second Brain Starter — US$15 one-time</a>
+
+    <p>If you run an always-on agent: which of the three bills eats you the most — and did you ever catch bill 3 in the act?</p>
+  </article>
+
+  <footer>
+    <a href="/">Oroboro Labs</a> · tools where human &amp; AI agents work as one
+  </footer>
+</div>
+</body>
+</html>
