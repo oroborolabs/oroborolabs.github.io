@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A R$0-token day: the model-routing ladder — Oroboro Labs</title>
+<meta name="description" content="How an agent-heavy workday can run on R$0 of API tokens: route each task to the cheapest model that can do it — local models for volume, frontier API only for hard calls. The two warnings gurus skip: cost per completed task, and sampling quality when you route down.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>A R$0-token day of agent work — the routing ladder, and the two warnings nobody gives</h1>
+    <p class="meta">2026-08-29 · method note · numbers here are stated with their premises, not benchmarks</p>
+
+    <p>Yesterday a full workday of agent tasks — reading, summarizing, triaging piles of material — cost <b>R$0 in API tokens</b>. Not a promo credit, not a free tier trick. One architectural decision: <b>routing</b>.</p>
+
+    <h2>The common mistake: one model for everything</h2>
+    <p>Most people use AI like a single brilliant employee: throw everything at the most impressive model. But roughly 80% of an agent workday's volume isn't hard. Reading, summarizing, classifying, extracting fields, formatting. Paying frontier-model prices for mechanical work is hiring a surgeon to change a lightbulb — he'll do it, and you'll pay his full rate.</p>
+
+    <h2>The ladder</h2>
+    <p>Give each task the lowest rung that can actually do it:</p>
+    <ul>
+      <li><b>Rung 1 — raw volume</b> (harvesting, extraction, mass classification): small <i>local</i> model, running on your own machine. Token cost: zero.</li>
+      <li><b>Rung 2 — reading and synthesis</b> (long material, comparing sources): mid-size local model. Still zero.</li>
+      <li><b>Rung 3 — hard decisions</b> (final verdicts, judgment-heavy analysis, critical code): the frontier API, and only there. You pay for the rung, not the ladder.</li>
+    </ul>
+    <p>Who picks the rung? A simple classification rule is enough to start — or the local model itself labels the task before executing it.</p>
+
+    <h2>What a R$0 day actually is</h2>
+    <p>A zero-token day is a <i>volume day</i>: everything landed on rungs 1 and 2. The local model ate the material, agents logged everything to files, results came back ready for review. And the honest number for energy: under R$1 per long cycle on typical hardware — premises vary with your machine and tariff. R$0 in tokens isn't R$0 absolutely; it's trading per-request cost for the fixed cost of a machine you already own.</p>
+
+    <h2>The two warnings gurus skip</h2>
+    <p><b>1. Cheap that redoes the work three times is expensive.</b> If the small model fails and retries, your cost per <i>completed task</i> climbs — price-per-token is the wrong metric to decide with. Measure cost per completed task, always.</p>
+    <p><b>2. Routing quality down without a reviewer manufactures error in silence.</b> Every step down the ladder needs quality sampling: periodically, a human or a second agent checks a sample of what the cheap model produced. And some things never go to rung 1 — final decisions, anything published under your name, anything you can't verify afterward.</p>
+
+    <h2>Three rules to keep</h2>
+    <ul>
+      <li>Mechanical and voluminous → local model.</li>
+      <li>Hard decision → frontier API, only there — it's worth paying, because it's the price of being wrong less.</li>
+      <li>Always measure cost per completed task, never per token.</li>
+    </ul>
+
+    <div class="disclosure">
+      <b>Full disclosure:</b> this is part of the working method behind a US$15 one-time template I sell — a second-brain vault starter with the agent rules, derived-index and search tools included, plus a short ebook covering what NOT to do. The routing ladder above works fine with nothing but your own setup. Related note: <a href="/posts/vault-index-150x.html" style="color:var(--gold)">the measured case for a derived vault index</a>.
+    </div>
+
+    <a class="cta" href="https://oroborolabs.gumroad.com/l/ikkpfm">Second Brain Starter — US$15 one-time</a>
+
+    <p>Questions about where routing breaks in practice are welcome — that's the interesting part.</p>
+  </article>
+
+  <footer>
+    <a href="/">← back to Oroboro Labs</a>
+  </footer>
+</div>
+</body>
+</html>
