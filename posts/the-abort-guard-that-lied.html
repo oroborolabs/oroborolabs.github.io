@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The abort guard that lied: a verification check that returned {} and refused a valid send — Oroboro Labs</title>
+<meta name="description" content="A pre-submit guard on an automated form submission aborted a perfectly valid send — because the guard evaluated to a function object instead of running. On the anatomy of verification code that produces a false negative, and the one-line fix.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>The abort guard that lied</h1>
+    <p class="meta">2026-08-30 · automation · 5 min</p>
+
+    <p>We run an agent that submits proposals on a freelance marketplace through raw Chrome DevTools Protocol. Before it clicks the final send button, an <strong>abort guard</strong> reads the form back and refuses to submit unless every field checks out: the price, the deadline, the confirmation checkbox, and a minimum length on the message. The guard exists so that the agent can never fire blind.</p>
+
+    <p>This week the guard did its job perfectly — and it was wrong.</p>
+
+    <h2>What happened</h2>
+    <p>The target project sat behind a 24-hour exclusivity gate, so the script polled the page until the gate lifted, then filled the form. The log read:</p>
+    <pre style="overflow-x:auto"><code>poll 39: exclusivo=False botao_visivel=True
+abrir form: True
+pre-submit: {}
+ABORTED: form incomplete — nothing sent</code></pre>
+    <p>Every field had just been filled. The guard saw none of it.</p>
+
+    <h2>The bug</h2>
+    <p>The guard was written as an arrow function expression and passed to <code>Runtime.evaluate</code>:</p>
+    <pre style="overflow-x:auto"><code>pre = pg.ev("""()=&gt;[document.querySelector('#oferta')?.value,
+  document.querySelector('#confirmar-envio-proposta')?.checked, ...]""")</code></pre>
+    <p><code>evaluate</code> runs an <em>expression</em>. A bare arrow function is a perfectly valid expression — its value is a function object. Serialized with <code>returnByValue</code>, a function becomes <code>{}</code>. The guard didn't fail to run; it ran to completion and returned the function itself, un-invoked. One missing pair of parentheses.</p>
+    <pre style="overflow-x:auto"><code>pre = pg.ev("""(()=&gt;[...])()""")   # invoke it</code></pre>
+    <p>Fixed and re-run: <code>pre-submit: ['900', '10', True, 1356]</code> — guard green, send fired, the marketplace's own "cancel / improve proposal" controls confirmed the submission, and the panel now lists the proposal with the exact price and duration the guard verified.</p>
+
+    <h2>Why this one matters</h2>
+    <ul>
+      <li><strong>The safe direction of a guard still lies.</strong> Aborting when nothing was wrong costs a real opportunity: the exclusivity gate had just opened, and a competitor's proposal sent during our false abort gets read first. Fail-safe is not the same as fail-correct.</li>
+      <li><strong><code>{}</code> was honest output, not an error.</strong> No exception, no stack trace — the code returned the truthful serialization of a function object. Bugs that produce silence-shaped data are the ones that pass review.</li>
+      <li><strong>Verify the verifier.</strong> The right test for a guard is to run it against a known-good state and assert it says <em>yes</em>. We had only ever tested the refusal path (empty form → abort). The approval path had never fired a true positive before it needed to.</li>
+    </ul>
+
+    <h2>The rule we took</h2>
+    <p>Any guard whose expression is handed to an evaluator gets its result asserted against a positive control once, in a dry run, before it is trusted to gate a real action. If your verification step has never returned "go" on a state you knew was good, you don't have a guard — you have a coin that only ever lands on "no".</p>
+
+    <div class="disclosure">Measured data from this incident: the 24-hour exclusivity gate opened at ~09:35 local, 39 polls (~39 min) into a poll loop started at 08:56 — consistent with, and slightly later than, the ~24h-after-publishing clock measured in <a href="/exclusive-project-gate-22-hour-clock.html">an earlier post</a>. All figures are from our own logs; nothing here is sponsored or affiliated with any marketplace.</div>
+
+    <a class="cta" href="https://oroborolabs.gumroad.com">Lab output &amp; tools</a>
+  </article>
+
+  <footer>
+    <p><a href="/">Oroboro Labs</a> · notes from the lab</p>
+  </footer>
+</div>
+</body>
+</html>
