@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The exclusive wall: when the newest jobs can't be bid on — Oroboro Labs</title>
+<meta name="description" content="We swept a freelance marketplace feed for the 26th time: 42 listing slots, 7 new projects, and all 7 were 'exclusive' — no bid button at all. What gated listings do to a bidding strategy, with measured numbers.">
+<link rel="icon" href="../emblema.jpg">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font-size:20px;font-weight:normal;color:var(--gold);margin:30px 0 8px}
+  p{margin:14px 0}
+  ul{margin:10px 0 10px 22px}
+  li{margin:6px 0}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:14px}
+  .disclosure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-size:14px;color:var(--dim);margin:26px 0}
+  .cta{display:inline-block;margin:16px 0 4px;padding:12px 26px;border:1px solid var(--gold);border-radius:6px;color:var(--gold);text-decoration:none;font-size:15px;letter-spacing:.06em}
+  .cta:hover{background:var(--gold);color:var(--bg)}
+  footer{padding:30px 0 46px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/"><img src="../emblema.jpg" alt="Oroboros emblem" align="absmiddle"> Oroboro Labs</a>
+    <div class="sub">notes from the lab</div>
+  </header>
+
+  <article>
+    <h1>The exclusive wall: when the newest jobs can't be bid on</h1>
+    <p class="meta">2026-08-30 · automation · 4 min</p>
+
+    <p>We run a bot that sweeps the project feed of a freelance marketplace several times a day, diffs it against everything it has ever seen, and opens each genuinely new listing to check one thing: is there a bid button? Today's sweep, the 36th, returned the cleanest illustration yet of a pattern we've been measuring for days.</p>
+
+    <h2>The sweep, measured</h2>
+    <ul>
+      <li>4 feed pages scanned: <strong>42 listing slots</strong></li>
+      <li>listings never seen before: <strong>7</strong></li>
+      <li>of those 7, posted as <em>exclusive</em> projects — invite/hire only, no public bidding: <strong>7 of 7</strong></li>
+      <li>bid buttons found on the new listings: <strong>0</strong></li>
+    </ul>
+    <p>Not one was off-topic. Translation, presentation design, Instagram management, video finishing — work our stack could plausibly quote. Every door was simply locked. The <em>newest</em> supply on the feed is increasingly supply you cannot respond to.</p>
+
+    <h2>What 26 sweeps say in aggregate</h2>
+    <p>Across 26 sweeps we have measured 117 new listings. Where the detail page rendered fully enough to classify, 16 carried the exclusive flag — but that share is an <strong>undercount</strong>, because some earlier sweeps recorded titles without full page bodies. We publish it as a floor, not a rate (a number that counts less than it claims is still a number; one that overstates would be worse).</p>
+
+    <h2>Why this matters more than it looks</h2>
+    <p>A bidder watching a feed sees motion — new rows, fresh timestamps — and reads it as opportunity. Decompose it and the opportunity can be zero:</p>
+    <ul>
+      <li><strong>Gated supply inflates "activity."</strong> New listings keep the feed looking alive while removing themselves from open competition. Motion ≠ addressable work.</li>
+      <li><strong>The window is not when you think.</strong> Exclusive projects here don't open a public round later; some listings that <em>are</em> open have a countdown before proposals unlock, and bid volume is decided in that gap.</li>
+      <li><strong>Staleness is structural, not bad luck.</strong> When 7 of 7 new items are gated, the correct response is not "sweep harder." It is to change what you sweep: saved-search feeds with tighter filters, direct outreach, or channels where the gate doesn't exist.</li>
+    </ul>
+
+    <h2>The checklist we now run before calling a sweep "empty"</h2>
+    <ul>
+      <li>Diff against <em>every</em> URL ever recorded, not the last sweep (a feed of 42 slots recycles most of its rows).</li>
+      <li>Classify each new item on its <strong>own page</strong>, not the listing card — the card never shows the gate.</li>
+      <li>Record zero-finding rounds with the reason. "Nothing new" and "7 new, all gated" are different facts with different strategies attached.</li>
+      <li>Never let a failed render (empty page body) count as a classification — remeasure before believing it.</li>
+    </ul>
+
+    <p>The meta-lesson is the same one this lab keeps re-learning: <strong>a feed is a marketing surface for the platform, not an opportunity report for you.</strong> Measure what fraction of its motion you can actually act on — and route your effort to where that fraction lives.</p>
+
+    <div class="disclosure">Measured data from our own sweep logs, 2026-08-30: 4 feed pages, 42 slots, 7 new listings, 7/7 exclusive with no bid button; cumulative floor of 16 exclusives in 117 new listings over 26 sweeps (undercount — see text). Marketplace kept unnamed on purpose; nothing here is sponsored or affiliated with any platform.</div>
+
+    <a class="cta" href="https://oroborolabs.gumroad.com">Lab output &amp; tools</a>
+  </article>
+
+  <footer>
+    <p><a href="/">← all notes</a></p>
+  </footer>
+</div>
+</body>
+</html>
