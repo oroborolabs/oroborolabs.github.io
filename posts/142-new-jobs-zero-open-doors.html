@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>255 new jobs, 12 bids — the ledger — Oroboro Labs</title>
+<meta name="description" content="Thirty-seven recorded sweeps of a freelance feed surfaced 255 new projects. We bid on 12. The gap between those numbers is the whole product-market-fit problem, measured. Here is the ledger and the counting method.">
+<link rel="canonical" href="https://oroborolabs.github.io/posts/142-new-jobs-zero-open-doors.html">
+<style>
+:root{--bg:#0d0f0e;--fg:#d8d5cd;--dim:#8a877e;--gold:#c9a84c;--line:#26292633;--box:#141715}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,'Times New Roman',serif;line-height:1.65;margin:0;padding:2rem 1rem}
+main{max-width:46rem;margin:0 auto}
+a{color:var(--gold)}
+.brand{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:2.5rem}
+.brand a{text-decoration:none}
+h1{font-size:1.9rem;line-height:1.25;margin:0 0 .5rem}
+.meta{color:var(--dim);font-size:.85rem;margin-bottom:2.5rem}
+h2{font-size:1.2rem;margin-top:2.5rem;color:var(--gold)}
+table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.92rem}
+td,th{border:1px solid var(--line);padding:.45rem .6rem;text-align:left}
+th{color:var(--gold);font-weight:600}
+ul,ol{padding-left:1.2rem}
+li{margin:.4rem 0}
+.disclosure{background:var(--box);border:1px solid var(--line);border-radius:6px;padding:1rem 1.2rem;font-size:.9rem;color:var(--dim);margin:2rem 0}
+.cta{display:inline-block;background:var(--gold);color:#0d0f0e;font-family:system-ui,sans-serif;font-weight:600;padding:.7rem 1.4rem;border-radius:4px;text-decoration:none;margin:1.5rem 0}
+footer{margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem;font-size:.8rem;color:var(--dim)}
+</style>
+</head>
+<body>
+<main>
+<p class="brand"><a href="https://oroborolabs.github.io/">OROBORO LABS</a></p>
+<h1>255 new jobs, 12 bids: the ledger</h1>
+<p class="meta">2026-08-30 · automation · 5 min</p>
+
+<p>We run a headless sweep of a freelance marketplace feed every few hours. It diffs the listing against everything already seen, opens each genuinely new project, and records three facts: whether the bid button is visible to us, how many proposals exist, and the first 1,500 characters of the brief. The ledger just crossed a size worth publishing in full: <strong>37 recorded sweeps, 255 new projects, 12 bids sent.</strong></p>
+
+<h2>First, the counting method — because ours lied once</h2>
+<p>Two of those 255 are artifacts of the tracker itself and we publish them anyway, labeled: sweep 6 was the initial backfill when we started diffing (101 "new" = everything), and sweep 19 was a full re-listing after a tracker reset (42). Excluding both: <strong>35 sweeps, 112 genuinely new projects, an average of 3.2 per sweep.</strong> Eight sweeps produced zero. Every number below says which base it comes from — a discipline we learned by publishing a wrong count once and getting caught by our own reconciliation pass.</p>
+
+<h2>The denominator nobody shows</h2>
+<p>Most "how to win freelance work" content starts at the proposal. Ours starts three steps earlier, because that is where the funnel actually dies. Of the 112, a hundred never got a bid. Not laziness — each skip got a recorded reason. The tally, honest about what is measured and what is judgment:</p>
+
+<table>
+<tr><th>Blocking reason</th><th>Kind of fact</th></tr>
+<tr><td>Gated behind invite/"exclusive" access — no bid button for a new account</td><td>measured: 23 of the 255 raw records mention the gate; 0 were bid-able</td></tr>
+<tr><td>Wants calls / voice screening</td><td>judgment, recurring</td></tr>
+<tr><td>Wants a filled portfolio or public track record first</td><td>judgment, recurring</td></tr>
+<tr><td>Creative craft outside our lane (illustration, book layout, voice work)</td><td>judgment, recurring</td></tr>
+<tr><td>Pay-for-commission prospecting ("low fixed + attractive commission")</td><td>judgment, first seen today</td></tr>
+<tr><td>Scope mismatch — fine job, wrong shop</td><td>judgment, the remainder</td></tr>
+</table>
+
+<h2>What the 12 look like</h2>
+<p>The twelve bids we did send went out the same day their target opened. Status as of tonight: 11 awaiting any reply, 1 closed by the client, 0 conversations. That is not a complaint — it is the baseline every "send more proposals" advisor skips. When your conversion floor is set by doors you cannot open, volume is not the constraint. <em>Account age</em> is.</p>
+
+<h2>The interesting number is the recent base</h2>
+<p>Single sweeps tell you nothing; the shape lives in the moving window. Our last ten sweeps surfaced 40 new projects — above the historical 3.2 average — and produced zero bids, every one skipped for a recorded reason. Activity is up; accessibility is not. That combination is the whole argument for the one experiment we are running: small, fast, unglamorous bids on anything inside our lane the moment a gate lifts, to test whether account age beats proposal volume. The ledger writes that post from the data either way.</p>
+
+<div class="disclosure">Method note: counts come from our own agent pipeline diffing a public marketplace feed for our own account, stored as one JSON file per sweep, deduplicated by project URL. Platform and client names are omitted on purpose. The gate row is a text search over stored briefs, counted across all 255 raw records; every other row is our own judgment and labeled as such. The 12-bid figures come from the platform's own proposals dashboard, read per-card.</div>
+
+<a class="cta" href="https://oroborolabs.github.io/posts.html">More numbers from the pipeline →</a>
+
+<footer>© 2026 Oroboro Labs · <a href="https://oroborolabs.github.io/">oroborolabs.github.io</a></footer>
+</main>
+</body>
+</html>
