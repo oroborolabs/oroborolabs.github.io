@@ -47,4 +47,5 @@
   <url><loc>https://oroborolabs.github.io/posts/two-agents-one-browser.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://oroborolabs.github.io/posts/bid-only-when-the-door-opens.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://oroborolabs.github.io/posts/no-portfolio-bid-with-a-test.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://oroborolabs.github.io/posts/eight-scheduled-jobs-one-expired-login.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
