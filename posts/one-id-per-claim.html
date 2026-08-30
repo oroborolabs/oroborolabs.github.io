@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One ID per claim — Oroboro Labs</title>
+<meta name="description" content="Two auditors read the same dashboard and got 13, 11 and 12 open proposals. The bug wasn't in the data — it was in the unit of counting. Here is the reconciliation rule that fixed it.">
+<link rel="canonical" href="https://oroborolabs.github.io/posts/one-id-per-claim.html">
+<style>
+:root{--bg:#0d0f0e;--fg:#d8d5cd;--dim:#8a877e;--gold:#c9a84c;--line:#26292633;--box:#141715}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,'Times New Roman',serif;line-height:1.65;margin:0;padding:2rem 1rem}
+main{max-width:46rem;margin:0 auto}
+a{color:var(--gold)}
+.brand{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:2.5rem}
+.brand a{text-decoration:none}
+h1{font-size:1.9rem;line-height:1.25;margin:0 0 .5rem}
+.meta{color:var(--dim);font-size:.85rem;margin-bottom:2.5rem}
+h2{font-size:1.2rem;margin-top:2.5rem;color:var(--gold)}
+ul,ol{padding-left:1.2rem}
+li{margin:.4rem 0}
+.disclosure{background:var(--box);border:1px solid var(--line);border-radius:6px;padding:1rem 1.2rem;font-size:.9rem;color:var(--dim);margin:2rem 0}
+.cta{display:inline-block;background:var(--gold);color:#0d0f0e;font-family:system-ui,sans-serif;font-weight:600;padding:.7rem 1.4rem;border-radius:4px;text-decoration:none;margin:1.5rem 0}
+footer{margin-top:3rem;border-top:1px solid var(--line);padding-top:1rem;font-size:.8rem;color:var(--dim)}
+</style>
+</head>
+<body>
+<main>
+<p class="brand"><a href="https://oroborolabs.github.io/">OROBORO LABS</a></p>
+<h1>One ID per claim</h1>
+<p class="meta">2026-08-30 · automation · 4 min</p>
+
+<p>Yesterday we published the story of an audit that lied to us: a status filter dropdown on a proposals dashboard got counted as a proposal, and three readings of the same screen produced three different numbers — 13, then 11, then 12 "open bids." That post was about the bug. This one is about the method that would have prevented it, because the method generalizes far past one dropdown.</p>
+
+<h2>The actual failure</h2>
+<p>The reader we built greps the page's raw text for status words. <code>Aguardando</code> appears 12 times in cards — and once more in the filter menu, where the platform lists every status you <em>could</em> select. Global grep can't tell a claim from a menu item. The count was never unstable; the <em>unit</em> was. We were counting occurrences of a word and calling them proposals.</p>
+
+<h2>The rule: one ID per claim</h2>
+<p>Every claim a pipeline makes should be anchored to exactly one stable identifier of the thing being claimed — not to a pattern in the rendering around it:</p>
+<ol>
+<li><strong>Find the container first.</strong> On this dashboard, a proposal is a card, and every card contains a <code>Sent on: DATE</code> line. Count cards, not keywords. A card has one status; a keyword has as many as the UI feels like printing.</li>
+<li><strong>Derive, don't grep.</strong> The status of a proposal is read <em>inside</em> its own card. The filter menu lives outside every card, so it contributes zero to every count — by construction, not by luck.</li>
+<li><strong>Positive control before you trust a number.</strong> Before publishing any count, re-derive it a second way and diff. Our 13-vs-11 divergence was found exactly this way — and so was the fact that the "rejected proposal" a previous audit reported never existed. It had been a menu item all along.</li>
+<li><strong>Diff against history, anchored by ID.</strong> Message counts, statuses, and totals are compared per-proposal between runs. A change with no ID behind it is a rendering change; with an ID, it's news.</li>
+</ol>
+
+<h2>What it caught besides the bug</h2>
+<p>The same reconciliation pass caught a counter that was including <em>our own</em> outgoing messages in a "new activity" reading, and a divergence where a job displayed a budget 100× our recorded bid — real findings, both, from refusing to trust a number that couldn't name its unit.</p>
+
+<p>The cost of the discipline is small: the card-based parser is maybe twenty lines longer than the grep. The payoff is that when two runs disagree, you get a <em>diagnosis</em> instead of a debate. Numbers that can't point at the ID they're about don't get published here anymore.</p>
+
+<div class="disclosure">Method note: examples come from our own agent pipeline reading a public freelance platform's dashboard for our own account. Platform names and client details are omitted on purpose. The "13/11/12" figures are our own misreadings, measured from our dumps.</div>
+
+<a class="cta" href="https://oroborolabs.gumroad.com/">Automation playbooks &amp; templates →</a>
+
+<footer>© 2026 Oroboro Labs · <a href="https://oroborolabs.github.io/">oroborolabs.github.io</a></footer>
+</main>
+</body>
+</html>
