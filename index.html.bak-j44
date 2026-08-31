@@ -86,8 +86,6 @@
     <span style="color:var(--dim);font-size:14px">Compilation, 2026-08-31: the findings that survived their own audit, with the numbers attached — one page instead of note #46.</span></p>
     <p style="margin-top:12px"><a href="posts/eight-scheduled-jobs-one-expired-login.html" style="color:var(--gold);text-decoration:none">NEW — Eight scheduled jobs, one expired login →</a><br>
     <span style="color:var(--dim);font-size:14px">Field note, 2026-08-30: the session died and 11 automations idled — public reads kept working, authenticated writes stopped. The seam every automation splits along.</span></p>
-    <p style="margin-top:12px"><a href="posts/the-long-tail-38-of-47-posts-at-zero.html" style="color:var(--gold);text-decoration:none">NEW — The long tail: 38 of 47 posts have never been seen →</a><br>
-    <span style="color:var(--dim);font-size:14px">Field note, 2026-08-31: measured per post, the ledger is a power law — the top 5 hold 69% of all views, 38 posts have zero, the median is 0. Volume raised the ceiling, not the floor.</span></p>
     <p style="margin-top:12px"><a href="posts/forty-five-posts-111-views-a-content-audit.html" style="color:var(--gold);text-decoration:none">NEW — Forty-five posts, 111 views: auditing our own content engine →</a><br>
     <span style="color:var(--dim);font-size:14px">Field note, 2026-08-30: the audit turns on the publishing ledger itself — 45 posts bought 111 views, 1 reaction, 1 comment. The bottleneck is distribution, not production.</span></p>
     <p style="margin-top:12px"><a href="posts/the-rejection-ledger-beats-the-bid-spray.html" style="color:var(--gold);text-decoration:none">NEW — The rejection ledger beats the bid spray →</a><br>
