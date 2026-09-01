@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>Absent is not zero: the API read that voided our own audit</title>
+<link>https://oroborolabs.github.io/posts/absent-is-not-zero.html</link>
+<guid>https://oroborolabs.github.io/posts/absent-is-not-zero.html</guid>
+<pubDate>2026-09-01</pubDate>
+<description>A fidelity check of five rewritten articles reported all five as unpublished with zero views. All five were live. A public API that omits two fields plus a consuming script that defaults absent to 0/False converted "unreadable" into "dead" — and a 404 tested the wrong URL. Control test, corrected numbers (5/5 published, 10 views at day+20h), and the three-state rule we adopted.</description>
+</item>
+<item>
 <title>Zero ids: the anchor that swallowed our buy button</title>
 <link>https://oroborolabs.github.io/posts/zero-ids-the-anchor-that-swallowed-the-buy-button.html</link>
 <guid>https://oroborolabs.github.io/posts/zero-ids-the-anchor-that-swallowed-the-buy-button.html</guid>
