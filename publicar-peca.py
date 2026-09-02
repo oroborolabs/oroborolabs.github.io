@@ -39,7 +39,7 @@ def viva(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (publish-check)"})
     return urllib.request.urlopen(req, timeout=30).status
 
-arqs = [a for a in sys.argv[1:] if a != "--dry"]
+arqs = [a for a in sys.argv[1:] if a not in ("--dry", "--arquivo")]
 DRY = "--dry" in sys.argv
 if not arqs:
     print("uso: python publicar-peca.py [--dry] <arq.html> [mais.html]"); sys.exit(2)
@@ -51,19 +51,29 @@ def _titulo(p):
     m = re.search(r"<h1[^>]*>(.*?)</h1>", txt, re.S) or re.search(r"<title>(.*?)</title>", txt, re.S)
     return re.sub(r"\s+", " ", m.group(1)).strip().rstrip(".") if m else p.stem
 
-def encadear(alvos):
+def encadear(alvos, modo="recentes"):
+    """E-024 (forja j63 F1): modo 'arquivo' linka VIZINHOS temporais
+    (anterior e seguinte por mtime) em vez das 2 mais recentes — o
+    arquivo vira grafo local, nao 22 paginas apontando o mesmo topo."""
     tocados = []
     posts = sorted(RAIZ.glob("posts/*.html"), key=lambda p: p.stat().st_mtime, reverse=True)
+    idx = {q.resolve(): i for i, q in enumerate(posts)}
     for a in alvos:
         p = RAIZ / a
         txt = p.read_text(encoding="utf-8")
         if MARCA in txt:
             print("E-023: bloco ja presente em", a, "-> pula"); continue
         ja = set(re.findall(r'href="([^"]+\.html)"', txt))
-        cand = [q for q in posts
-                if q.resolve() != p.resolve() and q.name not in ja and not q.name.startswith("series-")][:2]
-        if len(cand) < 2:
-            print("E-023: menos de 2 candidatas p/", a, "-> pula"); continue
+        if modo == "arquivo":
+            i = idx[p.resolve()]
+            cand = [q for q in (posts[i - 1:i] + posts[i + 1:i + 2])
+                    if q.resolve() != p.resolve() and q.name not in ja
+                    and not q.name.startswith("series-")]
+        else:
+            cand = [q for q in posts
+                    if q.resolve() != p.resolve() and q.name not in ja and not q.name.startswith("series-")][:2]
+        if len(cand) < (1 if modo == "arquivo" else 2):
+            print("E-023: menos de", (1 if modo == "arquivo" else 2), "candidatas p/", a, "-> pula"); continue
         links = " ; and ".join(
             f'<a href="{q.name}">{_titulo(q)}</a>' for q in cand)
         bloco = f'<p><em>{MARCA}: {links}.</em></p>\n'
@@ -81,11 +91,11 @@ def encadear(alvos):
             print(f"E-023 (dry) {a}: inseriria bloco antes de disclosure/article/body")
         return
     for p, velho, novo, a in tocados:
-        bak = p.with_name(p.name + ".bak-" + time.strftime("%Y-%m-%d") + "-j63")
+        bak = p.with_name(p.name + ".bak-" + time.strftime("%Y-%m-%d") + "-j64")
         bak.write_text(velho, encoding="utf-8")
         p.write_text(novo, encoding="utf-8")
         print("E-023: bloco inserido em", a, "(backup", bak.name + ")")
-encadear(arqs)  # bloco e so link interno entre notas; SIGILO rege depois
+encadear(arqs, modo="arquivo" if "--arquivo" in sys.argv else "recentes")  # SIGILO rege depois
 if DRY:
     print("dry: nada escrito, fluxo de publicacao nao iniciado"); sys.exit(0)
 
