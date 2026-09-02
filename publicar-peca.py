@@ -98,11 +98,25 @@ def encadear(alvos, modo="recentes"):
 # 0. E-029 (forja j67 F1): SIGILO + existencia ANTES de qualquer escrita —
 # o lote nao pode ficar pela metade no disco (aconteceu no lote 2 do E-024:
 # 25 blocos inseridos, SIGILO abortou depois, nada publicado).
+def _check_template(a, txt):
+    """E-030 (forja j67 F2): deriva de template vira exit 2 ANTES do push,
+    nao achado de acidente (lote 2 do E-024: 2 posts com brand '>Oroboro<'
+    pegos pela guarda SIGILO por sorte). Verificado contra 60 paginas
+    (02/09): </article> NAO e exigido (11 paginas legitimas sem ele)."""
+    probs = []
+    if re.search(r">Oroboro<", txt): probs.append("brand deriva '>Oroboro<'")
+    if "Oroboro Labs" not in txt: probs.append("sem 'Oroboro Labs'")
+    if "<title>" not in txt: probs.append("sem <title>")
+    return probs
+
 for a in arqs:
     p = RAIZ / a
     if not p.exists(): print("NAO EXISTE:", a); sys.exit(2)
-    m = SIGILO.search(p.read_text(encoding="utf-8"))
+    txt = p.read_text(encoding="utf-8")
+    m = SIGILO.search(txt)
     if m: print("SIGILO em", a, "->", m.group(0)); sys.exit(2)
+    probs = _check_template(a, txt)
+    if probs: print("TEMPLATE em", a, "->", "; ".join(probs)); sys.exit(2)
 
 encadear(arqs, modo="arquivo" if "--arquivo" in sys.argv else "recentes")
 if DRY:
