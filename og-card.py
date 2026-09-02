@@ -21,6 +21,15 @@ from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = pathlib.Path(__file__).resolve().parent
 POSTS = RAIZ / "posts"
+# E-065 r2 (j95): as 12 paginas fora de posts/ que o 1o passe nao alcancou —
+# raiz (porta da frente, workshop, digest, calculadora) + pt/ (pagina do
+# COMPRADOR, E-009). Slug prefixado p/ nao colidir com post de mesmo nome.
+EXTRAS = [RAIZ / n for n in (
+    "digest.html", "index.html", "price-display-calculator.html",
+    "series-field-notes.html", "start-here.html", "workshop.html")]
+PT = RAIZ / "pt"
+EXTRAS += [PT / p.name for p in sorted(PT.glob("*.html"))
+           if not p.name.endswith(".bak")] if PT.exists() else []
 OGDIR = RAIZ / "img" / "og"
 BASE = "https://oroborolabs.github.io/"
 COVER = BASE + "cover-field-notes.png"
@@ -88,9 +97,13 @@ def gera(slug, titulo, data):
 
 def main():
     feitos, pulados = [], []
-    for p in sorted(POSTS.glob("*.html")):
+    paginas = sorted(POSTS.glob("*.html")) + EXTRAS
+    for p in paginas:
         txt = p.read_text(encoding="utf-8")
-        slug = p.stem
+        rel = p.relative_to(RAIZ)
+        # pt/foo.html -> pt-foo (evita colidir com post de mesmo nome);
+        # posts/ mantem o slug nu da j94 (PNGs ja publicados) e a raiz tb
+        slug = "pt-" + p.stem if rel.parent == pathlib.Path("pt") else p.stem
         titulo = _titulo(txt)
         if not titulo:
             pulados.append((slug, "sem titulo"))
@@ -100,6 +113,8 @@ def main():
             novo = txt.replace('content="' + COVER + '"',
                                'content="%simg/og/%s.png"' % (BASE, slug))
             if novo == txt:
+                if "img/og/" in txt:
+                    continue  # ja tem card proprio (E-065/r2) — ok, nao e falha
                 pulados.append((slug, "og:image nao apontava o cover"))
                 continue
             p.write_text(novo, encoding="utf-8")

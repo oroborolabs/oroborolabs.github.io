@@ -229,7 +229,19 @@ run([sys.executable, "gerar-sitemap.py"])
 run([sys.executable, "gerar-sitemap.py", "--check"])
 
 # 3. commit + push
-run(["git", "add"] + arqs + ["sitemap.xml"])
+alvos = arqs + ["sitemap.xml"]
+# E-066 (forja j94 F3): feed.xml alterado ficava FORA do commit — a 1a
+# verificacao ao vivo da j94 mostrou 41 itens no ar com 62 no disco ate
+# commit manual extra. Entra no commit quando estiver modificado.
+if subprocess.run(["git", "diff", "--quiet", "--", "feed.xml"],
+                  cwd=RAIZ).returncode != 0:
+    alvos.append("feed.xml")
+# E-066 r2 (j95): cards og referenciados pelas paginas moram em img/og/ —
+# pagina patcheada apontando PNG nao commitado da 404 no card. O dir entra
+# inteiro (so havera mudanca no que mudou).
+if (RAIZ / "img" / "og").exists():
+    alvos.append("img/og")
+run(["git", "add"] + alvos)
 msg = "publish: " + ", ".join(pathlib.Path(a).stem for a in arqs)
 # j76: publish idempotente — nada a commitar e SUCESSO (os arquivos ja estao
 # no ar; a intencao do fail-closed e abortar ANTES do push em SIGILO/sitemap,
