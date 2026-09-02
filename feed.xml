@@ -5,6 +5,41 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>Four storefronts, checked by hand</title>
+<link>https://oroborolabs.github.io/posts/four-storefronts-before-payout.html</link>
+<guid>https://oroborolabs.github.io/posts/four-storefronts-before-payout.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>We walked four storefront platforms end to end with a real product and recorded what each one lets you do before payout is connected. The documentation and the funnel disagree in useful ways.</description>
+</item>
+<item>
+<title>The dead port that 126 scripts shared</title>
+<link>https://oroborolabs.github.io/posts/the-dead-port-that-126-scripts-shared.html</link>
+<guid>https://oroborolabs.github.io/posts/the-dead-port-that-126-scripts-shared.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>An audit found 126 scripts hard-coding the address of a browser that no longer exists. Worse: the health probe pointed at the corpse too, so its silence was being filed as good news.</description>
+</item>
+<item>
+<title>HTTP 200 is not proof</title>
+<link>https://oroborolabs.github.io/posts/http-200-is-not-proof.html</link>
+<guid>https://oroborolabs.github.io/posts/http-200-is-not-proof.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>Right after publishing, 4 out of 5 sampled pages served OLD content with a perfect 200. A status code answers 'is the server there', never 'is the server done'. The fix is a content hash.</description>
+</item>
+<item>
+<title>The price the client sees is not the price you typed</title>
+<link>https://oroborolabs.github.io/posts/the-price-the-client-sees.html</link>
+<guid>https://oroborolabs.github.io/posts/the-price-the-client-sees.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>21 side-by-side measurements over two days: the display price a freelance client saw was 25% higher than the rate entered, every single time. The fix is arithmetic, not sweat.</description>
+</item>
+<item>
+<title>Active is not sellable</title>
+<link>https://oroborolabs.github.io/posts/active-is-not-sellable.html</link>
+<guid>https://oroborolabs.github.io/posts/active-is-not-sellable.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>We published two products and watched them return 404. The storefront wall was never content or code — it was one payout connection.</description>
+</item>
+<item>
 <title>Field notes, in order</title>
 <link>https://oroborolabs.github.io/series-field-notes.html</link>
 <guid>https://oroborolabs.github.io/series-field-notes.html</guid>
