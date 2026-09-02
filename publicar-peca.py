@@ -53,6 +53,10 @@ if not arqs:
 
 # 0. E-023: encadeamento automatico (marca = idempotencia)
 MARCA = "Read before or after"
+# j74 (E-039): rota PT introduziu "Leia antes ou depois" — mesmo bloco, idioma
+# distinto. Idempotência aceita as duas marcas (a intenção é 1 bloco de
+# vizinhos por peça; regra 36/38). Fora de PT_EO, MARCA continua o gerado.
+MARCAS_BLOCO = ("Read before or after", "Leia antes ou depois")
 def _titulo(p):
     txt = p.read_text(encoding="utf-8")
     m = re.search(r"<h1[^>]*>(.*?)</h1>", txt, re.S) or re.search(r"<title>(.*?)</title>", txt, re.S)
@@ -68,7 +72,7 @@ def encadear(alvos, modo="recentes"):
     for a in alvos:
         p = RAIZ / a
         txt = p.read_text(encoding="utf-8")
-        if MARCA in txt:
+        if any(m in txt for m in MARCAS_BLOCO):
             print("E-023: bloco ja presente em", a, "-> pula"); continue
         ja = set(re.findall(r'href="([^"]+\.html)"', txt))
         if modo == "arquivo":
