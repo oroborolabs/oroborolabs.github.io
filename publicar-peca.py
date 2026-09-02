@@ -12,6 +12,12 @@ Ordem obrigatoria (falha fechado — aborta com exit 2 ANTES do push):
   5. IndexNow com o lote alterado + sitemap, recibo em missao\\radares\\.
 
 E-022: sync por construcao — quem publicar NAO consegue esquecer o sitemap.
+
+E-023 (forja j62 F1): antes de tudo, insere sozinho o bloco
+"Read before or after" (2 links p/ as 2 notas mais recentes que a peca
+ainda nao linka) em cada peca que ainda nao tem o bloco — nenhuma peca
+nova nasce com 0 links internos. Idempotente pela marca; backup
+.bak-<data>-j63 antes de escrever. --dry mostra e nao escreve.
 """
 import re, subprocess, sys, time, pathlib, urllib.request
 
@@ -33,9 +39,55 @@ def viva(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (publish-check)"})
     return urllib.request.urlopen(req, timeout=30).status
 
-arqs = sys.argv[1:]
+arqs = [a for a in sys.argv[1:] if a != "--dry"]
+DRY = "--dry" in sys.argv
 if not arqs:
-    print("uso: python publicar-peca.py <arq.html> [mais.html]"); sys.exit(2)
+    print("uso: python publicar-peca.py [--dry] <arq.html> [mais.html]"); sys.exit(2)
+
+# 0. E-023: encadeamento automatico (marca = idempotencia)
+MARCA = "Read before or after"
+def _titulo(p):
+    txt = p.read_text(encoding="utf-8")
+    m = re.search(r"<h1[^>]*>(.*?)</h1>", txt, re.S) or re.search(r"<title>(.*?)</title>", txt, re.S)
+    return re.sub(r"\s+", " ", m.group(1)).strip().rstrip(".") if m else p.stem
+
+def encadear(alvos):
+    tocados = []
+    posts = sorted(RAIZ.glob("posts/*.html"), key=lambda p: p.stat().st_mtime, reverse=True)
+    for a in alvos:
+        p = RAIZ / a
+        txt = p.read_text(encoding="utf-8")
+        if MARCA in txt:
+            print("E-023: bloco ja presente em", a, "-> pula"); continue
+        ja = set(re.findall(r'href="([^"]+\.html)"', txt))
+        cand = [q for q in posts
+                if q.resolve() != p.resolve() and q.name not in ja and not q.name.startswith("series-")][:2]
+        if len(cand) < 2:
+            print("E-023: menos de 2 candidatas p/", a, "-> pula"); continue
+        links = " ; and ".join(
+            f'<a href="{q.name}">{_titulo(q)}</a>' for q in cand)
+        bloco = f'<p><em>{MARCA}: {links}.</em></p>\n'
+        if '<div class="disclosure">' in txt:
+            novo = txt.replace('<div class="disclosure">', bloco + '<div class="disclosure">', 1)
+        elif "</article>" in txt:
+            novo = txt.replace("</article>", bloco + "</article>", 1)
+        else:
+            novo = txt.replace("</body>", bloco + "</body>", 1)
+        if novo == txt:
+            print("E-023: sem ancora p/", a, "-> pula"); continue
+        tocados.append((p, txt, novo, a))
+    if DRY:
+        for p, _, novo, a in tocados:
+            print(f"E-023 (dry) {a}: inseriria bloco antes de disclosure/article/body")
+        return
+    for p, velho, novo, a in tocados:
+        bak = p.with_name(p.name + ".bak-" + time.strftime("%Y-%m-%d") + "-j63")
+        bak.write_text(velho, encoding="utf-8")
+        p.write_text(novo, encoding="utf-8")
+        print("E-023: bloco inserido em", a, "(backup", bak.name + ")")
+encadear(arqs)  # bloco e so link interno entre notas; SIGILO rege depois
+if DRY:
+    print("dry: nada escrito, fluxo de publicacao nao iniciado"); sys.exit(0)
 
 # 1. SIGILO + existencia
 for a in arqs:
