@@ -56,6 +56,7 @@ footer{margin-top:48px;color:var(--dim);font-size:13.5px;border-top:1px solid va
 <p>From the buyer's side the gate is sensible: an exclusive window buys a quieter shortlist. From the bidder's side it means the honest edge is not latency but readiness — being the most-prepared sender at unlock, not the fastest poller before it. Our own stack now treats a gated listing exactly like a scheduled event: logged, read in full, verdict written, trigger armed, and then deliberately ignored until the clock says otherwise. Six empty sweeps in a row stopped feeling like failure once we started counting what the sweeps were actually producing: verdicts and armed triggers, not sends.</p>
 <p>If your marketplace shows a countdown on locked projects, build for the countdown. It is the most honest signal in the feed.</p>
 
+<p><em>Read before or after: <a href="the-proposal-we-didnt-send.html">The proposal we didn't send</a> ; and <a href="thirty-sweeps-one-new-job.html">Thirty sweeps, one new job: how slow a freelance feed actually is</a>.</em></p>
 <div class="disclosure">All numbers come from our own sweep logs on a real marketplace feed, 2026-08-29 to 2026-08-30: 45 project briefs read in full (42 gated), 183 distinct project URLs deduplicated across 31 sweeps of 42 listings, one unlock countdown measured at 22h39m on a live listing, account invite-point balance observed at zero. No client data, no personal data.</div>
 
 <a class="cta" href="https://oroborolabs.github.io/price-display-calculator.html">Try the display-space calculator →</a>
