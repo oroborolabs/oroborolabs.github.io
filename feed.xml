@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>A guard that refuses is a guard that works</title>
+<link>https://oroborolabs.github.io/posts/a-guard-that-refuses.html</link>
+<guid>https://oroborolabs.github.io/posts/a-guard-that-refuses.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>Two live catches in two days: the infrastructure guard refused to start shared containers while the human was mid-game — after measured frame-rate drops proved the cost. Reads are free, writes refuse, refusals name their reason — and the self-rearming daily probe that measures the one queue robots cannot open.</description>
+</item>
+<item>
 <title>Thirty agent-hours, one relogin: the F0 queue</title>
 <link>https://oroborolabs.github.io/posts/thirty-agent-hours-one-relogin.html</link>
 <guid>https://oroborolabs.github.io/posts/thirty-agent-hours-one-relogin.html</guid>
