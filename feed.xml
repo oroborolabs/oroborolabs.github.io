@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>Zero links between neighbours</title>
+<link>https://oroborolabs.github.io/posts/zero-links-between-neighbours.html</link>
+<guid>https://oroborolabs.github.io/posts/zero-links-between-neighbours.html</guid>
+<pubDate>2026-09-02</pubDate>
+<description>We audited our own field notes for internal links and found zero in the body of every recent post. Fifty-plus notes that never mention each other, on a site with no search exposure. What we counted, why the link graph matters more when no crawler likes you yet, and the fix shipped with this note.</description>
+</item>
+<item>
 <title>The receipt says 200. The index says zero.</title>
 <link>https://oroborolabs.github.io/posts/receipt-200-index-zero.html</link>
 <guid>https://oroborolabs.github.io/posts/receipt-200-index-zero.html</guid>
