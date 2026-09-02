@@ -143,6 +143,17 @@ for a in arqs:
     if m: print("SIGILO em", a, "->", m.group(0)); sys.exit(2)
     probs = _check_template(a, txt)
     if probs: print("TEMPLATE em", a, "->", "; ".join(probs)); sys.exit(2)
+    # E-060 (forja j90): peca FORA da malha de entrada e peca invisivel —
+    # o lote j85-j89 publicou 5 notas que o index.html e o feed.xml nunca
+    # listaram (medido j90: 6/59 posts fora do index, 5 fora do feed).
+    # Exige entrada na malha ANTES do push; atualizar index/feed no mesmo commit.
+    malha = (RAIZ / "index.html").read_text(encoding="utf-8")
+    feedtxt = (RAIZ / "feed.xml").read_text(encoding="utf-8")
+    slug = a.replace("posts/", "")
+    if a.startswith("posts/") and slug not in malha:
+        print("MALHA em", a, "-> slug ausente de index.html (E-060)"); sys.exit(2)
+    if a.startswith("posts/") and slug not in feedtxt:
+        print("MALHA em", a, "-> slug ausente de feed.xml (E-060)"); sys.exit(2)
 
 # 0.5 E-036 (forja j71 F1): bloco social sozinho em peca sem og:image.
 COVER = BASE + "cover-field-notes.png"
