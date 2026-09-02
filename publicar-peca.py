@@ -26,7 +26,7 @@ que nasceram descobertas pelo fluxo velho. Idempotente pela presenca de
 og:image; self-canonical existente e preservada (nao duplica); backup
 .bak-<data>-j72 antes de escrever.
 """
-import re, subprocess, sys, time, pathlib, urllib.request
+import re, subprocess, sys, time, pathlib, urllib.request, hashlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent
 SIGILO = re.compile(
@@ -75,19 +75,34 @@ def encadear(alvos, modo="recentes"):
         if any(m in txt for m in MARCAS_BLOCO):
             print("E-023: bloco ja presente em", a, "-> pula"); continue
         ja = set(re.findall(r'href="([^"]+\.html)"', txt))
+        # j76 (E-041): alvo em pt/ ganha bloco PT ("Leia antes ou depois") e
+        # candidatos de pt/ — o bloco EN em pagina PT foi o quase-erro da j74
+        # (E-039 consertou so a idempotencia; o gerador continuava emitindo EN).
+        if a.replace("\\", "/").startswith("pt/"):
+            marca = "Leia antes ou depois"
+            pool = [q for q in sorted(RAIZ.glob("pt/*.html"),
+                    key=lambda q: q.stat().st_mtime, reverse=True)
+                    if q.name not in ("index.html", "indice.html")]
+        else:
+            marca = MARCA
+            pool = []
         if modo == "arquivo":
             i = idx[p.resolve()]
             cand = [q for q in (posts[i - 1:i] + posts[i + 1:i + 2])
                     if q.resolve() != p.resolve() and q.name not in ja
                     and not q.name.startswith("series-")]
+        elif pool:
+            cand = [q for q in pool
+                    if q.resolve() != p.resolve() and q.name not in ja][:2]
         else:
             cand = [q for q in posts
                     if q.resolve() != p.resolve() and q.name not in ja and not q.name.startswith("series-")][:2]
         if len(cand) < (1 if modo == "arquivo" else 2):
             print("E-023: menos de", (1 if modo == "arquivo" else 2), "candidatas p/", a, "-> pula"); continue
-        links = " ; and ".join(
+        juntador = " e " if marca != MARCA else " ; and "
+        links = juntador.join(
             f'<a href="{q.name}">{_titulo(q)}</a>' for q in cand)
-        bloco = f'<p><em>{MARCA}: {links}.</em></p>\n'
+        bloco = f'<p><em>{marca}: {links}.</em></p>\n'
         if '<div class="disclosure">' in txt:
             novo = txt.replace('<div class="disclosure">', bloco + '<div class="disclosure">', 1)
         elif "</article>" in txt:
@@ -191,23 +206,61 @@ run([sys.executable, "gerar-sitemap.py", "--check"])
 # 3. commit + push
 run(["git", "add"] + arqs + ["sitemap.xml"])
 msg = "publish: " + ", ".join(pathlib.Path(a).stem for a in arqs)
-run(["git", "commit", "-m", msg])
-run(["git", "push"])
-print("pushed:", msg)
+# j76: publish idempotente — nada a commitar e SUCESSO (os arquivos ja estao
+# no ar; a intencao do fail-closed e abortar ANTES do push em SIGILO/sitemap,
+# nao punir a reexecucao). Empurra push so quando houve commit.
+r = subprocess.run(["git", "commit", "-m", msg], cwd=RAIZ, capture_output=True, text=True)
+if r.returncode != 0 and "no changes added" not in r.stdout + r.stderr and "nothing to commit" not in r.stdout + r.stderr:
+    print(r.stdout, r.stderr); sys.exit(2)
+if r.returncode == 0:
+    run(["git", "push"])
+    print("pushed:", msg)
+else:
+    print("nada a commitar (publish idempotente) — verificando ao vivo")
 
-# 4. live 200 (Pages tem lag — ate 12 tentativas de 10 s)
+# 4. live 200 + CONTEUDO (Pages tem lag — ate 20 tentativas de 15 s)
+# j86 (E-052, forja j85 F1): 200 ≠ atualizado (regra 43 estendida) — o build
+# do Pages demora ~2 min e 4/5 amostras de E-051 serviram conteudo VELHO com
+# 200. A verificacao passa a conferir o CONTEUDO servido contra o disco
+# (sha256; cache-buster p/ furar CDN). Falha apos o teto = exit 3.
 urls = [BASE + pathlib.PurePosixPath(a.replace("\\", "/")).as_posix() for a in arqs]
 urls.append(BASE + "sitemap.xml")
-for i in range(12):
+
+def _baixado(u):
+    req = urllib.request.Request(
+        u + ("&" if "?" in u else "?") + "cb=%d" % int(time.time() * 1000),
+        headers={"User-Agent": "Mozilla/5.0 (publish-check)"})
+    return urllib.request.urlopen(req, timeout=30).read()
+
+def conteudo_confere(caminho, url):
+    # core.autocrlf=true: o disco guarda CRLF e o repo (o que o Pages serve)
+    # tem LF — comparação byte a byte daria falso "velho" em toda página
+    # Windows (medido j86: index.html, 203 linhas, hash só confere
+    # normalizado). O que se quer detectar é CONTEÚDO velho, não quebra de
+    # linha.
+    _norm = lambda b: b.replace(b"\r\n", b"\n")
+    servido = _norm(_baixado(url))
+    return hashlib.sha256(servido).digest() == \
+        hashlib.sha256(_norm((RAIZ / caminho).read_bytes())).digest()
+
+for i in range(20):
     try:
         codes = {u: viva(u) for u in urls}
         if all(c == 200 for c in codes.values()):
-            print("LIVE:", codes); break
+            # sitemap.xml no disco nao e o que o Pages serve byte a byte? E:
+            # gerar-sitemap.py escreveu antes do push (passo 1) — mesmo bytes.
+            stale = [a for a, u in zip(arqs, urls[:-1])
+                     if not conteudo_confere(a, u)]
+            if not stale:
+                print("LIVE + CONTEUDO:", codes); break
+            print("200 com conteudo VELHO em %d/%d (aguardando build): %s"
+                  % (len(stale), len(arqs), ", ".join(stale)))
     except Exception as e:
         print("aguardando Pages:", e)
-    time.sleep(10)
+    time.sleep(15)
 else:
-    print("PAGINA(S) NAO CONFIRMADA EM 2 min — checar manualmente"); sys.exit(3)
+    print("PAGINA(S) NAO CONFIRMADAS (200+conteudo) EM 5 min — checar "
+          "manualmente"); sys.exit(3)
 
 # 5. IndexNow
 lote = urls  # URLs alteradas + sitemap (último elemento do passo 4)
