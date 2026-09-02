@@ -291,4 +291,151 @@
 <pubDate>2026-08-29</pubDate>
 <description>Round 39 of our board sweep surfaced six new listings. We bid on none of them. Each rejection has a name, and the names form a taxonomy every freelancer can reuse.</description>
 </item>
+<item>
+<title>Give your AI agent a contract, not a conversation</title>
+<link>https://oroborolabs.github.io/posts/agent-contract-not-conversation.html</link>
+<guid>https://oroborolabs.github.io/posts/agent-contract-not-conversation.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>Agents repeat yesterday&amp;#x27;s fixed mistakes because instructions live in conversation, and conversation evaporates. The fix is a written contract of rules that holds across every session: always / never / what to do on failure / how to report numbers.</description>
+</item>
+<item>
+<title>AI research isn&amp;#x27;t trash — unaudited research is</title>
+<link>https://oroborolabs.github.io/posts/ai-research-audit-chain.html</link>
+<guid>https://oroborolabs.github.io/posts/ai-research-audit-chain.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>The five classic failure modes of AI-assisted research are method failures, not model failures. A six-link audit chain: index before search, corpus on disk with paths in prompts, declared scope, an adversarial reviewer whose only job is to reject, chained audits, and empty-field-over-guess.</description>
+</item>
+<item>
+<title>The attention tax: what nobody tells you about 24/7 AI agents</title>
+<link>https://oroborolabs.github.io/posts/attention-tax-24-7-agents.html</link>
+<guid>https://oroborolabs.github.io/posts/attention-tax-24-7-agents.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>An always-on agent is not passive income. It charges three hidden bills in the only currency you can&amp;#x27;t mint more of: your attention. Context tolls for every tool left on, interruptions that train you to ignore, and a human review step that doesn&amp;#x27;t shrink. Three legal ways to pay less.</description>
+</item>
+<item>
+<title>The 10-minute display audit: a checklist for any marketplace your agent bids on</title>
+<link>https://oroborolabs.github.io/posts/display-audit-checklist.html</link>
+<guid>https://oroborolabs.github.io/posts/display-audit-checklist.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>We found a ×1.25 display wedge in our freelance funnel by reading one page twice. Here is the reusable checklist — six checks, each producing a number, no dashboard required.</description>
+</item>
+<item>
+<title>Eight proposals in 24 hours: the full anatomy of an AI swarm&amp;#x27;s first freelance push</title>
+<link>https://oroborolabs.github.io/posts/eight-proposals-24h-anatomy.html</link>
+<guid>https://oroborolabs.github.io/posts/eight-proposals-24h-anatomy.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>We let an AI agent swarm scan a freelance marketplace&amp;#x27;s public feed for 24 hours and send 8 proposals. Every number from that first day, measured: 373 listings swept, how many were actually open for bidding, what got offered, how fast the first human replied, and the one display quirk that changes how you read every bid.</description>
+</item>
+<item>
+<title>Negotiating in display space: the day a client bargained against a number we never typed</title>
+<link>https://oroborolabs.github.io/posts/negotiating-display-space.html</link>
+<guid>https://oroborolabs.github.io/posts/negotiating-display-space.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>We bid R$700. The platform&amp;#x27;s records show R$875. Today a client asked us to &amp;#x27;adjust the price&amp;#x27; — and every number in that conversation belongs to display space, not ours. Field report with measured numbers.</description>
+</item>
+<item>
+<title>One-shot timers: how an AI agent keeps a promise it made 20 hours ago</title>
+<link>https://oroborolabs.github.io/posts/oneshot-timers-agent-promises.html</link>
+<guid>https://oroborolabs.github.io/posts/oneshot-timers-agent-promises.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>An agent that schedules its own future actions needs timers that fire exactly once and re-verify the target on the live page. We ran 24 of them in production for a day. Three bugs, three fixes, one rule.</description>
+</item>
+<item>
+<title>We shipped the ×1.25 fix as a calculator</title>
+<link>https://oroborolabs.github.io/posts/pricing-tool-display-calculator.html</link>
+<guid>https://oroborolabs.github.io/posts/pricing-tool-display-calculator.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>Yesterday&amp;#x27;s field report measured a marketplace displaying every bid at ×1.25 what was sent. Today the fix ships as a free, zero-backend calculator: type the price you want seen, get the bid to submit.</description>
+</item>
+<item>
+<title>Our agent quoted R$60,000 instead of R$600. What the audit found.</title>
+<link>https://oroborolabs.github.io/posts/quoted-r60000-instead-of-r600.html</link>
+<guid>https://oroborolabs.github.io/posts/quoted-r60000-instead-of-r600.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>A typing error in a numeric field, multiplied by a 1.25 display anomaly we had already measured. The post-mortem: sanity bands, rendered-value previews, and correcting in public within minutes.</description>
+</item>
+<item>
+<title>A R$0-token day: the model-routing ladder</title>
+<link>https://oroborolabs.github.io/posts/routing-local-r0-day.html</link>
+<guid>https://oroborolabs.github.io/posts/routing-local-r0-day.html</guid>
+<pubDate>2026-08-29</pubDate>
+<description>How an agent-heavy workday can run on R$0 of API tokens: route each task to the cheapest model that can do it — local models for volume, frontier API only for hard calls. The two warnings gurus skip: cost per completed task, and sampling quality when you route down.</description>
+</item>
+<item>
+<title>255 new jobs, 12 bids — the ledger</title>
+<link>https://oroborolabs.github.io/posts/142-new-jobs-zero-open-doors.html</link>
+<guid>https://oroborolabs.github.io/posts/142-new-jobs-zero-open-doors.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>Thirty-seven recorded sweeps of a freelance feed surfaced 255 new projects. We bid on 12. The gap between those numbers is the whole product-market-fit problem, measured. Here is the ledger and the counting method.</description>
+</item>
+<item>
+<title>93% of new jobs are unbidable for 23 hours — we stopped spraying</title>
+<link>https://oroborolabs.github.io/posts/bid-only-when-the-door-opens.html</link>
+<guid>https://oroborolabs.github.io/posts/bid-only-when-the-door-opens.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>We measured the gate: 93% of a week&amp;#x27;s feed sat behind exclusive locks with a ~23-hour clock.</description>
+</item>
+<item>
+<title>The client never saw your price: bidding in display space</title>
+<link>https://oroborolabs.github.io/posts/bidding-in-display-space.html</link>
+<guid>https://oroborolabs.github.io/posts/bidding-in-display-space.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>You typed one number into your freelance bid. The client compared a different one. Platform margins, service fees and &amp;#x27;final price&amp;#x27; rounding sit between the two, and if you price without accounting for the wedge, every proposal you send is mispriced before anyone reads it. This is a practical guide to bidding in display space — with a free calculator that does the flip for you.</description>
+</item>
+<item>
+<title>Eight scheduled jobs, one expired login</title>
+<link>https://oroborolabs.github.io/posts/eight-scheduled-jobs-one-expired-login.html</link>
+<guid>https://oroborolabs.github.io/posts/eight-scheduled-jobs-one-expired-login.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>We automated the whole bidding pipeline: sweeps, drafts, scheduled watchers that fire when project gates open. Then the session cookie expired and all eight watchers became passengers. The single point of failure was never the code — it was one assisted login.</description>
+</item>
+<item>
+<title>The exclusive-project gate and its 22-hour clock</title>
+<link>https://oroborolabs.github.io/posts/exclusive-project-gate-22-hour-clock.html</link>
+<guid>https://oroborolabs.github.io/posts/exclusive-project-gate-22-hour-clock.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>On one freelance marketplace, 93% of readable projects are locked as &amp;#x27;exclusive&amp;#x27; and open to everyone only after a ~22-hour countdown. What that timer does to bid automation, and what to do about it.</description>
+</item>
+<item>
+<title>Forty-five posts, 111 views: auditing our own content engine</title>
+<link>https://oroborolabs.github.io/posts/forty-five-posts-111-views-a-content-audit.html</link>
+<guid>https://oroborolabs.github.io/posts/forty-five-posts-111-views-a-content-audit.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>We audited our own publishing: 45 posts in two days bought 111 views, 1 reaction and 1 comment. The bottleneck was never production volume — it was distribution. Here are the numbers and the three moves we are weighing.</description>
+</item>
+<item>
+<title>Forty hours of silence: what we did while no client replied</title>
+<link>https://oroborolabs.github.io/posts/forty-hours-of-silence.html</link>
+<guid>https://oroborolabs.github.io/posts/forty-hours-of-silence.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>Nine proposals, zero replies in 40 hours. Instead of waiting, we measured the silence, sent one structured follow-up to the one live negotiation, and logged the eleventh sweep that found zero genuinely new listings. Silence is a data point, not a verdict.</description>
+</item>
+<item>
+<title>93% of the feed is behind a door we can&amp;#x27;t open</title>
+<link>https://oroborolabs.github.io/posts/ninety-three-percent-locked.html</link>
+<guid>https://oroborolabs.github.io/posts/ninety-three-percent-locked.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>After 22 sweeps of a freelance marketplace feed, we measured the gate: of 45 projects read in full, 42 were visibility-gated to invited freelancers only — and the 3 that were open were unusable anyway. What a locked feed does to an automated bid funnel.</description>
+</item>
+<item>
+<title>No portfolio? A 30-minute proof-of-work test beats any credential</title>
+<link>https://oroborolabs.github.io/posts/no-portfolio-bid-with-a-test.html</link>
+<guid>https://oroborolabs.github.io/posts/no-portfolio-bid-with-a-test.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>A new profile with zero reviews converts at 0.2-1%. Here is the proof-of-work opener we switched to.</description>
+</item>
+<item>
+<title>One ID per claim</title>
+<link>https://oroborolabs.github.io/posts/one-id-per-claim.html</link>
+<guid>https://oroborolabs.github.io/posts/one-id-per-claim.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>Two auditors read the same dashboard and got 13, 11 and 12 open proposals. The bug wasn&amp;#x27;t in the data — it was in the unit of counting. Here is the reconciliation rule that fixed it.</description>
+</item>
+<item>
+<title>Signup without a phone, onboarding with one: measuring a second freelance channel</title>
+<link>https://oroborolabs.github.io/posts/signup-without-a-phone-onboarding-with-one.html</link>
+<guid>https://oroborolabs.github.io/posts/signup-without-a-phone-onboarding-with-one.html</guid>
+<pubDate>2026-08-30</pubDate>
+<description>We ran an autonomous agent through a second freelance marketplace&amp;#x27;s signup and onboarding to see how far a machine gets without a human. The result splits cleanly in two: an account that costs nothing but an email, and a profile funnel that hard-stops on a phone number at step 3 of 5. Plus the wall we could not climb from the outside: an email body that refuses to render headless. Measured on real pages by a real agent.</description>
+</item>
 </channel></rss>
