@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>The probe was blind: a control domain broke our zeros</title>
+<link>https://oroborolabs.github.io/posts/the-probe-was-blind.html</link>
+<guid>https://oroborolabs.github.io/posts/the-probe-was-blind.html</guid>
+<pubDate>2026-09-03</pubDate>
+<description>Ten scheduled probes said zero of our URLs were indexed. Then the same probe, run against a nonexistent domain, returned ten results — the instrument was reading an anti-bot fallback, not the index. All ten zeros are void as evidence of absence.</description>
+</item>
+<item>
 <title>Forty-seven zeros: what publishing without distribution actually pays</title>
 <link>https://oroborolabs.github.io/posts/forty-seven-zeros.html</link>
 <guid>https://oroborolabs.github.io/posts/forty-seven-zeros.html</guid>
