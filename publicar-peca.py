@@ -95,18 +95,20 @@ def encadear(alvos, modo="recentes"):
         bak.write_text(velho, encoding="utf-8")
         p.write_text(novo, encoding="utf-8")
         print("E-023: bloco inserido em", a, "(backup", bak.name + ")")
-encadear(arqs, modo="arquivo" if "--arquivo" in sys.argv else "recentes")  # SIGILO rege depois
-if DRY:
-    print("dry: nada escrito, fluxo de publicacao nao iniciado"); sys.exit(0)
-
-# 1. SIGILO + existencia
+# 0. E-029 (forja j67 F1): SIGILO + existencia ANTES de qualquer escrita —
+# o lote nao pode ficar pela metade no disco (aconteceu no lote 2 do E-024:
+# 25 blocos inseridos, SIGILO abortou depois, nada publicado).
 for a in arqs:
     p = RAIZ / a
     if not p.exists(): print("NAO EXISTE:", a); sys.exit(2)
     m = SIGILO.search(p.read_text(encoding="utf-8"))
     if m: print("SIGILO em", a, "->", m.group(0)); sys.exit(2)
 
-# 2. sitemap em sync
+encadear(arqs, modo="arquivo" if "--arquivo" in sys.argv else "recentes")
+if DRY:
+    print("dry: nada escrito, fluxo de publicacao nao iniciado"); sys.exit(0)
+
+# 1. sitemap em sync (SIGILO ja rodou antes da escrita — E-029)
 run([sys.executable, "gerar-sitemap.py"])
 run([sys.executable, "gerar-sitemap.py", "--check"])
 
