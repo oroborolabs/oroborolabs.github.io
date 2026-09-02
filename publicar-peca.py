@@ -31,7 +31,11 @@ import re, subprocess, sys, time, pathlib, urllib.request, hashlib
 RAIZ = pathlib.Path(__file__).resolve().parent
 SIGILO = re.compile(
     r"SIGILO|Gustavo|Oroboro\b(?! Labs)|99freelas|99 Freelas|pathofexile"
-    r"|\d{3}\.\d{3}\.\d{3}-\d{2}|@gmail|@outlook|CPF|RG\b", re.I)
+    r"|\d{3}\.\d{3}\.\d{3}-\d{2}|@gmail|@outlook|CPF"
+    # j91: (?<!\.) — o literal "RG\b" case-insensitive casava o "rg" de
+    # ".org" e bloqueou a publicacao de uma peca 2x na j91 (falso positivo);
+    # RG-documento real nunca vem precedido de ponto.
+    r"|(?<![.\w])RG\b", re.I)
 BASE = "https://oroborolabs.github.io/"
 KEY = (RAIZ / "1c8fea5ef0a4a1972a2126d2523d5bc0.txt").read_text().strip()
 PROVA = pathlib.Path(r"C:\Users\Oroboro\missao\radares")
@@ -157,10 +161,20 @@ for a in arqs:
 
 # 0.5 E-036 (forja j71 F1): bloco social sozinho em peca sem og:image.
 COVER = BASE + "cover-field-notes.png"
+# E-063 (forja j92 F1): a 1a linha pos-h1 das pecas e o selo ".meta"
+# ("2026-09-03 · field note ...") — 2 datas publicadas provaram (j93).
+# Pula o <p> datado; se TODOS os <p> forem .meta, devolve vazio (regra 7).
+META_P = re.compile(r"^20\d\d-\d\d-\d\d")
 def _descricao(txt):
-    """1o <p> do corpo como og:description (texto puro, <=160 chars)."""
+    """1o <p> NAO-.meta do corpo como og:description (texto puro, <=160)."""
     corpo = re.split(r"</h1>", txt, 1)[-1]
-    m = re.search(r"<p[^>]*>(.*?)</p>", corpo, re.S)
+    m = None
+    for m in re.finditer(r"<p[^>]*>(.*?)</p>", corpo, re.S):
+        t0 = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", m.group(1))).strip()
+        if not META_P.match(t0):
+            break
+    else:
+        return ""
     if not m: return ""
     t = re.sub(r"<[^>]+>", " ", m.group(1))
     t = re.sub(r"\s+", " ", t).strip()
@@ -281,7 +295,31 @@ req = urllib.request.Request("https://api.indexnow.org/indexnow",
     data=__import__("json").dumps(body).encode(),
     headers={"Content-Type": "application/json; charset=utf-8"})
 st = urllib.request.urlopen(req, timeout=30).status
-(PROVA / "indexnow-publicar-peca.txt").write_text(
+recibo = PROVA / "indexnow-publicar-peca.txt"
+recibo.write_text(
     "HTTP %s\npublicar-peca.py lote %d\n%s" % (st, len(lote), "\n".join(lote)),
     encoding="utf-8")
 print("IndexNow", st, "-", len(lote), "URLs; recibo em radares\\indexnow-publicar-peca.txt")
+
+# 6. E-061 (forja j91 F2): outcome SERP do dia JUNTO do recibo — o par
+# recibo+datapoint nasce no mesmo arquivo (7 recibos 200 e 5 datapoints 0
+# viveram separados de j49 a j91 e "0 indexado" foi descoberta tardia).
+# A sonda depende da nave viva (CDP); se cair, o recibo fica com o motivo
+# e campo vazio (regra 7) — nunca recibo sem outcome em silêncio.
+sonda = pathlib.Path(r"C:\Users\Oroboro\missao\nave\sonda-bing-indexacao.py")
+r = subprocess.run([sys.executable, str(sonda), time.strftime("%Y-%m-%d")],
+                   capture_output=True, text=True, timeout=180)
+arq_sonda = PROVA / ("ouvidoria-%s-bing.txt" % time.strftime("%Y-%m-%d"))
+if r.returncode == 0 and arq_sonda.exists():
+    resumo = [l for l in arq_sonda.read_text(encoding="utf-8").splitlines()
+              if l.startswith(("contagem SERP", "urls do dominio", "captcha"))]
+    with recibo.open("a", encoding="utf-8") as f:
+        f.write("\n--- outcome SERP Bing (E-061, mesmo dia) ---\n")
+        f.write("\n".join(resumo) + "\n")
+    print("E-061: outcome SERP anexado ao recibo (%d linhas)" % len(resumo))
+else:
+    with recibo.open("a", encoding="utf-8") as f:
+        f.write("\n--- outcome SERP Bing (E-061) ---\nSONDA INDISPONIVEL: "
+                "exit %d\n%s\n" % (r.returncode, (r.stderr or "")[-400:]))
+    print("E-061: sonda indisponivel (exit %d) — motivo gravado no recibo"
+          % r.returncode)
