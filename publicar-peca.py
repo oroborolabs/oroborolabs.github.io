@@ -299,6 +299,31 @@ else:
     print("PAGINA(S) NAO CONFIRMADAS (200+conteudo) EM 5 min — checar "
           "manualmente"); sys.exit(3)
 
+# 4.5 E-067 (forja j95 F3): os PNGs img/og referenciados pelo lote sao
+# verificados AO VIVO — a verificacao de CONTEUDO (E-052) cobre so HTML, e
+# pagina no ar apontando card 404 passava como publicado (buraco medido j95:
+# commit da j94 ficou sem os 12 PNGs ate commit manual). GET (headless CDN
+# do Pages responde 200 no HEAD, mas GET e o que o card real faz).
+def _og_images(txt):
+    return sorted(set(re.findall(
+        r'<meta property="og:image" content="([^"]+)"', txt)))
+pngs = {}
+for a in arqs:
+    for u in _og_images((RAIZ / a).read_text(encoding="utf-8")):
+        if u.startswith("http"):
+            pngs[u] = a
+falha_png = []
+for u, origem in sorted(pngs.items()):
+    try:
+        if viva(u) != 200:
+            falha_png.append("%s (em %s): HTTP nao-200" % (u, origem))
+    except Exception as e:
+        falha_png.append("%s (em %s): %s" % (u, origem, e))
+if falha_png:
+    print("E-067: CARD(S) NAO CONFIRMADOS AO VIVO:\n" + "\n".join(falha_png))
+    sys.exit(3)
+print("E-067: %d card(s) og ao vivo 200" % len(pngs))
+
 # 5. IndexNow
 lote = urls  # URLs alteradas + sitemap (último elemento do passo 4)
 body = {"host": "oroborolabs.github.io", "key": KEY,
