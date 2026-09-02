@@ -18,6 +18,13 @@ E-023 (forja j62 F1): antes de tudo, insere sozinho o bloco
 ainda nao linka) em cada peca que ainda nao tem o bloco — nenhuma peca
 nova nasce com 0 links internos. Idempotente pela marca; backup
 .bak-<data>-j63 antes de escrever. --dry mostra e nao escreve.
+
+E-036 (forja j71 F1): antes do commit, toda peca SEM og:image ganha
+sozinha o bloco social completo (og:title/og:description/og:image/
+og:url/twitter:card + canonical) — a E-035 foi corretiva em 61 paginas
+que nasceram descobertas pelo fluxo velho. Idempotente pela presenca de
+og:image; self-canonical existente e preservada (nao duplica); backup
+.bak-<data>-j72 antes de escrever.
 """
 import re, subprocess, sys, time, pathlib, urllib.request
 
@@ -118,7 +125,58 @@ for a in arqs:
     probs = _check_template(a, txt)
     if probs: print("TEMPLATE em", a, "->", "; ".join(probs)); sys.exit(2)
 
+# 0.5 E-036 (forja j71 F1): bloco social sozinho em peca sem og:image.
+COVER = BASE + "cover-field-notes.png"
+def _descricao(txt):
+    """1o <p> do corpo como og:description (texto puro, <=160 chars)."""
+    corpo = re.split(r"</h1>", txt, 1)[-1]
+    m = re.search(r"<p[^>]*>(.*?)</p>", corpo, re.S)
+    if not m: return ""
+    t = re.sub(r"<[^>]+>", " ", m.group(1))
+    t = re.sub(r"\s+", " ", t).strip()
+    return (t[:157] + "...") if len(t) > 160 else t
+
+def social(alvos):
+    tocados = []
+    for a in alvos:
+        p = RAIZ / a
+        txt = p.read_text(encoding="utf-8")
+        if 'property="og:image"' in txt or "property='og:image'" in txt:
+            print("E-036: og:image ja presente em", a, "-> pula"); continue
+        rel = pathlib.PurePosixPath(a.replace("\\", "/")).as_posix()
+        url = BASE + rel
+        desc = _descricao(txt)
+        titulo = _titulo(p)
+        bloco = (
+            '<link rel="canonical" href="%s"/>\n'
+            '<meta property="og:type" content="article"/>\n'
+            '<meta property="og:title" content="%s"/>\n'
+            '<meta property="og:description" content="%s"/>\n'
+            '<meta property="og:image" content="%s"/>\n'
+            '<meta property="og:url" content="%s"/>\n'
+            '<meta name="twitter:card" content="summary_large_image"/>\n'
+            '<meta name="twitter:title" content="%s"/>\n'
+            '<meta name="twitter:description" content="%s"/>\n'
+            '<meta name="twitter:image" content="%s"/>\n'
+        ) % (url, titulo, desc, COVER, url, titulo, desc, COVER)
+        if "<head" not in txt:
+            print("E-036: sem <head> em", a, "-> pula"); continue
+        novo = re.sub(r"(<head[^>]*>)", r"\1\n" + bloco, txt, count=1)
+        if novo == txt:
+            print("E-036: sem ancora de head em", a, "-> pula"); continue
+        tocados.append((p, txt, novo, a))
+    if DRY:
+        for p, _, _, a in tocados:
+            print(f"E-036 (dry) {a}: inseriria bloco social (og/twitter/canonical)")
+        return
+    for p, velho, novo, a in tocados:
+        bak = p.with_name(p.name + ".bak-" + time.strftime("%Y-%m-%d") + "-j72")
+        bak.write_text(velho, encoding="utf-8")
+        p.write_text(novo, encoding="utf-8")
+        print("E-036: bloco social inserido em", a, "(backup", bak.name + ")")
+
 encadear(arqs, modo="arquivo" if "--arquivo" in sys.argv else "recentes")
+social(arqs)
 if DRY:
     print("dry: nada escrito, fluxo de publicacao nao iniciado"); sys.exit(0)
 
