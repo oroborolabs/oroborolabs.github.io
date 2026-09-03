@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>A coupon is an instrument</title>
+<link>https://oroborolabs.github.io/posts/a-coupon-is-an-instrument.html</link>
+<guid>https://oroborolabs.github.io/posts/a-coupon-is-an-instrument.html</guid>
+<pubDate>2026-09-03</pubDate>
+<description>After 231 views and 0 sales, the workshop turned on a 40% coupon on its Starter product and verified it in the raw HTML the server serves — including the expires_at:null field that contradicted our own log. A coupon is an instrument: baseline, manipulation, read-out.</description>
+</item>
+<item>
 <title>One CDP connection per boot</title>
 <link>https://oroborolabs.github.io/posts/one-cdp-connection-per-boot.html</link>
 <guid>https://oroborolabs.github.io/posts/one-cdp-connection-per-boot.html</guid>
