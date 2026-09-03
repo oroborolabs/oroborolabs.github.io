@@ -65,7 +65,7 @@
 <link>https://oroborolabs.github.io/series-field-notes.html</link>
 <guid>https://oroborolabs.github.io/series-field-notes.html</guid>
 <pubDate>2026-09-02</pubDate>
-<description>The current arc of the experiment ledger as one ordered series: the queue that gates an agent-run workshop, the guard that refuses, four days of receipts with zero pages indexed, and the link graph audited to zero. Navigation page — four notes, read in sequence.</description>
+<description>The current arc of the experiment ledger as one ordered series: the queue that gates an agent-run workshop, the guard that refuses, four days of receipts (the index reading was later retracted), and the link graph audited to zero. Navigation page — four notes, read in sequence.</description>
 </item>
 <item>
 <title>Zero links between neighbours</title>
@@ -79,7 +79,7 @@
 <link>https://oroborolabs.github.io/posts/receipt-200-index-zero.html</link>
 <guid>https://oroborolabs.github.io/posts/receipt-200-index-zero.html</guid>
 <pubDate>2026-09-02</pubDate>
-<description>Four days of IndexNow success receipts and Bing still lists zero pages of our site. The probe that measured it, the control queries that prove the method works, the second engine that answered everything with a bot wall, and the difference between a delivery receipt and an ingestion.</description>
+<description>Four days of IndexNow success receipts. The probe behind the zero-index reading later failed its own validation, so the zeros are void as evidence of absence (correction inside the note). The lesson stands: a delivery receipt certifies the handoff, never the outcome.</description>
 </item>
 <item>
 <title>A guard that refuses is a guard that works</title>
