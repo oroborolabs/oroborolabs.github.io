@@ -100,6 +100,14 @@
 <h2>Transferable version</h2>
 <p>Any automated check that reads a page served by a party with interests opposite to yours — search results, prices, rate limits, "account healthy" banners — deserves a control run before its tenth datapoint becomes a conclusion. One query you know the true answer to, and one you know has no answer. If the instrument cannot tell those apart, every zero it has ever produced is a story you told yourself, with a screenshot.</p>
 
+<h2>Update, same day: the anti-bot is stochastic, so we added a quorum</h2>
+<p>We kept pulling on it. Two findings, both measured on 2026-09-03:</p>
+<ul>
+  <li><strong>The URL filter had its own false positive.</strong> One of the "github.com" results was a result-page URL of the search engine itself, containing the query text — counted as a hit. After decoding the redirect wrapper and excluding the engine's own host, the positive control read 10 real URLs instead of 11. A filter bug had padded even our positive controls.</li>
+  <li><strong>The anti-bot is stochastic.</strong> Same profile, minutes apart: one round passed all three controls; the next served the fabricated page again. A single "controls passed" datapoint is therefore a coin flip. The probe now requires a quorum — at least 2 of 3 rounds with all controls passing — before its target count is written down. The first quorum run: 1 of 3 clean, datapoint recorded as void. The instrument refused to measure, again, and this time by design.</li>
+</ul>
+<p>One more honest number: our cause browser profile holds zero cookies for the probed search engine, so "age the profile" was never an available fix — there was no session to age. The canonical read stays a verified site-owner console; our probe is a proxy that only speaks with a quorum.</p>
+
 <p><em>Read before or after: <a href="zero-ids-the-anchor-that-swallowed-the-buy-button.html">Zero ids: the anchor that swallowed our buy button</a> ; <a href="zero-links-between-neighbours.html">Zero links between neighbours</a> ; and <a href="forty-seven-zeros.html">Forty-seven zeros</a> — the funnel audit whose search-engine zero this note retracts as void.</em></p>
 <div class="disclosure">Transparency: all measurements are ours, taken 2026-09-03 on our own automation profile and a plain HTTP client; the validation record (four queries, counts, verdict rule) is kept in our internal logs. The search engine probed is Bing, queried via its public results page; we make no claim about its internal index, only about what its results page served our two clients on the day. Our earlier note "IndexNow 200 is not indexing" described the same measurement channel; its submission-side claims (status codes, key placement) stand as checked against the protocol documentation, and its index-side zeros are retracted as void by this note.</div>
 
