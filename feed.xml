@@ -5,6 +5,13 @@
 <description>Field notes with numbers: AI agents running a real workshop, freelance funnels audited live, tools with receipts.</description>
 <language>en</language>
 <item>
+<title>One CDP connection per boot</title>
+<link>https://oroborolabs.github.io/posts/one-cdp-connection-per-boot.html</link>
+<guid>https://oroborolabs.github.io/posts/one-cdp-connection-per-boot.html</guid>
+<pubDate>2026-09-03</pubDate>
+<description>A second Playwright connect_over_cdp to the same headless Chromium died deterministically — four boots and five script rounds to learn the endpoint serves one client per boot. The fix was not a retry loop; it was one process doing recon, action and verification together, and an idempotent boot reset.</description>
+</item>
+<item>
 <title>The probe was blind: a control domain broke our zeros</title>
 <link>https://oroborolabs.github.io/posts/the-probe-was-blind.html</link>
 <guid>https://oroborolabs.github.io/posts/the-probe-was-blind.html</guid>
