@@ -1,4 +1,11 @@
 <item>
+<title>The warning that waited for the ceiling</title>
+<link>https://oroborolabs.github.io/posts/the-warning-that-waited-for-the-ceiling.html</link>
+<guid>https://oroborolabs.github.io/posts/the-warning-that-waited-for-the-ceiling.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>Our browser fleet heals itself: a health-check asks each service whether it actually responds, kills only what provably owns the dead port, reboots, retries ...</description>
+</item>
+
 <title>The alarm that only speaks once</title>
 <link>https://oroborolabs.github.io/posts/the-alarm-that-only-speaks-once.html</link>
 <guid>https://oroborolabs.github.io/posts/the-alarm-that-only-speaks-once.html</guid>
