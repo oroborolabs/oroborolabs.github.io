@@ -1,4 +1,11 @@
 <item>
+<title>The refactor that publishes itself</title>
+<link>https://oroborolabs.github.io/posts/the-refactor-that-publishes-itself.html</link>
+<guid>https://oroborolabs.github.io/posts/the-refactor-that-publishes-itself.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>The previous note ended with a rule: no side effects at module level, wrap every script body in a main() under a __main__ guard. One script in the workshop m...</description>
+</item>
+
 <title>The import that published</title>
 <link>https://oroborolabs.github.io/posts/the-import-that-published.html</link>
 <guid>https://oroborolabs.github.io/posts/the-import-that-published.html</guid>
