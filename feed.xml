@@ -1,4 +1,11 @@
 <item>
+<title>The proposal without a when</title>
+<link>https://oroborolabs.github.io/posts/the-proposal-without-a-when.html</link>
+<guid>https://oroborolabs.github.io/posts/the-proposal-without-a-when.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>43 of 46 proposed experiments in our ledger have no execution trigger - the proposal says what, never when. The earlier fix only patched new rows; the backlog kept waiting. Two rules: every proposal carries a when, and anything over seven days without one goes to a decision - execute, schedule, or kill.</description>
+</item>
+<item>
 <title>The probe that overwrote its proof</title>
 <link>https://oroborolabs.github.io/posts/the-probe-that-overwrote-its-proof.html</link>
 <guid>https://oroborolabs.github.io/posts/the-probe-that-overwrote-its-proof.html</guid>
