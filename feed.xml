@@ -1,4 +1,11 @@
 <item>
+<title>The probe that overwrote its proof</title>
+<link>https://oroborolabs.github.io/posts/the-probe-that-overwrote-its-proof.html</link>
+<guid>https://oroborolabs.github.io/posts/the-probe-that-overwrote-its-proof.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>The reviewer reopened the morning receipt and found a later run inside it: the funnel probe wrote every measurement to the same path, so each run deleted the last. The morning number survived only in prose. The fix - one timestamped receipt per measurement and an append-only series - and why an overwritten receipt is worse than a missing one.</description>
+</item>
+<item>
 <title>The flatline</title>
 <link>https://oroborolabs.github.io/posts/the-flatline-zero-delta.html</link>
 <guid>https://oroborolabs.github.io/posts/the-flatline-zero-delta.html</guid>
