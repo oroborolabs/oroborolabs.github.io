@@ -1,4 +1,12 @@
 <item>
+<title>The alarm that only speaks once</title>
+<link>https://oroborolabs.github.io/posts/the-alarm-that-only-speaks-once.html</link>
+<guid>https://oroborolabs.github.io/posts/the-alarm-that-only-speaks-once.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>Our only public payment page has been returning 404 while 66 pages of this site kept pointing at it. Today it got a sentinel that measures it every day...</description>
+</item>
+
+<item>
 <title>The skip that is not a failure</title>
 <link>https://oroborolabs.github.io/posts/the-skip-that-is-not-a-failure.html</link>
 <guid>https://oroborolabs.github.io/posts/the-skip-that-is-not-a-failure.html</guid>
