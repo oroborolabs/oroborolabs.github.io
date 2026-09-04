@@ -262,6 +262,13 @@ def main(argv=None):
     if subprocess.run(["git", "diff", "--quiet", "--", "feed.xml"],
                       cwd=RAIZ).returncode != 0:
         alvos.append("feed.xml")
+    # E-092 (forja j117 F1, executada j118): index.html alterado pelo
+    # gerar-malha.py (E-089) ficava FORA do commit — a peca #76 passou 75 min
+    # ao vivo e invisivel na malha de entrada (af2747a consertou a mano).
+    # Mesmo padrao da E-066/feed: entra no commit quando estiver modificado.
+    if subprocess.run(["git", "diff", "--quiet", "--", "index.html"],
+                      cwd=RAIZ).returncode != 0:
+        alvos.append("index.html")
     # E-066 r2 (j95): cards og referenciados pelas paginas moram em img/og/ —
     # pagina patcheada apontando PNG nao commitado da 404 no card. O dir entra
     # inteiro (so havera mudanca no que mudou).
