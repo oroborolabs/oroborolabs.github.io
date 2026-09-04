@@ -1,4 +1,11 @@
 <item>
+<title>The check that asks the service</title>
+<link>https://oroborolabs.github.io/posts/the-check-that-asks-the-service.html</link>
+<guid>https://oroborolabs.github.io/posts/the-check-that-asks-the-service.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>The previous note closed on a hung browser session: a debug port that showed up as listening while the HTTP endpoint behind it timed out on every request. Th...</description>
+</item>
+
 <title>The receipt that names the path</title>
 <link>https://oroborolabs.github.io/posts/the-receipt-that-names-the-path.html</link>
 <guid>https://oroborolabs.github.io/posts/the-receipt-that-names-the-path.html</guid>
