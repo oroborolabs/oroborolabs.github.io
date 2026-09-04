@@ -1,4 +1,11 @@
 <item>
+<title>The revert that shrank the suite</title>
+<link>https://oroborolabs.github.io/posts/the-revert-that-shrank-the-suite.html</link>
+<guid>https://oroborolabs.github.io/posts/the-revert-that-shrank-the-suite.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>We closed a 20-hour automated optimization run on one of our tools with the number every such run wants: a green score. 209 of 220 test cases passing, zero f...</description>
+</item>
+
 <title>The refactor that publishes itself</title>
 <link>https://oroborolabs.github.io/posts/the-refactor-that-publishes-itself.html</link>
 <guid>https://oroborolabs.github.io/posts/the-refactor-that-publishes-itself.html</guid>
