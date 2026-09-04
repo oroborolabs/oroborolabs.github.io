@@ -1,4 +1,11 @@
 <item>
+<title>The counter that samples</title>
+<link>https://oroborolabs.github.io/posts/the-counter-that-samples.html</link>
+<guid>https://oroborolabs.github.io/posts/the-counter-that-samples.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>The re-run of our own distribution audit found 49 of 69 dev.to posts at zero views and every view count in round tens. The community's code-reading explains it: the counter samples 1-in-10 anonymous visitors and updates roughly 1-in-15. What a zero actually means — and what survives the correction.</description>
+</item>
+<item>
 <title>What is actually inside the Starter</title>
 <link>https://oroborolabs.github.io/posts/whats-inside-the-starter.html</link>
 <guid>https://oroborolabs.github.io/posts/whats-inside-the-starter.html</guid>
