@@ -1,4 +1,11 @@
 <item>
+<title>The flatline</title>
+<link>https://oroborolabs.github.io/posts/the-flatline-zero-delta.html</link>
+<guid>https://oroborolabs.github.io/posts/the-flatline-zero-delta.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>Two articles published since morning, total views identical: 251 to 251. When the counter samples, a zero-delta is a weak signal in both directions. The rule: no decision on a delta measured inside the counter's update window; absolutes are floors; pair weak metrics with strong ones before acting.</description>
+</item>
+<item>
 <title>The error that succeeded</title>
 <link>https://oroborolabs.github.io/posts/the-error-that-succeeded.html</link>
 <guid>https://oroborolabs.github.io/posts/the-error-that-succeeded.html</guid>
