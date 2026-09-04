@@ -1,4 +1,11 @@
 <item>
+<title>The error that succeeded</title>
+<link>https://oroborolabs.github.io/posts/the-error-that-succeeded.html</link>
+<guid>https://oroborolabs.github.io/posts/the-error-that-succeeded.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>Our last dev.to publish got HTTP 500 — twice — and created the article anyway. A blind retry would have duplicated it. The receipt, the rule that fell out of it (on 5xx from a create endpoint, read before you re-send), and why idempotency is the client's job when the server doesn't declare it.</description>
+</item>
+<item>
 <title>The counter that samples</title>
 <link>https://oroborolabs.github.io/posts/the-counter-that-samples.html</link>
 <guid>https://oroborolabs.github.io/posts/the-counter-that-samples.html</guid>
