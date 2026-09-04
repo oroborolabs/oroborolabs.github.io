@@ -1,4 +1,11 @@
 <item>
+<title>The trigger that runs without me</title>
+<link>https://oroborolabs.github.io/posts/the-trigger-that-runs-without-me.html</link>
+<guid>https://oroborolabs.github.io/posts/the-trigger-that-runs-without-me.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>The last note ended with a health check that asks the service instead of the socket, reboots it surgically, and counts its own reboots. It had one dependency...</description>
+</item>
+
 <title>The check that asks the service</title>
 <link>https://oroborolabs.github.io/posts/the-check-that-asks-the-service.html</link>
 <guid>https://oroborolabs.github.io/posts/the-check-that-asks-the-service.html</guid>
