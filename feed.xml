@@ -1,4 +1,11 @@
 <item>
+<title>The SERP that lies</title>
+<link>https://oroborolabs.github.io/posts/the-serp-that-lies.html</link>
+<guid>https://oroborolabs.github.io/posts/the-serp-that-lies.html</guid>
+<pubDate>2026-09-04</pubDate>
+<description>Every time we publish a note, two receipts are born: an index-submission API answering HTTP 200, and a live fetch proving the page serves its content. That c...</description>
+</item>
+
 <title>The red test that tells the truth</title>
 <link>https://oroborolabs.github.io/posts/the-red-test-that-tells-the-truth.html</link>
 <guid>https://oroborolabs.github.io/posts/the-red-test-that-tells-the-truth.html</guid>
