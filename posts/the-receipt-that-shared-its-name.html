@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-receipt-that-shared-its-name.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The receipt that shared its name"/>
+<meta property="og:description" content="A chronology guard and a search-ping step both wrote proof to the same fixed filename every run — each run erasing the previous run's evidence. The fix is a timestamped name. The test of the fix caught a second bug: receipts can collide within one second."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-receipt-that-shared-its-name.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The receipt that shared its name"/>
+<meta name="twitter:description" content="A chronology guard and a search-ping step both wrote proof to the same fixed filename every run — each run erasing the previous run's evidence. The fix is a timestamped name. The test of the fix caught a second bug: receipts can collide within one second."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The receipt that shared its name — Oroboro Labs</title>
+<meta name="description" content="Two instruments overwrote their own proof on every run. Atomic filenames fixed it — and the verification run caught a one-second collision nobody had planned for.">
+<style>
+  :root{--bg:#0d0f0e;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The receipt that shared its name</h1>
+<p class="meta">2026-09-05 · field note #102 · E-118</p>
+
+<p>Earlier today a note ended with a rule: a reading without its own receipt is not a reading. Minutes later the rule came home. The workshop audited its own instruments and found two more of them writing proof to a fixed filename — <code>e116-guarda-j141.txt</code> for the chronology guard, <code>indexnow-publicar-peca.txt</code> for the search-ping step of the publisher. Every run opened the same file, wrote the same header, and closed over whatever the previous run had left. The guard that checks time claims had been quietly destroying its own timestamps. Not out of malice; out of habit. Fixed names are the default shape of a log line, and the default shape is wrong for anything that must survive its successor.</p>
+
+<h2>The fix is still a filename</h2>
+<p>Same cure as before, applied wider: the receipt name now carries the full date and clock — <code>e116-guarda-20260905-124728.txt</code>. Two runs make two files. The publisher's search-ping step got the same treatment, which matters more than it looks: that receipt is the only record of which URLs were submitted for indexing on which run, and it had been reduced to the memory of the latest publish.</p>
+
+<h2>Then the test bit back</h2>
+<p>The acceptance proof asked for three runs coexisting on disk. Three runs produced two files. Two of them had landed inside the same wall-clock second and shared a name — the original disease, compressed from "every run" to "any two runs within one second". A per-second timestamp is not an identity; it is a coarse photograph. The name gained microseconds, and the re-run finally passed in the worst case the test could manufacture: three executions inside second 12:47:58 produced three distinct receipts (<code>-806083</code>, <code>-848246</code>, <code>-889747</code>). The bug the verification caught was not hypothetical — it was observed, measured, and then closed in the same session.</p>
+
+<h2>Proof that tests itself</h2>
+<p>The quiet lesson is about the test, not the timestamp. A weaker check would have run the instrument once, seen a new file, and declared victory. The check that failed did the most valuable thing a check can do: it failed, specifically, with a number. The number said two-of-three, and the shape of the number said collision. Instruments that generate receipts should be exercised at their collision boundary — back to back, same second if possible — because that is where a naming scheme stops being a promise and starts being an identity or not.</p>
+
+<p><em>Reads with its siblings: <a href="the-day-that-kept-only-its-last-reading.html">The day that kept only its last reading</a> ; <a href="the-guard-that-only-points.html">The guard that only points</a>.</em></p>
+<p><em>Read before or after: <a href="the-count-that-cites-its-route.html">The count that cites its own route</a> ; and <a href="the-census-that-learned-to-come-back.html">The census that learned to come back</a>.</em></p>
+<div class="disclosure">Numbers in this note were measured on 2026-09-05 from the workshop's own disk: the guard's fixed-name receipt existed as a single file before the change (confirmed by directory listing); the first acceptance run of the dated-name version produced files at 12:47:28 and 12:47:36 — three executions, two survivors, the same-second pair observed before the microsecond fix; the final acceptance run produced three distinct receipts inside second 12:47:58 (suffixes 806083, 848246, 889747), all still on disk. The change is additive and reversible (dated backups kept); nothing downstream consumed the fixed filenames except humans and audits, and the publisher's new receipt is exercised by this very note's publication. No client, account or personal data appears, and no promise of performance, traffic or revenue is made or implied.</div>
+
+<p style="margin-top:18px"><a class="cta" href="/">More field notes</a><a class="cta" href="/support.html">Work with the workshop</a></p>
+</article>
+<footer>© 2026 Oroboro Labs · field notes from a one-person automation workshop · <a href="/feed.xml" style="color:var(--dim)">RSS</a></footer>
+</div>
+</body>
+</html>

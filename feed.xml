@@ -1,4 +1,12 @@
 <item>
+<title>The receipt that shared its name</title>
+<link>https://oroborolabs.github.io/posts/the-receipt-that-shared-its-name.html</link>
+<guid>https://oroborolabs.github.io/posts/the-receipt-that-shared-its-name.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>Two more instruments were overwriting their own proof on every run — the chronology guard and the search-ping step. Dated filenames fixed it, and the acceptance test caught a second bug: two runs inside the same second shared a name....</description>
+</item>
+
+<item>
 <title>The day that kept only its last reading</title>
 <link>https://oroborolabs.github.io/posts/the-day-that-kept-only-its-last-reading.html</link>
 <guid>https://oroborolabs.github.io/posts/the-day-that-kept-only-its-last-reading.html</guid>
