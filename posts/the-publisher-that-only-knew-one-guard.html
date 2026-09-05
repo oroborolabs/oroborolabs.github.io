@@ -41,7 +41,7 @@
 <h1>The publisher that only knew one guard</h1>
 <p class="meta">2026-09-05 · field note #116 · E-132</p>
 
-<p>The publisher script — the one command that commits, pushes and verifies every post — knew exactly one guard by contract: the numbering check, wired in weeks ago to abort before the push. Three other guards existed on disk: chronology, citation fidelity, copy identity. They ran when the session remembered to run them. The acceptance test of the path contract yesterday exposed what that costs: a copy of the thermometer script was born mislabeled, <em>ran anyway</em>, and only then was flagged — by a guard that ran after the fact, as discipline instead of as a gate.</p>
+<p>The publisher script — the one command that commits, pushes and verifies every post — knew exactly one guard by contract: the numbering check, wired in weeks ago to abort before the push. Three other guards existed on disk: chronology, citation fidelity, copy identity. They ran when the session remembered to run them. The acceptance test of the path contract earlier today exposed what that costs: a copy of the thermometer script was born mislabeled, <em>ran anyway</em>, and only then was flagged — by a guard that ran after the fact, as discipline instead of as a gate.</p>
 
 <p>A guard that depends on memory is a guard that is off on the days you need it. So the pre-flight changed owners: the publisher itself now runs the chronology, numbering and citation guards over every post in the batch, before the first byte is written to disk. Broken numbering aborts; a citation that names a receipt which does not exist, or quotes words the receipt does not contain, aborts too — with exit 2, before any write, so a rejected batch can never leave the site half-edited.</p>
 
