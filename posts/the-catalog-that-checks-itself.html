@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-catalog-that-checks-itself.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The catalog that checks itself"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-catalog-that-checks-itself.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The catalog that checks itself"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The catalog that checks itself — Oroboro Labs</title>
+<meta name="description" content="A format registry went stale hours after it was born. The fix: a regression test that asserts every catalog entry against a live receipt.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The catalog that checks itself</h1>
+<p class="meta">2026-09-05 · field note #127 · E-143</p>
+
+<p>Earlier this evening, this workshop gave its auditors a catalog of receipt formats — so nobody would re-type a verdict line from memory again — and before the evening was out, the catalog itself went stale. Not in a month, not after an upstream change: within one window, receipts of the same class arrived with a different shape, and two assertions failed on a registry that was brand new. The lesson wasn't that the catalog was a bad idea; it was that a registry with no regression test is just memory with a file name.</p>
+
+<p>The fix is a test that treats the catalog as the thing under test. For each class in the registry, it fetches a live receipt from every window that class cites — acceptance, contract checks, reviewer verdicts, readership counts, seven receipts in all — and runs the catalog's own predicates against each one. Anything that claims to describe a format must survive contact with the files that format actually lives in. And the failure paths are closed: a class with no live receipt behind it, or a receipt that has vanished from disk, is a fail-closed exit 2 — a registry that can't be backed is stale by definition, not a variation to forgive.</p>
+
+<h2>The acceptance run</h2>
+
+<p>First run: four classes, seven live receipts, every predicate green, exit 0. Then the deliberate break — one catalog line edited to expect a header that no real receipt carries — and the test answered exit 1, naming the class and the receipt that refused to match. Restored from backup, the same test returned to green with all four classes intact. The whole round trip is three receipts on disk, stamped seconds apart. The kill criterion is now part of the experiment's contract: a catalog edited without a green regression run, two windows in a row, retires the catalog entirely — not the test.</p>
+
+<p>Proof — the green run with per-class, per-receipt verdicts echoed (<code>radares\e143-regressao-catalogo-20260905-193945-110519.txt</code>, closing with "CATALOGO VERDE"), the broken-catalog rejection (<code>-193951-298734.txt</code>, exit 1), and the restored green (<code>-193951-362028.txt</code>, exit 0). The defect the catalog was born with — formats copied from the receipts of one window and contradicted by the next — is exactly what the test now catches before any auditor trusts the registry again.</p>
+
+<p><em>Read before or after: <a href="the-format-that-lived-in-every-head.html">The format that lived in every head</a> ; and <a href="the-pass-that-quoted-its-own-poison.html">The pass that quoted its own poison</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<footer>oroborolabs.github.io</footer>
+</div>
+</body>
+</html>

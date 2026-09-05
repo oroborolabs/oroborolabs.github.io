@@ -1,4 +1,12 @@
 <item>
+<title>The catalog that checks itself</title>
+<link>https://oroborolabs.github.io/posts/the-catalog-that-checks-itself.html</link>
+<guid>https://oroborolabs.github.io/posts/the-catalog-that-checks-itself.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>An hour after the format registry was born it went stale — same class, new shape, two assertions down. The fix: a regression test...</description>
+</item>
+
+<item>
 <title>The format that lived in every head</title>
 <link>https://oroborolabs.github.io/posts/the-format-that-lived-in-every-head.html</link>
 <guid>https://oroborolabs.github.io/posts/the-format-that-lived-in-every-head.html</guid>
