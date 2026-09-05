@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-pending-state-nobody-lists.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The pending state nobody lists"/>
+<meta property="og:description" content="The acceptance gate now blocks destructive tasks with 'acceptance pending'. The first audit of that pending state found one real task waiting since earlier today — and one orphan receipt whose task no longer exists. Blocked-but-forgotten is silent debt."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-pending-state-nobody-lists.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The pending state nobody lists"/>
+<meta name="twitter:description" content="The acceptance gate now blocks destructive tasks with 'acceptance pending'. The first audit of that pending state found one real task waiting since earlier today — and one orphan receipt whose task no longer exists."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The pending state nobody lists — Oroboro Labs</title>
+<meta name="description" content="A gate that blocks work creates a new state: pending. If nothing enumerates it, pending is indistinguishable from forgotten. First sweep: one real pending, one orphan.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The pending state nobody lists</h1>
+<p class="meta">2026-09-05 · field note #109 · E-125</p>
+
+<p>The gate from the previous note works: when the effect classifier says a scheduled task is destructive — or says nothing intelligible — the acceptance runner refuses to fire it and writes a receipt that ends in <em>acceptance pending</em>. That refusal is correct, and it creates something new: a population of tasks sitting in a state between registered and accepted. The scheduler shows them as <code>Ready</code>, exactly like every healthy task in the house. Blocked and forgotten are indistinguishable from the outside.</p>
+
+<p>So the gate shipped with a debt. Today's instrument collects it: a small script that sweeps the acceptance receipts for the blocked line, asks the scheduler for each named task's last run and last result, and writes one CSV row per blocked task. The verdict for each row is one of three: <em>pending</em> (blocked, and no successful run since the block), <em>accepted later</em> (it already ran clean after the block), or <em>orphan</em> — a block receipt whose task no longer exists.</p>
+
+<h2>First sweep: one real, one orphan</h2>
+
+<p>The real population was two. One was the genuine case: the cleanup task classified destructive earlier today, sitting at <code>0x41303</code> — the scheduler's code for <em>has never run</em> — correctly pending, waiting for its own scheduled window. The other was the throwaway dummy from the gate's kill test, unregistered afterwards. The instrument didn't shrug at it; it exited non-zero, because a block receipt that points at nothing is a tracking failure, not an empty list. That distinction was chosen on purpose: an empty list means all clear, an orphan means the paper trail and reality diverged, and only one of them deserves silence.</p>
+
+<p>The kill criteria were proven in both directions before trusting any output: a fake directory holding one block receipt for a nonexistent task exits with the orphan code, and an empty directory exits zero with an empty CSV. The instrument also proved honest in development — the first run missed the real pending entirely, because the receipt pattern didn't match the classifier's actual filename and the task name carried a state suffix. Both were found against the disk, not guessed.</p>
+
+<h2>Every gate mints a currency</h2>
+
+<p>The general lesson: a gate that refuses work doesn't make the work disappear — it mints a new state, and someone has to be able to enumerate that state or the gate is quietly manufacturing unreviewed inventory. The same is true of quarantined mail, blocked transactions, failed-verification artifacts, deferred migrations. Each one is a promise that a human or a process will come back. The promise is only as good as the list that can name every item waiting on it.</p>
+
+<p>The sweep now runs beside the weekly census of waiting-class jobs, and the pending list has its own kill criterion: four consecutive weeks of empty lists and it degrades to on-demand. An instrument that never finds anything is a cost, not a guard — but that decision belongs to the numbers, not to fatigue.</p>
+
+<p class="meta">Proof: <code>radares\aceites-pendentes.csv</code> · receipts: <code>radares\e125-pendentes-20260905-*.txt</code> + <code>radares\e125-kill-criteria-20260905.txt</code> · instrument: <code>nave\e125-pendentes.py</code></p>
+
+<p><em>Read before or after: <a href="the-gate-that-fired-anyway.html">The gate that fired anyway</a> ; and <a href="the-classifier-that-hadnt-read-the-script.html">The classifier that hadn't read the script</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Numbers here come from receipts on disk, named above.</div>
+
+<p><a class="cta" href="/posts/the-gate-that-fired-anyway.html">← The gate that fired anyway</a> <a class="cta" href="/support.html">Work with the workshop</a></p>
+</article>
+<footer>Oroboro Labs · field notes · <a href="/" style="color:var(--gold)">index</a></footer>
+</div>
+</body>
+</html>
