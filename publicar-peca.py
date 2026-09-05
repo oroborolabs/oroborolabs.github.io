@@ -141,6 +141,33 @@ def main(argv=None):
         if "<title>" not in txt: probs.append("sem <title>")
         return probs
 
+    # E-132 (forja j156 F1, executada j157): PRE-VOO das guardas — e116
+    # (cronologia), e128 (numeracao) e e129 (citacao) sobre cada peca do lote
+    # ANTES de qualquer escrita, nao por disciplina de janela. Veto: e128 e
+    # e129 (rc != 0 = exit 2; e129 rc 2 e uso errado, tambem veto); e116 so
+    # APONTA (falso positivo em metafora, forja j156) — rc dela e registrado,
+    # nao vira aborto. Caminho por E-131 (contrato unificado): qualquer cwd.
+    # Os 3 rc de cada peca viram linha no recibo do IndexNow (passo 5).
+    # Historico: E-128 (j153) era a unica gated — e116/e129/e130 dependiam de
+    # alguem lembrar; o aceite E-131 flagrou copia suja DEPOIS de rodar.
+    # E-130 (identidade) nao entra aqui: confere CORPO de instrumentos nave/,
+    # nao peca do blog.
+    loteposts = [a for a in arqs if a.replace("\\", "/").startswith("posts/")]
+    guardas_rc = []  # [(peca, e116, e128, e129)] — vai no recibo IndexNow
+    if loteposts and not DRY:
+        for g_nome in ("e116-guarda-cronologia", "e128-guarda-numeracao",
+                       "e129-guarda-citacao"):
+            g = pathlib.Path(r"C:\Users\Oroboro\missao\nave") / (g_nome + ".py")
+            for a in loteposts:
+                r = subprocess.run([sys.executable, str(g), a],
+                                   cwd=RAIZ, capture_output=True, text=True)
+                guardas_rc.append((a, g_nome.split("-")[0], r.returncode,
+                                   r.stdout.strip().splitlines()[-1] if r.stdout.strip() else ""))
+                if r.returncode != 0 and (g_nome.startswith(("e128", "e129"))):
+                    print("E-132: %s reprovou %s — abortando ANTES do push"
+                          % (g_nome, a))
+                    print(r.stdout.strip()); sys.exit(2)
+
     # E-089 (forja j115 F1): gerar-malha.py insere sozinho a entrada do index e o
     # item do feed ANTES da guarda E-060 rodar — a malha exigia 2 edicoes manuais
     # (2 abortos medidos na j115). Script SEPARADO, chamado por subprocess: nada
@@ -365,11 +392,23 @@ def main(argv=None):
         data=__import__("json").dumps(body).encode(),
         headers={"Content-Type": "application/json; charset=utf-8"})
     st = urllib.request.urlopen(req, timeout=30).status
-    recibo = PROVA / "indexnow-publicar-peca.txt"
+    # E-118: recibo atomico (data+hora+micros) — nome fixo sobrescrevia a propria prova
+    import time as _t
+    from datetime import datetime as _dt
+    recibo = PROVA / ("indexnow-publicar-peca-%s-%06d.txt"
+                      % (_dt.now().strftime("%Y%m%d-%H%M%S"), _t.time() % 1 * 1e6))
     recibo.write_text(
         "HTTP %s\npublicar-peca.py lote %d\n%s" % (st, len(lote), "\n".join(lote)),
         encoding="utf-8")
-    print("IndexNow", st, "-", len(lote), "URLs; recibo em radares\\indexnow-publicar-peca.txt")
+    # E-132 (j157): os 3 rc do pre-voo morrem JUNTO do recibo — prova de que
+    # as guardas rodaram no mesmo fluxo que empurrou (nao depois, a mao).
+    if guardas_rc:
+        with recibo.open("a", encoding="utf-8") as f:
+            f.write("\n--- pre-vo guardas (E-132) ---\n")
+            for a, g, rc, ult in guardas_rc:
+                f.write("%s %s rc %d%s\n" % (g, a, rc,
+                        (" — " + ult) if ult else ""))
+    print("IndexNow", st, "-", len(lote), "URLs; recibo em", recibo.name)
 
     # 6. E-061 (forja j91 F2): outcome SERP do dia JUNTO do recibo — o par
     # recibo+datapoint nasce no mesmo arquivo (7 recibos 200 e 5 datapoints 0
@@ -381,8 +420,19 @@ def main(argv=None):
     # 45,0 s pos-sonda, recibo serp-j115-timing-conexoes.txt). Exit 3 da v3 e
     # DATAPONTE INVALIDO (SERP lixo), um outcome valido — nao "indisponivel".
     sonda = pathlib.Path(r"C:\Users\Oroboro\missao\nave\sonda-bing-indexacao-v3.py")
-    r = subprocess.run([sys.executable, str(sonda), time.strftime("%Y-%m-%d")],
-                       capture_output=True, text=True, timeout=300)
+    # E-111 (forja j135 F1, executada j136): timeout 60 s — instrumento morto
+    # (exit 1 ha 4 janelas) nao pode cobrar 5 min por publicacao; a remocao do
+    # passo segue aguardando carimbo do irmao (BALCAO, prazo 18/09).
+    try:
+        r = subprocess.run([sys.executable, str(sonda), time.strftime("%Y-%m-%d")],
+                           capture_output=True, text=True, timeout=60)
+    except subprocess.TimeoutExpired:
+        with recibo.open("a", encoding="utf-8") as f:
+            f.write("\n--- outcome SERP Bing (E-061, mesmo dia; sonda v3/E-090) ---\n")
+            f.write("SONDA TIMEOUT 60 s (E-111) — exit anterior 1 ha 4 janelas; "
+                    "remocao do passo 6 aguarda carimbo (BALCAO 18/09)\n")
+        print("E-061: sonda v3 TIMEOUT 60 s (E-111) — motivo no recibo")
+        return
     with recibo.open("a", encoding="utf-8") as f:
         f.write("\n--- outcome SERP Bing (E-061, mesmo dia; sonda v3/E-090) ---\n")
         linhas = (r.stdout or "").strip().splitlines()
