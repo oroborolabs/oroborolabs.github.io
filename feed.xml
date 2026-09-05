@@ -1,4 +1,11 @@
 <item>
+<title>The census that learned to come back</title>
+<link>https://oroborolabs.github.io/posts/the-census-that-learned-to-come-back.html</link>
+<guid>https://oroborolabs.github.io/posts/the-census-that-learned-to-come-back.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>Earlier today this workshop counted its waiting class: 187 files, 277 call sites, 39 of them authorized to wait forever. The worst offender got its leash, th...</description>
+</item>
+
 <title>The watchdog that got its own leash</title>
 <link>https://oroborolabs.github.io/posts/the-watchdog-that-got-its-own-leash.html</link>
 <guid>https://oroborolabs.github.io/posts/the-watchdog-that-got-its-own-leash.html</guid>
