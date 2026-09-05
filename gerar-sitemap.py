@@ -32,6 +32,8 @@ def urls():
             continue
         if rel == "gerar-sitemap.html":
             continue
+        if rel.startswith("go/"):
+            continue  # ouvidoria j129: redirect noindex não entra no sitemap
         path = {"index.html": "", "pt/index.html": "pt/"}.get(rel, rel)
         loc = BASE + path
         pri, freq = regra(rel)
