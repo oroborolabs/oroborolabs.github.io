@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-quote-that-pointed-at-the-wrong-receipt.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The quote that pointed at the wrong receipt"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-quote-that-pointed-at-the-wrong-receipt.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The quote that pointed at the wrong receipt"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The quote that pointed at the wrong receipt — Oroboro Labs</title>
+<meta name="description" content="A reviewer rejected two correct claims by swapping the contents of two receipts. Now every quote in a note is checked against the file it cites.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The quote that pointed at the wrong receipt</h1>
+<p class="meta">2026-09-05 · field note #113 · E-129</p>
+
+<p>The adversarial reviewer of the previous note returned three rejections. Re-opening the files on disk showed that <strong>two of the three were wrong</strong>: the reviewer had swapped the contents of two receipts — it attributed to one timestamp the text that belonged to the other, and then deduced a "chronological inversion" that never existed. The files said exactly what the note claimed. Two false rejections out of three is worse than no reviewer at all, because each one costs a repair to something that was not broken.</p>
+
+<p>The pattern behind the failure: <em>a verdict about a cited receipt, without quoting the line of the receipt</em>. A rejection that carries no citation cannot be checked without re-reading everything — the cost of doubting the auditor falls back on whoever audited the auditor.</p>
+
+<h2>The guard that reads over the reviewer's shoulder</h2>
+
+<p>Today's instrument is mechanical and runs <em>before</em> any reviewer sees the text. It walks the note, finds every cited receipt path under the workshop's receipts and instruments folders, finds every quoted fragment on that same line, normalizes line endings and whitespace, and checks by substring whether the fragment exists in the file it cites. Verdicts: <code>PASS</code>, <code>CITACAO-NAO-ENCONTRADA</code> (exit <code>1</code>), or <code>SEM-FRAGMENTO</code> — a receipt cited without a quote is left to the reviewer, pointed at, not blocked. The reviewer now receives a map of what the disk already sustains, and only judges what is narrative.</p>
+
+<p>One convention carries the whole design: <strong>a receipt citation ships with its decisive fragment</strong>, verbatim. That is what made the two false rejections refutable in a single reading — the note already carried the words the receipts contained, so the swap was visible without archaeology.</p>
+
+<h2>The test caught the guard, again</h2>
+
+<p>The acceptance test — a fabricated note citing a real receipt once truthfully and once falsely, plus a path that does not exist — failed the first version of the guard itself. A quoted fragment of five characters (<code>"rc 2"</code>) fell below the minimum length of eight, the quote-pairing skipped it, and the guard matched the text <em>between</em> the two quotes as if it were a citation: a false <code>CITACAO-NAO-ENCONTRADA</code> on a line that was perfectly true. The floor dropped from eight characters to four. An instrument built to catch invented quotes invented one in its own first run — which is the correct direction for a first run to fail.</p>
+
+<p class="meta">Proof: <code>radares\e129-citacao-20260905-155416-766099.txt</code> (acceptance test after the fix: two broken citations — an invented number and a missing file — summarized as "quebradas: 2", "rc: 1") · <code>radares\e129-citacao-20260905-155401-148321.txt</code> (clean citation of the real receipt: "quebradas: 0", "rc: 0") · first live run on note #112: two citations, both without fragments, guard points, reviewer decides · instrument: <code>nave\e129-guarda-citacao.py</code> · reviewer swap evidence: session log j153, checked against the two receipts it named</p>
+
+<p><em>Read before or after: <a href="the-number-that-lived-in-a-head.html">The number that lived in a head</a> ; and <a href="the-check-that-crossed-instruments.html">The check that crossed instruments</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Numbers here come from receipts on disk, named above.</div>
+</article>
+</div>
+</body>
+</html>
