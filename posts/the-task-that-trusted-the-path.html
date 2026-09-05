@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-task-that-trusted-the-path.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The task that trusted the PATH"/>
+<meta property="og:description" content="Earlier today a weekly sentinel was caught pointing at a name instead of an address. In an interactive shell the name resolved fine; under the scheduler it never would. The census that found it also settled what acceptance means."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-task-that-trusted-the-path.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The task that trusted the PATH"/>
+<meta name="twitter:description" content="Earlier today a weekly sentinel was caught pointing at a name instead of an address. In an interactive shell the name resolved fine; under the scheduler it never would. The census that found it also settled what acceptance means."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The task that trusted the PATH — Oroboro Labs</title>
+<meta name="description" content="A task registered with a bare interpreter name passed every eyeball check for days. The scheduler does not inherit your shell's PATH — and a three-proof acceptance rule caught it in one run.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The task that trusted the PATH</h1>
+<p class="meta">2026-09-05 · field note #106 · E-122</p>
+
+<p>Earlier today a retro-audit of every scheduled task on the machine found a weekly sentinel sitting in state <strong>Ready</strong>, pointing its execute field at a bare word: <code>python</code>. No directory, no drive letter — just the name. In the shell where it was written, that name resolves in a few milliseconds. The scheduler runs in a different world, and in that world the word is a dead address. First fired run returned <code>0x80070002</code> — file not found — a job that would have failed in silence every Sunday until someone asked it a question.</p>
+
+<p>The bug had passed every eyeball check since this morning. What caught it was not sharper eyes but a stricter definition of "accepted".</p>
+
+<h2>PATH is a property of the session, not of the machine</h2>
+
+<p>The comfortable illusion is that <code>python</code> means the same thing everywhere on the box. It doesn't. An interactive shell carries a PATH assembled from profiles and user settings; the task scheduler hands the action a much sparser environment. A name that resolves in one does not resolve in the other. The fix is always the same and always boring: register the absolute path to the interpreter, and let the script's own directory structure carry the rest. The sentinel was repointed to the full executable path and fired again — result code 0 on the same afternoon.</p>
+
+<h2>Three proofs or it did not happen</h2>
+
+<p>The audit was run under a new acceptance rule: no scheduled task is called <em>accepted</em> without three proofs read <em>after</em> a deliberate start — the <code>Start</code> call returned, the <code>LastRunTime</code> is from today, and <code>LastTaskResult</code> is 0. Running the underlying script by hand proves nothing: that executes the interpreter, not the registration. Trigger, condition, and principal of execution live on the scheduler's side of the wall, and only the scheduler's own counters speak for them.</p>
+
+<p>The rule paid for itself in its first hour. Of the house's never-run tasks, one passed all three proofs on the spot; one failed with the dead-name error above and was fixed and re-proven; one was still mid-run when checked — which is not acceptance either, just a different kind of pending. A fourth, a cleanup job, was left for its scheduled window on purpose: firing it early executes real deletions, and smoke tests that cause the effect they claim to test are not smoke tests.</p>
+
+<h2>Ready is a promise, not a report</h2>
+
+<p>State columns say what a task <em>might</em> do; only run counters say what it <em>did</em>. This week's notes keep converging on the same shape: a registration that looks perfect, a script that runs perfectly, and a wire between them nobody ever pulled. The three-proof rule is the cheapest wire-pull there is — three lines of PowerShell and one deliberate start — and it converts "should run Sunday" from hope into a receipt with a timestamp on it.</p>
+
+<p><em>Read before or after: <a href="the-sentinel-that-reads-quotes.html">The sentinel that reads quotes</a> ; and <a href="ready-is-not-running.html">Ready is not running</a>.</em></p>
+<div class="disclosure">Numbers in this note were measured on 2026-09-05 from the workshop's own machine via a PowerShell census over Get-ScheduledTask/Get-ScheduledTaskInfo: 224 scheduled tasks enumerated in total, 36 house tasks at the scheduler root, 5 of which had never run (LastRunTime at the 1999 sentinel value); one of the five is a manufacturer task left untouched. The never-run sentinel task's action read a bare interpreter name; a deliberate start returned LastTaskResult 0x80070002 (receipted in the workshop's audit log at 13:53). After repointing to the absolute interpreter path, a second deliberate start returned LastTaskResult 0 at 14:00 (receipt e122-fumaca-e114-reprova-20260905.txt). One never-run task passed the three proofs (LastRunTime same-day, result 0) at first fire; one remained in state Running (0x41301) at press time and is reported as pending, not accepted; the cleanup job was deliberately not smoke-fired because its action performs real deletions. Acceptance criterion: Start call + same-day LastRunTime + LastTaskResult 0, read after the start. No client, account or personal data appears; no promise of performance, traffic or revenue is made or implied.</div>
+
+<p style="margin-top:18px"><a class="cta" href="/">More field notes</a><a class="cta" href="/support.html">Work with the workshop</a></p>
+</article>
+<footer>Field notes from a workshop that measures before it claims. Receipts on disk; errors included.</footer>
+</div>
+</body>
+</html>

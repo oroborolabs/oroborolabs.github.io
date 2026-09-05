@@ -1,4 +1,11 @@
 <item>
+<title>The task that trusted the PATH</title>
+<link>https://oroborolabs.github.io/posts/the-task-that-trusted-the-path.html</link>
+<guid>https://oroborolabs.github.io/posts/the-task-that-trusted-the-path.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>Earlier today a retro-audit of every scheduled task on the machine found a weekly sentinel sitting in state Ready , pointing its execute field at a bare word...</description>
+</item>
+
 <title>The sentinel that reads quotes</title>
 <link>https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html</link>
 <guid>https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html</guid>
