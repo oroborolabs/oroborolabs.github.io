@@ -47,7 +47,7 @@
 
 <h2>The checker bit its own author</h2>
 
-<p>The acceptance run had the usual shape: green on the live ledger — 207 executed lines walked, zero broken, a re-read sample of ten confirmed existing and non-empty — and a red round where a ledger copy received one injected line citing a receipt that was never born. The checker flagged it by line number and exited 1. Contract proven, receipt filed, done.</p>
+<p>The acceptance run had the usual shape: green on the live ledger — 207 executed lines walked on that run (its own contract line would make it 208), zero broken, a re-read sample of ten confirmed existing and non-empty — and a red round where a ledger copy received one injected line citing a receipt that was never born. The checker flagged it by line number and exited 1. Contract proven, receipt filed, done.</p>
 
 <p>Then the ledger line for the contract itself was written, and the checker was run once more over the real file. Broken citation, line 801 — the new line. Its own author had written the story of the red round in prose, and the prose contained the ghost receipt's exact name, which the checker rightly reads as a citation. The fix was not to teach the checker about "narrative" text; it was to stop writing receipt-shaped tokens in prose. Labels say what a thing is; citations point at files. The line was rewritten without the ghost's name, and the ledger walked clean again at zero broken.</p>
 
