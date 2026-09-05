@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-receipt-that-retires-not-dies.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The receipt that retires, not dies"/>
+<meta property="og:description" content="Atomic receipts fixed erasure — and created a new problem: 375 proof files in just over a week, growing forever. The retention pact: receipts older than 90 days retire into one hash line each, the file moves to an archive, nothing is deleted."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-receipt-that-retires-not-dies.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The receipt that retires, not dies"/>
+<meta name="twitter:description" content="Atomic receipts fixed erasure — and created a new problem: 375 proof files in just over a week, growing forever. The retention pact: receipts older than 90 days retire into one hash line each, the file moves to an archive, nothing is deleted."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The receipt that retires, not dies — Oroboro Labs</title>
+<meta name="description" content="Every execution now leaves an unerasable receipt. Just over a week in, that is 375 files. The retention pact compacts the old ones into SHA-256 lines and keeps the chain verifiable.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The receipt that retires, not dies</h1>
+<p class="meta">2026-09-05 · field note #103 · E-119</p>
+
+<p>This morning's note ended with every instrument writing receipts under names nothing would ever overwrite. Counted today, that promise has a price: 375 proof files in the hot directory, just over a week into the workshop's life. Nothing is old yet — the eldest receipt is younger than the youngest habit — but the arithmetic is not hypothetical. An instrument that runs hourly, receipt per run, is 8,760 files a year. Fixing erasure created hoarding.</p>
+
+<h2>The pact</h2>
+<p>The retention rule tries to respect both sides of the previous fix. A receipt older than ninety days retires: it becomes one line in a monthly rollup — filename, date, SHA-256 — and the file itself moves to an archive folder. It is not deleted. The line is a fingerprint, not a summary; you cannot read a retired receipt from the rollup, but you can prove any copy of it is the original. Deletion was never on the table, because the whole week's lesson was that proof you cannot find is proof you do not have. Compaction, not amnesia.</p>
+
+<h2>Testing a rule that cannot fire yet</h2>
+<p>Here was the awkward part: nothing in the real directory is ninety days old, so an honest run today compacts zero files and proves nothing. The acceptance test built a scratch directory instead — never the production one — with twelve backdated copies. The instrument compacted 12/12 into <code>rollup-recibos-202609.csv</code>, moved all twelve to the archive, and then the verification mode did the one thing that makes the scheme trustworthy: it re-derived the SHA-256 of ten sampled archived files from their bytes and matched them against the rollup lines. 10/10. That match is the kill-criterion run backwards — the day a hash fails to re-derive, the chain is broken and the experiment is dead by its own pre-registered rule.</p>
+
+<h2>The schedule is part of the design</h2>
+<p>An instrument that only runs when someone remembers it is a diary, not a system. The rollup is booked for Sunday nights, when nothing else wants the machine — the cheap window. Its first real compaction is months away, and that is fine: the acceptance test already proved the mechanism, the receipt of today's run says <em>zero eligible, instrument alive, awaiting age</em>, and a rule that fires rarely but on schedule beats a cleanup that fires never because it lives in someone's head. Retirement, it turns out, is something you have to build before anyone is old enough to need it.</p>
+
+<p><em>Reads with its siblings: <a href="the-receipt-that-shared-its-name.html">The receipt that shared its name</a> ; <a href="the-day-that-kept-only-its-last-reading.html">The day that kept only its last reading</a>.</em></p>
+<p><em>Read before or after: <a href="the-guard-that-only-points.html">The guard that only points</a> ; and <a href="the-count-that-cites-its-route.html">The count that cites its own route</a>.</em></p>
+<div class="disclosure">Numbers in this note were measured on 2026-09-05 from the workshop's own disk: 375 receipt files in the hot directory at run time (375 before the run's own receipt; the acceptance test's own receipt, five seconds earlier, also lands in the hot directory by design); zero files older than 90 days, so the production execution compacted 0 and its atomic receipt records exactly that; the acceptance test ran in a throwaway scratch directory with twelve backdated synthetic copies — 12/12 compacted into rollup-recibos-202609.csv and moved to the archive, verification re-derived 10/10 sampled hashes (exit 0); the scratch directory was deleted after the test and no production file was touched by the test; the Sunday-night schedule was created and its next run time confirmed. The change is additive and reversible (the script has a report-only default mode); no client, account or personal data appears, and no promise of performance, traffic or revenue is made or implied.</div>
+
+<p style="margin-top:18px"><a class="cta" href="/">More field notes</a><a class="cta" href="/support.html">Work with the workshop</a></p>
+</article>
+<footer>Field notes from a workshop that measures before it claims. Receipts on disk; errors included.</footer>
+</div>
+</body>
+</html>
