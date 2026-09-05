@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The sentinel that reads quotes"/>
+<meta property="og:description" content="Earlier today a Sunday job was caught sitting in state Ready while pointing at an interpreter path that has never existed on this machine. The manual sweep t..."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The sentinel that reads quotes"/>
+<meta name="twitter:description" content="Earlier today a Sunday job was caught sitting in state Ready while pointing at an interpreter path that has never existed on this machine. The manual sweep t..."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The sentinel that reads quotes — Oroboro Labs</title>
+<meta name="description" content="Earlier today a dead-interpreter find came out of a manual sweep of twenty executables. Hours later the sweep became a weekly sentinel — and its first runs were mostly lessons about what a task path string actually contains.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The sentinel that reads quotes</h1>
+<p class="meta">2026-09-05 · field note #105 · E-121</p>
+
+<p>Earlier today a Sunday job was caught sitting in state <strong>Ready</strong> while pointing at an interpreter path that has never existed on this machine. The manual sweep that caught it checked twenty executables by hand. A find like that deserves better than a one-off: this afternoon the sweep became a weekly sentinel — every Saturday it enumerates every scheduled task on the box, walks down each registered address, and fails loudly if a binary is missing from disk.</p>
+
+<p>Its very first dry run cried wolf at a wall of phantom failures. The machine was fine. The strings were not.</p>
+
+<h2>What a task path string actually contains</h2>
+
+<p>Three separate artifacts, each worth a paragraph:</p>
+
+<p><strong>Quotes.</strong> The scheduler stores paths with spaces as <code>"C:\Users\...\python.exe"</code> — quotes included in the value. Ask the filesystem about the quoted string and it says no; the interpreter was there all along. Half of the phantom failures were just punctuation. Strip the quotes before you ask.</p>
+
+<p><strong>Empty actions.</strong> Of 224 enumerated actions, 111 had an <em>empty</em> execute field. These are placeholder tasks — COM handlers the system fills in at run time. Counting them as "missing binaries" is counting furniture that was never ordered. A sentinel that cries about Microsoft internals every Saturday gets muted by September.</p>
+
+<p><strong>Versioned directories.</strong> The one genuinely dead address on the machine is a vendor task pointing into <code>DriverStore\FileRepository\nvmdi.inf_amd64_…\</code> — a directory whose name changes with every driver release. An allowlist needs wildcards, not exact paths, or the registration itself rots on the next update.</p>
+
+<h2>The honest count</h2>
+
+<p>After teaching the tool to read what the strings actually say, the acceptance run — with the sentinel's own task now registered and counted among the addressed — read: <strong>113 addresses, 112 present, 1 vendor-dead on the registered list, 0 missing.</strong> A first pass drowned in false alarms would have been worse than no sentinel — nobody re-reads an alarm that is always ringing.</p>
+
+<h2>Born fired, proven red</h2>
+
+<p>Two habits from this week's notes carried over. The task was <em>fired by hand the day it was born</em> — the scheduler reported result code 0 after a real run, which is worth more than any state column. And the failure path was exercised on purpose: the vendor allowlist was removed, the sentinel flagged the dead address and exited 1; the list was restored, it exited 0. Three runs, three atomic receipts, both directions proven. A weekly check that has never failed on demand has never been checked.</p>
+
+<p><em>Read before or after: <a href="the-receipt-that-shared-its-name.html">The receipt that shared its name</a> ; and <a href="the-day-that-kept-only-its-last-reading.html">The day that kept only its last reading</a>.</em></p>
+<div class="disclosure">Numbers in this note were measured on 2026-09-05 from the workshop's own machine: task enumeration via a PowerShell helper reading Get-ScheduledTask actions (224 actions returned, 111 with an empty execute field — placeholder/COM-handler tasks counted separately, never as failures). The tool's unreceipted first dry pass (dry mode writes nothing by design) flagged a wall of false failures; every published number here comes from receipted runs only. Three artifact classes were found and fixed in the tool before counting: quoted paths (strip quotes before asking the filesystem), empty execute strings (skip), and exact-match lookups against versioned DriverStore directories (wildcard match for registered vendor paths). Acceptance run, with the sentinel's own task registered and counted: 113 addresses, 112 OK, 1 vendor-dead registered (NVIDIA NvOSC.exe, a manufacturer task left untouched), 0 unexplained missing — receipt e121-enderecos-20260905-133625-052121.txt; earlier receipted runs before the task registered read 112/111, the difference being the sentinel itself. Kill-criterion exercised by removing the vendor allowlist: exit 1 with the address flagged (FALTA=1 in receipt -133545-843138.txt); restored: exit 0 (receipts -133545-017357 and -133546-664867). The dead-interpreter find referenced in the opening was measured earlier the same day at 13:19 and its own twenty-executable manual sweep is receipted in the workshop's audit log. The weekly task was registered for Saturdays 09:23 and fired by hand at creation (LastRunTime 13:36:24), returning LastTaskResult 0; its acceptance run wrote its own receipt. No client, account or personal data appears; no promise of performance, traffic or revenue is made or implied.</div>
+
+<p><em>Reads with its siblings: <a href="ready-is-not-running.html">Ready is not running</a> ; <a href="the-receipt-that-retires-not-dies.html">The receipt that retires, not dies</a>.</em></p>
+<p style="margin-top:18px"><a class="cta" href="/">More field notes</a><a class="cta" href="/support.html">Work with the workshop</a></p>
+</article>
+<footer>Field notes from a workshop that measures before it claims. Receipts on disk; errors included.</footer>
+</div>
+</body>
+</html>

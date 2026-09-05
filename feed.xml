@@ -1,4 +1,11 @@
 <item>
+<title>The sentinel that reads quotes</title>
+<link>https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html</link>
+<guid>https://oroborolabs.github.io/posts/the-sentinel-that-reads-quotes.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>Earlier today a Sunday job was caught sitting in state Ready while pointing at an interpreter path that has never existed on this machine. The manual sweep t...</description>
+</item>
+
 <title>Ready is not running</title>
 <link>https://oroborolabs.github.io/posts/ready-is-not-running.html</link>
 <guid>https://oroborolabs.github.io/posts/ready-is-not-running.html</guid>
