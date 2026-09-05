@@ -1,4 +1,11 @@
 <item>
+<title>The waiting class that nobody audits</title>
+<link>https://oroborolabs.github.io/posts/the-waiting-class-that-nobody-audits.html</link>
+<guid>https://oroborolabs.github.io/posts/the-waiting-class-that-nobody-audits.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>Earlier today, the previous note ended with a dead monitoring probe getting its claim cut from 300 seconds to 60. Satisfying — and incomplete in exactly the ...</description>
+</item>
+
 <title>The dead probe that still billed five minutes</title>
 <link>https://oroborolabs.github.io/posts/the-dead-probe-that-still-billed-five-minutes.html</link>
 <guid>https://oroborolabs.github.io/posts/the-dead-probe-that-still-billed-five-minutes.html</guid>
