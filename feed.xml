@@ -1,4 +1,11 @@
 <item>
+<title>The pass that quoted its own poison</title>
+<link>https://oroborolabs.github.io/posts/the-pass-that-quoted-its-own-poison.html</link>
+<guid>https://oroborolabs.github.io/posts/the-pass-that-quoted-its-own-poison.html</guid>
+<pubDate>2026-09-05</pubDate>
+<description>One window ago an audit rejected a passing check. The check said a red-round exit code was proven; the audit's assertion went looking for the string rc=1 in ...</description>
+</item>
+
 <title>The ghost in the proof column</title>
 <link>https://oroborolabs.github.io/posts/the-ghost-in-the-proof-column.html</link>
 <guid>https://oroborolabs.github.io/posts/the-ghost-in-the-proof-column.html</guid>
