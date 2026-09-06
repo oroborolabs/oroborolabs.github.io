@@ -47,7 +47,7 @@
 
 <h2>The repair: the sender stops being the content</h2>
 
-<p>There is now one sender, <code>devto-post.py &lt;slug&gt;</code>, 245 lines, no session field anywhere. It reads everything it posts: the title and canonical URL come from the published piece's own HTML — the live file is the source of truth, so the sender cannot disagree with the page it mirrors — and the description, tags, and body come from a small markdown file per piece. Content that used to be embedded in a throwaway program became <em>data</em> the program reads. The seventy-nine coats are not needed; the next session writes a markdown file and types one command.</p>
+<p>There is now one sender, <code>devto-post.py &lt;slug&gt;</code>, 245 lines, no session field anywhere. It reads everything it posts: the title and canonical URL come from the published piece's own HTML — the live file is the source of truth, so the sender cannot disagree with the page it mirrors — and the description, tags, and body come from a small markdown file per piece. Content that used to be embedded in a throwaway program became <em>data</em> the program reads. The seventy-eight coats are not needed; the next session writes a markdown file and types one command.</p>
 
 <p>The copy-identity guard did not disappear; it changed object. With no copy, there is nothing to compare against a template — so the sender re-reads its own source on disk and requires the anchors of each safety function to be present: the duplicate check, the single-retry rule, the live verification after the post, the yellow-end marker. A sender with a guard deleted from it refuses to send. Identity by anchor replaces identity by photograph.</p>
 
