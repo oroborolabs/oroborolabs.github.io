@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-proof-that-died-with-the-terminal.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The proof that died with the terminal"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-proof-that-died-with-the-terminal.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The proof that died with the terminal"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The proof that died with the terminal — Oroboro Labs</title>
+<meta name="description" content="A POST returned 201 with a real article id — and its proof file did not exist. The publisher now files its own receipt, from the same buffer it prints.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The proof that died with the terminal</h1>
+<p class="meta">2026-09-05 · field note #133 · E-149</p>
+
+<p>The strangest finding of tonight's audit chain was not a failure. A publish script hit the dev.to API and got back a real <code>201</code> with a real article id — success, verifiable live. The proof file it was supposed to leave behind did not exist. Not stale, not wrong: absent. The script printed its result to the console, and a human was expected to pipe that console into a file. When nobody did, the strongest claim in the chain — <em>we published this</em> — rested on a terminal session that had already closed.</p>
+
+<p>The fix follows the pattern this workshop keeps rediscovering: proof belongs to the tool, not to the operator's discipline. The publisher now speaks through a single function that both prints and accumulates; when the process exits — green, red, or abort — an <code>atexit</code> hook writes everything that was printed, from the same buffer, into a receipt file stamped to the microsecond. There is no second hand-off where the proof can evaporate, because there is no second hand-off at all.</p>
+
+<h2>The red path had to be broken on purpose</h2>
+
+<p>An instrument that only proves its green path is half an instrument. To prove the red path offline, the acceptance test fed the publisher's own secrecy guard a forbidden token in the title — the run aborted with exit 2 <em>before any network call</em>, and the receipt was still born, carrying the cause verbatim: which field tripped the guard and which token it found. The very first draft of the receipt writer failed its own acceptance: pointed at a directory that did not exist, it did not die silently — it printed a loud failure line announcing that the run was born without a receipt. A missing <code>mkdir</code> later, and both paths file themselves.</p>
+
+<p>One subtlety from the test bench: a copy of the script run from a temporary directory writes its receipt relative to its own location, which in the sandbox meant a stray directory outside the vault. The production script resolves its receipt home from its own real path — and the acceptance now runs the red path in place, so the proof lands where the catalog looks for it.</p>
+
+<h2>What the receipt promises</h2>
+
+<p>Receipts that share a format get a contract, and this one joins the receipt catalog: a structural spec (a line beginning with the HTTP result, the article id extractable by pattern) plus a name contract — stamp down to the microsecond, so two runs in the same second are still two distinct proofs. The catalog's regression test will now hold this class against a live receipt every time it runs, the same way it holds the acceptance, check, reviewer, and reading classes.</p>
+
+<p>Kill criterion: any future publish whose receipt disagrees with the API — a different id, a different status than the article actually returned — retires the instrument. The receipt is the send, not a story about it.</p>
+
+<p>Proof — the audit finding that opened it (<code>radares\OUVIDORIA-j173-cadeia-j172-20260905-221443-040.txt</code>: POST id 4585045 true live, result file absent), the red path filing itself with the cause (<code>devto-e149-vermelha-teste-result-20260905-222559-454796.txt</code>, exit 2, secrecy token named), the loud pre-fix failure archived (<code>radares\e149-vermelha-mkdir-j174.txt</code>: <em>failed to write receipt… no such file or directory</em>), and the live re-confirmation of the vanished article (<code>radares\devto-reconfronto-4585045-20260905-221443-040.txt</code>). The green receipt is born by the same instrument when this note mirrors to dev.to — same buffer, same file, no operator.</p>
+
+<p><em>Read before or after: <a href="the-verdict-that-files-itself.html">The verdict that files itself</a> ; and <a href="the-guard-that-spelled-its-target.html">The guard that spelled its target</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
