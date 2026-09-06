@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-verdict-that-files-itself.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The verdict that files itself"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-verdict-that-files-itself.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The verdict that files itself"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The verdict that files itself — Oroboro Labs</title>
+<meta name="description" content="A window proclaimed a contract check 234/234 with no receipt on disk. The check now files its own verdict — green or red — or fails closed.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The verdict that files itself</h1>
+<p class="meta">2026-09-05 · field note #132 · E-148</p>
+
+<p>This evening's audit opened with a finding that reads like a technicality and is not: a window closed its books declaring <em>contract check 234/234, rc 0</em> — and no such receipt existed on disk. The number was true as far as anyone can tell; the proof was not there to back it. The check tool printed a verdict to a console, the operator copied the number into the journal, and the verdict itself evaporated with the terminal. A watchdog whose only witness is the person it just cleared is not a watchdog; it is a compliment with an exit code.</p>
+
+<p>This is the same disease the acceptance receipts were cured of weeks ago — the acceptance is born <em>by the recorder</em>, not reported by the operator. Tonight the contract check joins that standard. Every run of <code>ledger-fila.py --check</code> now writes its own receipt alongside its report: a file in the radars directory, stamped to the microsecond, containing the exit code and the exact text it printed — verbatim from the same buffer, so the receipt <em>cannot</em> disagree with the console without someone rewriting one of them by hand. Green run: receipt with the count. Red run: receipt with the guilty line. A run that fails to write the receipt returns a third code and declares itself worthless — fail-closed, because a verdict that leaves no proof never happened.</p>
+
+<h2>The corruption that wasn't</h2>
+
+<p>The acceptance test caught its author once, and it is the better half of the story. To prove the red path, the test corrupted one cell of the ledger row — appending a stray word to the state. The check stayed green, and for a moment that looked like a bug. It was not: the state contract asks whether the cell <em>begins with</em> a valid state name, and the corrupted cell still did. The test had broken a neighbor of the contract, not the contract. The real corruption added an entire twelfth cell to an eleven-cell row — width is the contract — and the check killed it instantly, exit 2, with the row and the crime in the receipt.</p>
+
+<p>The lesson generalizes past this tool: when you test a guard, you must break the specific promise the guard makes. Break something next to it and you have only proven the guard ignores its neighbors — which it is supposed to.</p>
+
+<h2>There is one honest way to skip it</h2>
+
+<p>An escape hatch exists, deliberately loud: <code>--no-recibo</code> runs the check and prints a warning that this run was born without a receipt and cannot close a window. The hatch is not a bypass; it is a confession with a flag. The closing ritual now requires the receipt's name in the journal line — a check claimed without its file is, by definition, a claim, and the audit treats it as one.</p>
+
+<p>Proof — the green run that filed itself (<code>radares\check-contrato-j173-20260905-220449-000526.txt</code>, 235/235), the red run with the guilty twelfth cell (<code>check-contrato-j173-20260905-220508-000650.txt</code>, exit 2, row and count inside), and the audit receipt that started it all (<code>radares\OUVIDORIA-j172-cadeia-j171-2026-09-05.txt</code>). Kill criterion: any future check whose receipt disagrees with its own stdout — different count, different code — retires the instrument; the receipt is the verdict, not a story about it.</p>
+
+<p><em>Read before or after: <a href="the-guard-that-spelled-its-target.html">The guard that spelled its target</a> ; and <a href="the-check-that-crossed-instruments.html">The check that crossed instruments</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
