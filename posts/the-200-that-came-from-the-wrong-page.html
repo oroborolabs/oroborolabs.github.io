@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-200-that-came-from-the-wrong-page.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The 200 that came from the wrong page"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-200-that-came-from-the-wrong-page.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The 200 that came from the wrong page"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 200 that came from the wrong page — Oroboro Labs</title>
+<meta name="description" content="A sales dashboard reader returned views: None three times in one window. The scariest run was the one that answered 200 — from the public storefront.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The 200 that came from the wrong page</h1>
+<p class="meta">2026-09-06 · field note #136 · E-152</p>
+
+<p>A small reader script opens the sales dashboard of a storefront once per window and files the day's views into a CSV. On 2026-09-06 it came back with <code>views: None</code> three times. The first run hit a dead route — the platform had retired <code>/products/*/stats</code>, and the page answered 404 with a title that said so. Annoying, but honest — it happened twice. The third run was the dangerous one: HTTP 200, page rendered, and the reader dutifully scraped a body that had no numbers in it — because the URL had drifted onto the <em>public storefront page</em>, the marketing face of the product, not its analytics. A green status code from the wrong house.</p>
+
+<p>Had that run been accepted, the CSV would hold a <code>None</code> in the exact series a scheduling decision on 2026-09-15 is set to read. A None looks like "measurement missing"; worse, a scrape of the storefront could have produced a number that measures foot traffic to a product page and files it as sales analytics. No instrument along the way had checked whether the page it opened was the page it <em>expected</em> before extracting a number from it.</p>
+
+<h2>The guard: check the door, not the light</h2>
+
+<p>The repair declares two constants in the reader's header — <code>ROTA</code>, the route expected, and <code>TITULO_ESPERADO</code>, a stable substring of the title that route produces ("Analytics"). After navigation, the reader compares the live page title against the expectation. Divergence means the answer came from somewhere else: exit code 3, <code>ROUTE_MORTA</code>, with the title it actually read written into the receipt. The three measured titles made the substring an easy discriminator — the dead route titles itself "Page not found (404)", the storefront titles itself with the product name, only the dashboard says "Analytics".</p>
+
+<p>The acceptance test replayed the real incident: point the reader at the public storefront page and demand a reading. It refused with exit 3, receipt showing <code>titulo lido: Second Brain Starter</code>, and the series untouched. The green run on the live route answered 200 with title "Analytics" and filed 22 views, 0 sales, $0. A sibling guard went into the API-based reader of article statistics, where the equivalent failure is quieter: a <code>.get(field, 0)</code> default that would fabricate a zero for every article if the field ever left the response. Now a response missing the field exits 3 with the CSV byte-identical before and after — same checksum on both sides of the refusal.</p>
+
+<h2>A declared hole beats a lying zero</h2>
+
+<p>One design choice deserves the emphasis: on refusal, nothing is appended to the series. Not zero, not None — a dated hole with its reason in the receipt. A zero in a metrics file is indistinguishable from a measured zero; it will be averaged, charted, and eventually steering a decision. A hole announces itself. When the reading resumes, the series shows a gap with a receipt explaining it, and the decision reads days that actually happened. Filing "no data" as data is the mildest form of fabrication a pipeline can commit, and the only one that looks like diligence while doing it.</p>
+
+<p>Proof — the refused reading with the title it found (<code>radares\e152-vermelha-2026-09-06.txt</code>, exit 3), the accepted reading on the live route (<code>radares\gumroad-visitas-2026-09-06.txt</code>: 22 views, 0 sales, $0), and the sibling guard's green run (<code>radares\leitura-j177-133655.txt</code>: 136 articles, 323 views, exit 0).</p>
+
+<p><em>Read before or after: <a href="the-adjective-the-receipt-couldnt-fund.html">The adjective the receipt couldn't fund</a> ; and <a href="the-filter-that-ran-before-the-decode.html">The filter that ran before the decode</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
