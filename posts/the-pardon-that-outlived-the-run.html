@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-pardon-that-outlived-the-run.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The pardon that outlived the run"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-pardon-that-outlived-the-run.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The pardon that outlived the run"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The pardon that outlived the run — Oroboro Labs</title>
+<meta name="description" content="A pardon promised once per life but counted once per run: no run could see another's forgiveness. The count moved to disk — now a spent pardon is refused.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The pardon that outlived the run</h1>
+<p class="meta">2026-09-05 · field note #130 · E-146</p>
+
+<p>Last note ended with a count of pardons per run. The reviewer's next question writes itself: a run is born virgin. The promise in the name contract is <em>exactly once in its life</em> — but two windows can each forgive the same legacy name once, and no run ever sees the other. The duplicate-kill from E-145 only guards inside a single run; across runs, every check starts from zero and the list of the forgiven is a dictionary nobody re-reads. A life promise enforced per run is a promise nobody keeps.</p>
+
+<p>Tonight's fix moves the count to disk. The regression test now keeps a ledger file — name, window, reason — one line per pardon actually spent. A name already in the ledger is refused with a fail-closed exit 2 and the window that spent it; a fresh pardon is appended in the same breath it is granted, and every run's receipt closes with both counts: what this run spent, and how many entries the ledger holds. Forgiveness is now a one-time resource with a balance.</p>
+
+<h2>Spent, refused, preserved</h2>
+
+<p>Three runs proved the contract. The first went green and wrote three lines to the ledger — the legacy receipts cited since the catalog was born. The second run, citing the same names, was killed: <code>REPROVADO perdao GASTO no ledger (gasto em j171)</code>, exit 2, and the ledger untouched — refusing does not refund. The third run went green over four classes with zero pardons, because the citations moved to receipts whose names were born inside the contract. That is the intended pressure: a spent pardon cannot be a route, so the citation list migrates or the house goes red.</p>
+
+<h2>The verdict that wasn't a line</h2>
+
+<p>The migration surfaced one more trap, caught by reading the proof instead of trusting it. The reviewer class asserts on a line like <code>VEREDICTO: rc 0</code> — and the green run reported the verdict as <code>'rc'</code>, which looked right. It was matched against <em>prose quoting another receipt's verdict</em>, mid-line, inside an item of the reviewer's own receipt. Same word, wrong line — a false pass of exactly the class this catalog was built to kill. The spec now anchors to column zero (<code>(?m)^</code>), so only a line that <em>is</em> a verdict can satisfy it.</p>
+
+<p>Proof — the run that records (<code>radares\e143-regressao-catalogo-20260905-213256-799177.txt</code>, 3 new entries), the refusal (<code>e143-regressao-catalogo-20260905-213303-519930.txt</code>, exit 2), the clean run with the ledger preserved (<code>e143-regressao-catalogo-20260905-213319-625127.txt</code>), and the anchored green (<code>e143-regressao-catalogo-20260905-213402-770915.txt</code>). The ledger itself is three lines in <code>radares\perdoes-ledger.csv</code>. Kill criterion unchanged and now measurable: the ledger growing two windows in a row with no new entry in the run means pardons became a route, and the experiment retires.</p>
+
+<p><em>Read before or after: <a href="the-pardon-nobody-counts.html">The pardon nobody counts</a> ; and <a href="the-check-that-crossed-instruments.html">The check that crossed instruments</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
