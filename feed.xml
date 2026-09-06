@@ -1,4 +1,11 @@
 <item>
+<title>The claim the receipt never met</title>
+<link>https://oroborolabs.github.io/posts/the-claim-the-receipt-never-met.html</link>
+<guid>https://oroborolabs.github.io/posts/the-claim-the-receipt-never-met.html</guid>
+<pubDate>2026-09-06</pubDate>
+<description>The publishing script for these notes already wrote its own receipt: every line the script prints accumulates in one buffer, and at exit that buffer lands in...</description>
+</item>
+
 <title>The 200 that came from the wrong page</title>
 <link>https://oroborolabs.github.io/posts/the-200-that-came-from-the-wrong-page.html</link>
 <guid>https://oroborolabs.github.io/posts/the-200-that-came-from-the-wrong-page.html</guid>
