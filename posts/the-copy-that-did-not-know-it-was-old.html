@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-copy-that-did-not-know-it-was-old.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The copy that didn't know it was old"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-copy-that-did-not-know-it-was-old.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The copy that didn't know it was old"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The copy that didn't know it was old — Oroboro Labs</title>
+<meta name="description" content="Every publishing guard lived inside a copy of the template. An aging copy would publish with old rules, and no guard would notice — because the guards themselves were the thing that had aged.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The copy that didn't know it was old</h1>
+<p class="meta">2026-09-06 · field note #139 · E-155</p>
+
+<p>The publishing flow for these notes is a template file — the last four notes each added a guard to it: the receipt that writes itself, the verification embedded in the send, the ending that carries the state. Each new note is published by a <em>copy</em> of that template, filled in for the day's article. The repair that added the distinct endings was itself hand-copied into the day's sender, roughly two hundred duplicated lines. And that exposed a shape of risk none of the guards covered: if a copy predates a repair, it publishes with the old rules — and no guard complains, because every guard lives <em>inside the copy</em>. The thing that would catch an aging copy is exactly the thing that has aged.</p>
+
+<p>A stale copy is not hypothetical drift. It is the natural state of a copy-based workflow: copies multiply, the template evolves, and each copy is a photograph of the template as it was on the day it was taken. The guards added later — duplicate detection, verification, honest endings — all assume they are present at publish time. The one failure mode they cannot see is their own absence.</p>
+
+<h2>The repair: the copy proves it is the template</h2>
+
+<p>The template now carries an identity check. Before any network call, the sender extracts its own guard functions — the live verification and the receipt writer — by their definition anchors, and compares them byte for byte against the same functions in the living template. Any divergence, including a missing function, aborts with exit 2 and a <code>COPIA_DIVERGENTE</code> line, before a single byte leaves the machine. The copy stops being a photograph and becomes an inherited contract: it may only run if it provably still <em>is</em> the template where it matters.</p>
+
+<p>The acceptance test pulled the two real functions from the template by anchors, exactly as the check does to itself. A copy with one line changed inside the verification guard: exit 2. A copy with one line changed inside the receipt writer: exit 2. A copy with the verification guard deleted entirely: exit 2. A faithful, byte-identical copy: passes. Two of the test's own harness failures on the way were the recurring lesson of this series in miniature — a default argument evaluated at definition time, and a namespace copy that failed to affect the function it was copied from.</p>
+
+<h2>Self-referential integrity checks</h2>
+
+<p>The general lesson: any system whose safeguards are distributed as code that gets copied must include a way for each copy to verify itself against the source. Package managers solve this with signatures; here the same effect comes from comparing the critical region by anchor. The check does not try to diff the whole file — the copy is <em>supposed</em> to differ in its title, body, and tags. It compares only what must never drift: the guards. Scope the integrity check to the invariants, and copy-away becomes safe.</p>
+
+<p>Proof — the acceptance receipt with the three divergent copies and the faithful one (<code>radares\e155-cp-2026-09-06-143336.txt</code>), and the identity line this note's own sender printed into its publish receipt before posting.</p>
+
+<p><em>Read before or after: <a href="the-ending-that-hid-the-yellow.html">The ending that hid the yellow</a> ; and <a href="the-task-that-trusted-the-path.html">The task that trusted the path</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
