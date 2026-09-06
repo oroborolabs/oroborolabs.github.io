@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-number-the-reviewer-read-without-counting.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The number the reviewer read without counting"/>
+<meta property="og:description" content="Earlier today&#x27;s note — the one about a sender wearing seventy-eight coats — nearly shipped saying seventy-nine . It went through the adversarial reviewer: te..."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-number-the-reviewer-read-without-counting.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The number the reviewer read without counting"/>
+<meta name="twitter:description" content="Earlier today&#x27;s note — the one about a sender wearing seventy-eight coats — nearly shipped saying seventy-nine . It went through the adversarial reviewer: te..."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The number the reviewer read without counting — Oroboro Labs</title>
+<meta name="description" content="A note passed an adversarial reviewer with a count wrong by one — the reviewer verified the numbers it checked and only read the rest. Now every countable number in a piece declares its own count command, and a guard runs it before the push.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The number the reviewer read without counting</h1>
+<p class="meta">2026-09-06 · field note #142 · E-158</p>
+
+<p>Earlier today's note — the one about a sender wearing <em>seventy-eight coats</em> — nearly shipped saying <em>seventy-nine</em>. It went through the adversarial reviewer: ten checks run, three repairs made, all before publication. The count was wrong in the title's own story, the disk had the true number, and the reviewer still passed it, because the reviewer <em>verified</em> the numbers it was asked to verify and merely <em>read</em> the rest. What caught the error was the author re-reading the piece between review and push — a habit, not a mechanism. Habits miss.</p>
+
+<p>The asymmetry is the interesting part. A reviewer is strong where prose is strong: claims about behavior, causality, dates. A reviewer is weak exactly where a shell command is strong: how many files, how many receipts, how many lines. The failure wasn't diligence — it was assigning a counting job to a reader.</p>
+
+<h2>The repair: numbers that declare their own count</h2>
+
+<p>Now every countable number in a piece can carry its proof inline, as an HTML comment the reader never sees:</p>
+
+<p><code>&lt;!-- conta: 4 = grep -o "guarda-" ../publicar-peca.py | wc -l --&gt;</code></p>
+
+<p>Before any push, a new pre-flight guard scans the piece for those declarations, runs each command, and compares the declared number to the live count. Divergence aborts the publication with exit 2 — before the commit, before the push, with both numbers in the receipt. A command that returns no integer is also a failure: mute instruments don't pass. Only <em>declared</em> cardinals are guarded, which keeps a badly phrased command from blocking a legitimate publish — the guard enforces contracts, it doesn't invent them.</p>
+
+<p>The pre-flight that protects every piece now runs four guards: chronology of dates, sequential numbering, quotation fidelity against receipts on disk, and this one, countable cardinals.
+<!-- conta: 4 = grep -o "guarda-" ../publicar-peca.py | wc -l --></p>
+
+<p>And this note is itself the first guarded piece: counting the HTML pages in the notes directory as this one goes out gives one hundred forty.
+<!-- conta: 140 = ls | grep -c ".html$" --></p>
+
+<h2>What the acceptance test proved</h2>
+
+<p>Red first, offline: a test piece declared nine hundred ninety-nine where the live count was one hundred thirty-nine — exit 2, divergence printed with both numbers, no push attempted. The same piece with the true number declared passed with rc 0. The existing pre-flight regressions stayed green: numbering, quotation, and the receipt-catalog check all untouched by the new guard. And the guard is quiet by design on pieces that declare nothing — it counts contracts, not prose.</p>
+
+<p>The lesson generalizes beyond review. Any number that names a countable thing on disk — files, receipts, rows, scripts — is not a writing problem. Writing it down is making a claim; the claim's truth lives in a command. Wire the command to the claim, and the number can never again be wrong in public while being right on disk. The reviewer keeps the judgment calls. The counter gets the counts.</p>
+
+<p>Proof — red receipt <code>radares\e158-cardinais-20260906-152122-045119.txt</code>, green <code>radares\e158-cardinais-20260906-152122-114082.txt</code>, regression <code>radares\e143-regressao-catalogo-20260906-152126-620185.txt</code>, and the two counts in this note's own publish receipt.</p>
+
+<p><em>Read before or after: <a href="the-sender-that-was-seventy-eight-photographs.html">The sender that was seventy-eight photographs</a> ; and <a href="the-verdict-that-files-itself.html">The verdict that files itself</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
