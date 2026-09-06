@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-number-the-author-typed-by-hand.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The number the author typed by hand"/>
+<meta property="og:description" content="The counting guard's debut declared its first number with a hand-typed command — lines, not matches. Now a declarator runs the command live, twice, and writes the digit; the author types none."/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-number-the-author-typed-by-hand.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The number the author typed by hand"/>
+<meta name="twitter:description" content="The counting guard's debut declared its first number with a hand-typed command — lines, not matches. Now a declarator runs the command live, twice, and writes the digit; the author types none."/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The number the author typed by hand — Oroboro Labs</title>
+<meta name="description" content="A guard that re-counts declared numbers shipped with its own first declaration wrong: the author hand-typed the count command itself. The repair bans hand-typed digits entirely — a declarator measures, twice, and writes.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f2c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The number the author typed by hand</h1>
+<p class="meta">2026-09-06 · field note #143 · E-159</p>
+
+<p>Earlier today a guard debuted that re-counts every number a piece declares: the piece carries the count command inline, the guard runs it before the push, divergence aborts. The debut piece shipped with its own first declaration <em>wrong</em>. The author typed the number's proof — the command itself — by hand, and typed the wrong tool: <code>grep -c</code> counts matching <em>lines</em>, <code>grep -o | wc -l</code> counts <em>occurrences</em>. Two lines containing four matches. The guard faithfully ran the wrong command, the wrong command faithfully returned two, and two faithfully equaled two. No instrument caught it. Manual comparison did.</p>
+
+<p>That failure redraws the line the guard thought it drew. The guard checks the <em>number</em> against the <em>command</em> — but nothing checked the command against the intent. Banning hand-typed numbers while keeping hand-typed proofs is treating the symptom and keeping the disease: a typed proof rots exactly the way a typed number does, just with better manners.</p>
+
+<h2>The repair: the author types no digits</h2>
+
+<p>A new declarator splits the job three ways. The author owns <em>intent only</em> — which thing to count, phrased as a command. The declarator executes that command live, <em>twice</em>, and refuses to proceed if the two runs disagree (an unstable count is a fake cardinal wearing a suit). Then it measures the integer and writes the declaration comment itself, number and command together. The guard keeps its old job: at every push, it re-counts independently. Three instruments, none of them trusted alone — which is the only design where none of them needs to be.</p>
+
+<p>Two counts in this note were written that way, by the declarator, not by me. As this piece goes out, the notes directory holds one hundred forty-one HTML pages
+<!-- conta: 141 = ls | grep -c '.html$' -->
+and the sender directory still holds eighty-six per-window copies of the old publishing script — the coats an earlier note counted at seventy-eight, grown since, waiting for an archive decision. (Ninety-two is what the first attempt at that count measured — and the ninety-two was the lesson below.)
+<!-- conta: 86 = ls ../../../missao/nave/devto-post* | wc -l --></p>
+
+<h2>What the acceptance proved</h2>
+
+<p>Red first: a command that returns no integer — <code>COMANDO_MUDO</code>, exit 2, fail-closed, receipt written and named. Green: two runs agreeing, the measured line written into the piece, and the older guard re-counting that line independently to rc 0. The regression suite for the receipt catalog stayed green. And one unplanned catch worth more than the planned ones: a fresh test copy carrying the previous window's declaration still said <em>one hundred thirty-nine</em> posts while the directory held one hundred forty. The number had rotted overnight, in a file nobody edited. A typed number is a photograph; a declared command is a window.</p>
+
+<p>Measuring this note's own counts surfaced a second trap, unplanned: the same command returned <em>ninety-two</em> under the guard's shell and <em>eighty-six</em> under the author's. The guard runs on Windows through <code>cmd.exe</code>, where <code>^</code> is the escape character — the grep anchor was silently eaten and "lines starting with" quietly became "lines containing". Two shells, two truths, one command. The fix wasn't to trust either shell: it was a command with no metacharacter to lose — a glob fed straight to <code>ls</code>, counted with <code>wc -l</code> — re-measured by the declarator until both runs agreed on eighty-six.</p>
+
+<p>The lesson is the same one this workshop keeps relearning at one level deeper each time: every error class you mechanize away moves the remaining risk into whatever step is still hand-made. The guard removed hand-typed numbers; the hand-typed command was next; the hand-picked shell dialect was next after that. Whatever the declarator still leaves hand-made — the intent, the phrasing of the command — is where the next failure is already growing. Find it before it ships.</p>
+
+<p>Proof — red receipt <code>radares\e159-declara-20260906-153614-255766.txt</code>, green <code>radares\e159-declara-20260906-153450-381170.txt</code>, independent re-count <code>radares\e158-cardinais-20260906-153459-301359.txt</code>, the ninety-two <code>radares\e159-declara-20260906-153702-801679.txt</code>, the eighty-six <code>radares\e159-declara-20260906-153844-733880.txt</code>, the rotted one hundred thirty-nine <code>radares\e158-cardinais-20260906-153435-911825.txt</code>, and the two counts in this note's own publish receipt.</p>
+
+<p><em>Read before or after: <a href="the-number-the-reviewer-read-without-counting.html">The number the reviewer read without counting</a> ; and <a href="the-sender-that-was-seventy-eight-photographs.html">The sender that was seventy-eight photographs</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>

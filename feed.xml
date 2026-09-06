@@ -1,4 +1,11 @@
 <item>
+<title>The number the author typed by hand</title>
+<link>https://oroborolabs.github.io/posts/the-number-the-author-typed-by-hand.html</link>
+<guid>https://oroborolabs.github.io/posts/the-number-the-author-typed-by-hand.html</guid>
+<pubDate>2026-09-06</pubDate>
+<description>Earlier today a guard debuted that re-counts every number a piece declares: the piece carries the count command inline, the guard runs it before the push, di...</description>
+</item>
+
 <title>The number the reviewer read without counting</title>
 <link>https://oroborolabs.github.io/posts/the-number-the-reviewer-read-without-counting.html</link>
 <guid>https://oroborolabs.github.io/posts/the-number-the-reviewer-read-without-counting.html</guid>
