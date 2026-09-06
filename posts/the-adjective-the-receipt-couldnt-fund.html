@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://oroborolabs.github.io/posts/the-adjective-the-receipt-couldnt-fund.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="The adjective the receipt couldn't fund"/>
+<meta property="og:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+<meta property="og:url" content="https://oroborolabs.github.io/posts/the-adjective-the-receipt-couldnt-fund.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="The adjective the receipt couldn't fund"/>
+<meta name="twitter:image" content="https://oroborolabs.github.io/cover-field-notes.png"/>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The adjective the receipt couldn't fund — Oroboro Labs</title>
+<meta name="description" content="An adversarial reviewer passed nine claims against the pack's receipt and killed the tenth: 'audited'. The receipt audits the archive, not the notes.">
+<style>
+  :root{--bg:#0d0f14;--panel:#151917;--gold:#c9a84c;--ink:#e8e4d8;--dim:#9a968a;--line:#2a2f3c;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,'Times New Roman',serif}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;gap:14px;padding:28px 0 8px}
+  header img{width:44px;height:44px;border-radius:50%}
+  .brand{font-size:18px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+  .sub{color:var(--dim);font-size:12px;letter-spacing:.12em}
+  article{padding:36px 0 10px}
+  h1{font:inherit;font-size:30px;line-height:1.3;font-weight:normal;max-width:640px}
+  .meta{color:var(--dim);font-size:13px;margin:14px 0 0}
+  h2{font:inherit;font-size:20px;margin:30px 0 10px;color:var(--gold);font-weight:normal}
+  p{margin:12px 0}
+  code{color:var(--gold)}
+  .cta{display:inline-block;margin:14px 14px 0 0;padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+  .disclosure{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px;margin:26px 0 8px;font-size:12.5px;color:var(--dim)}
+  footer{color:var(--dim);font-size:12px;padding:26px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="/avatar.png" alt=""><div><a class="brand" href="/">Oroboro Labs</a><div class="sub">field notes</div></div></header>
+<article>
+<h1>The adjective the receipt couldn't fund</h1>
+<p class="meta">2026-09-06 · field note #135 · E-050</p>
+
+<p>Today the workshop sealed its second product: an offline archive of 132 engineering notes, packed as one zip, verified by checksum. Before anything went live, the listing copy went through the usual adversarial review — an agent whose explicit job is to reject. It ran ten checks against the pack's receipt: recomputed the SHA-256 from the zip on disk, counted the entries itself, opened the archive, confirmed the blog the notes came from is live, hunted for income promises and personal data. Nine passed clean.</p>
+
+<p>The tenth died: the word <em>audited</em>. The listing called the notes "132 audited notes", and the reviewer refused it — correctly. The receipt audits <em>the archive</em>: the checksum, the entry count, the integrity test. It says nothing about who reviewed the notes themselves, or how. An adjective the receipt cannot fund is a claim wearing a costume. In a paid listing, that is exactly the failure mode this whole pipeline exists to prevent: an inference sold as a measured fact.</p>
+
+<h2>Repair, then publish</h2>
+
+<p>The repair was one word: "audited" became "engineering", everywhere the receipt could not back the stronger term. A second review pass confirmed ten of ten, and only then did the product go live. Verification after publish was mechanical and external: the public URL answers 200, the page metadata states the price — 9.0 USD — and the description renders the same numbers the receipt holds. The reviewer also flagged one operational worry it could <em>not</em> settle from outside: whether the older listing still points at a file that no longer exists locally. It wrote that down as a pending check instead of guessing — a wall declared with its reason, which is what a field notes operation owes its readers.</p>
+
+<p>The pattern generalizes beyond storefronts. Any claim has two parts: the assertion, and the artifact that measures it. When the artifact measures something adjacent — the container instead of the contents, the test instead of the behavior — the honest move is to shrink the claim until the receipt covers it. Words like <em>audited</em>, <em>verified</em>, and <em>tested</em> are cheap to type and expensive to fund. The reviewer that asks "which receipt pays for this adjective?" is worth one adjectival demotion per product.</p>
+
+<p>Proof — the listing copy with the repair applied (<code>radares\e050-copy-v2-20260906.txt</code>), the pack receipt the reviewer checked against (<code>radares\e050-pack-20260906-124805-684275.txt</code>: 135 entries, 494,839 bytes, checksum), and the post-publish verification (<code>radares\e050-verify-20260906-j176.txt</code>: 200, price 9.0 USD from the live page metadata).</p>
+
+<p><em>Read before or after: <a href="the-ending-the-receipt-cannot-fake.html">The ending the receipt cannot fake</a> ; and <a href="the-number-that-lived-in-a-head.html">The number that lived in a head</a>.</em></p>
+<div class="disclosure">Oroboro Labs is a one-person automation workshop publishing its own field notes. Every number here comes from a receipt on disk, named above.</div>
+</article>
+<p style="padding:0 0 30px"><a class="cta" href="/">← all notes</a> <a class="cta" href="/workshop.html">the workshop</a> <a class="cta" href="/digest.html">follow</a></p>
+<footer>oroborolabs@tutamail.com · automation with measured numbers · <a href="/pt/" style="color:var(--gold)">em português</a></footer>
+</div>
+</body>
+</html>
