@@ -1,7 +1,7 @@
 "use strict";
 const fields = {fornecedor:"Fornecedor", sku:"Código do item", preco:"Preço", moeda:"Moeda", unidade:"Unidade", vigencia:"Vigência"};
 let latest = null;
-function invalidate(){ latest=null; document.querySelector("#result").hidden=true; document.querySelector("#output").value=""; }
+function invalidate(){ latest=null; document.querySelector("#result").hidden=true; document.querySelector("#output").value=""; document.querySelector("#copy-status").textContent=""; }
 function draw(){
  const box=document.querySelector("#files");box.replaceChildren(); invalidate();
  for(let i=0;i<Number(document.querySelector("#count").value);i++){
@@ -39,4 +39,17 @@ document.querySelector("#scope").addEventListener("submit",e=>{e.preventDefault(
  document.querySelector("#result").hidden=false;
 }catch(err){document.querySelector("#error").textContent=err.message;}});
 document.querySelector("#download").addEventListener("click",()=>{if(!latest)return;const url=URL.createObjectURL(new Blob([JSON.stringify(latest,null,2)],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download="layout-declarado.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+document.querySelector("#copy").addEventListener("click",async()=>{
+ if(!latest)return;
+ const output=document.querySelector("#output"), status=document.querySelector("#copy-status");
+ const text=output.value;
+ try {
+  await navigator.clipboard.writeText(text);
+  if(latest && output.value===text)status.textContent="Solicitação copiada. Cole no seu e-mail para revisar e enviar.";
+ } catch {
+  if(!latest || output.value!==text)return;
+  output.focus();output.select();
+  status.textContent="Texto selecionado. Use a opção Copiar do seu dispositivo.";
+ }
+});
 draw();
