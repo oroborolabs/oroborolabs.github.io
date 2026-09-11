@@ -1,0 +1,112 @@
+{
+  "aceitas": [
+    {
+      "arquivo": "fornecedor.csv",
+      "fornecedor": "Fornecedor Exemplo",
+      "linha": 2,
+      "linha_final": 2,
+      "moeda": "BRL",
+      "preco": "12.50",
+      "preco_original": "12,50",
+      "sku": "SKU-01",
+      "unidade": "UN",
+      "valores_brutos": [
+        "Fornecedor Exemplo",
+        "SKU-01",
+        "12,50",
+        "BRL",
+        "UN",
+        "2026-09-11"
+      ],
+      "vigencia": "2026-09-11"
+    },
+    {
+      "arquivo": "fornecedor.csv",
+      "fornecedor": "Fornecedor Exemplo",
+      "linha": 3,
+      "linha_final": 3,
+      "moeda": "BRL",
+      "preco": "13.00",
+      "preco_original": "13,00",
+      "sku": "SKU-01",
+      "unidade": "UN",
+      "valores_brutos": [
+        "Fornecedor Exemplo",
+        "SKU-01",
+        "13,00",
+        "BRL",
+        "UN",
+        "2026-09-11"
+      ],
+      "vigencia": "2026-09-11"
+    }
+  ],
+  "arquivos": [
+    {
+      "aceitas": 2,
+      "arquivo": "fornecedor.csv",
+      "linhas": 4,
+      "rejeitadas": 2,
+      "sha256": "b35988810e6c547aa397b55fd2957d2224b34c695de58a55499e43d3df9c21ae"
+    }
+  ],
+  "duplicatas": [
+    {
+      "acao": "Linhas preservadas; não escolher preço automaticamente",
+      "chave": [
+        "Fornecedor Exemplo",
+        "SKU-01",
+        "BRL",
+        "UN",
+        "2026-09-11"
+      ],
+      "ocorrencias": 2,
+      "precos": [
+        "12.50",
+        "13.00"
+      ]
+    }
+  ],
+  "limites": [
+    "Não converte moeda, embalagem ou unidade.",
+    "SKU de fornecedores distintos não prova equivalência de produto.",
+    "Layouts incompatíveis exigem novo mapeamento antes da execução."
+  ],
+  "manifesto_sha256": "9984f7551b9304925d81b3125297ce076a94c8d7b4eed4ccea1078c9599954e1",
+  "rejeitadas": [
+    {
+      "arquivo": "fornecedor.csv",
+      "linha": 4,
+      "linha_final": 4,
+      "motivo": "Preço não segue o separador declarado; milhar não é aceito",
+      "valores_brutos": [
+        "Fornecedor Exemplo",
+        "SKU-02",
+        "1.000",
+        "BRL",
+        "UN",
+        "2026-09-11"
+      ]
+    },
+    {
+      "arquivo": "fornecedor.csv",
+      "linha": 5,
+      "linha_final": 5,
+      "motivo": "Unidade não prevista no manifesto",
+      "valores_brutos": [
+        "Fornecedor Exemplo",
+        "SKU-03",
+        "10,00",
+        "BRL",
+        "CX",
+        "2026-09-11"
+      ]
+    }
+  ],
+  "totais": {
+    "aceitas": 2,
+    "linhas": 4,
+    "rejeitadas": 2
+  },
+  "versao": 1
+}

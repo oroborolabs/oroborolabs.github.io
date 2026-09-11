@@ -1,0 +1,5 @@
+vendor;code;price;currency;unit;validity
+Fornecedor Exemplo;SKU-01;12,50;BRL;UN;2026-09-11
+Fornecedor Exemplo;SKU-01;13,00;BRL;UN;2026-09-11
+Fornecedor Exemplo;SKU-02;1.000;BRL;UN;2026-09-11
+Fornecedor Exemplo;SKU-03;10,00;BRL;CX;2026-09-11
