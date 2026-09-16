@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "rows": 4,
+  "total_centavos": 30000,
+  "groups": {
+    "Servico": {
+      "quantidade": 2,
+      "total_centavos": 20000
+    },
+    "Produto": {
+      "quantidade": 2,
+      "total_centavos": 10000
+    }
+  }
+}

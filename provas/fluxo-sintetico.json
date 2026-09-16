@@ -1,0 +1,23 @@
+{
+  "synthetic": true,
+  "trigger": "new request",
+  "steps": [
+    "validate required fields",
+    "normalize request",
+    "prepare handoff"
+  ],
+  "input": {
+    "id": "DEMO-01",
+    "service": " report "
+  },
+  "expected": {
+    "id": "DEMO-01",
+    "service": "report",
+    "state": "ready_for_review"
+  },
+  "checks": [
+    "empty service is rejected",
+    "spaces are trimmed",
+    "no external messages are sent"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "problem": "A replayed event is counted twice.",
+  "input": [
+    {
+      "id": "DEMO-01",
+      "amount": 12000
+    },
+    {
+      "id": "DEMO-01",
+      "amount": 12000
+    },
+    {
+      "id": "DEMO-02",
+      "amount": 3500
+    }
+  ],
+  "before_total_centavos": 27500,
+  "expected_and_after_total_centavos": 15500,
+  "root_cause": "No stable-event-id deduplication in this fixture.",
+  "regression_checks": [
+    "replay does not change total",
+    "distinct IDs are preserved"
+  ],
+  "limits": "In-memory teaching fixture. Real systems need a persistent dedupe key, transaction boundaries and conflict handling. This is not a customer repair."
+}
