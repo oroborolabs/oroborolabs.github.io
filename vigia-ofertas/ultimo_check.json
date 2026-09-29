@@ -1,10 +1,10 @@
 {
-  "quando": "2026-09-29T09:42:46Z",
+  "quando": "2026-09-29T09:43:55Z",
   "alvos": [
     {
       "nome": "Fone Bluetooth Demo X1 (nossa página de teste)",
       "ok": true,
-      "preco": 199.9,
+      "preco": 179.9,
       "erro": null
     },
     {
