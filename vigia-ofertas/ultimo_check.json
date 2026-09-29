@@ -1,11 +1,11 @@
 {
-  "quando": "2026-09-29T09:41:53Z",
+  "quando": "2026-09-29T09:42:46Z",
   "alvos": [
     {
       "nome": "Fone Bluetooth Demo X1 (nossa página de teste)",
-      "ok": false,
-      "preco": null,
-      "erro": "HTTPError: HTTP Error 404: Not Found"
+      "ok": true,
+      "preco": 199.9,
+      "erro": null
     },
     {
       "nome": "Mouse Logitech G305 Lightspeed (KaBuM!)",
