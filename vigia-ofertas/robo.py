@@ -8,6 +8,7 @@ estado.json, registra mudanças em historico.csv e avisa por ntfy.sh.
 Uso:  python robo.py [arquivo_de_alvos.json]
 Env:  NTFY_TOPICO  tópico do ntfy (padrão oroborolabs-vigia-ofertas; vazio = sem aviso)
 """
+import base64
 import csv
 import gzip
 import json
@@ -169,8 +170,11 @@ def baixar(url):
 
 # ---------------------------------------------------------------- aviso
 def _h(texto):
-    """Cabeçalhos HTTP só levam latin-1."""
-    return texto.encode("latin-1", "replace").decode("latin-1").replace("\n", " ")
+    """Cabeçalhos HTTP só levam ASCII puro; acento vai em RFC 2047, que o ntfy decodifica."""
+    texto = texto.replace("\n", " ")
+    if texto.isascii():
+        return texto
+    return "=?UTF-8?B?" + base64.b64encode(texto.encode("utf-8")).decode("ascii") + "?="
 
 
 def _brl(v):
