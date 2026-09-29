@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vigia de Ofertas — demonstração ao vivo — Oroboro Labs</title>
+<meta name="description" content="Robô que vigia o preço de produtos a cada 15 minutos e avisa no celular quando muda. Demonstração ao vivo, com código aberto e histórico público.">
+<link rel="icon" href="/emblema.jpg">
+<style>
+:root{color-scheme:light;--ink:#172f32;--paper:#f5f2e9;--gold:#87642c;--line:#c5ccc3;--ok:#1f6b3a;--bad:#9b2c2c}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,sans-serif}a{color:var(--ink);text-underline-offset:4px}header,main,footer{max-width:1080px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}header a{font-weight:650;text-decoration:none}nav{display:flex;gap:20px}.hero{padding:55px 0 35px}.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}h1{font:clamp(34px,6vw,58px)/1.08 Georgia,serif;letter-spacing:-.025em;margin:15px 0 22px}h2{font:28px/1.2 Georgia,serif}.lead{font-size:20px;max-width:720px}section{padding:30px 0;border-top:1px solid var(--line)}.box{background:#fff;border:1px solid var(--line);padding:26px}.button{display:inline-block;background:var(--ink);color:#fff;text-align:center;padding:13px 20px;text-decoration:none;font-weight:650}.links{display:flex;flex-wrap:wrap;gap:14px 24px;margin-top:16px}.status{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline}.pill{display:inline-block;padding:2px 10px;border:1px solid currentColor;font-size:14px;font-weight:650}.ok{color:var(--ok)}.bad{color:var(--bad)}.muted,small{color:#425758}.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;background:#fff}th,td{padding:10px 12px;border:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:14px;background:#efece0}td.num{white-space:nowrap}.cta{background:var(--ink);color:#fff;padding:32px;margin:10px 0 0}.cta h2{margin-top:0}.cta a.button{background:#fff;color:var(--ink)}.cta a{color:#fff}:focus-visible{outline:3px solid #b8821e;outline-offset:4px}footer{border-top:1px solid var(--line);font-size:14px}@media(max-width:700px){header{flex-wrap:wrap}nav{font-size:14px;flex-wrap:wrap}.hero{padding:30px 0 20px}}
+</style>
+</head>
+<body>
+<header><a href="/">OROBORO LABS</a><nav aria-label="Principal"><a href="/servicos.html">Serviços</a><a href="https://github.com/oroborolabs/oroborolabs.github.io/tree/main/vigia-ofertas">Código</a></nav></header>
+<main>
+<div class="hero">
+<p class="eyebrow">Demonstração ao vivo · Vigia de Ofertas</p>
+<h1>Um robô que vigia o preço e avisa no seu celular.</h1>
+<p class="lead">A cada 15 minutos o robô abre as páginas de produto que você escolheu e lê o preço e a disponibilidade. Se algo mudou, ele registra no histórico público abaixo e manda um aviso para o celular. Se uma página falha, os outros produtos seguem sendo vigiados e o robô nunca inventa um preço.</p>
+<div class="links">
+<a class="button" id="btn-aviso" href="https://ntfy.sh/oroborolabs-vigia-ofertas">Receber o aviso no celular</a>
+</div>
+<p class="muted"><small>Usa o app gratuito ntfy (Android e iPhone), sem criar conta: instale, toque no botão e assine o tópico <code>oroborolabs-vigia-ofertas</code>. É um tópico público de demonstração.</small></p>
+</div>
+
+<section aria-labelledby="t-status">
+<h2 id="t-status">Última verificação</h2>
+<div class="box">
+<div class="status" id="status"><span class="muted">Carregando…</span></div>
+<ul id="alvos" class="muted"></ul>
+</div>
+</section>
+
+<section aria-labelledby="t-hist">
+<h2 id="t-hist">Histórico de mudanças</h2>
+<p class="muted">Mais recente primeiro. O horário é de Brasília. A primeira linha de cada produto é a leitura inicial, sem preço anterior. Um dos produtos é <a href="/vigia-ofertas/produto-demo.html">uma página de teste nossa</a>, que mudamos de propósito para provar o aviso.</p>
+<div class="scroll">
+<table>
+<thead><tr><th>Quando (BRT)</th><th>Produto</th><th>Preço</th><th>Disponibilidade</th></tr></thead>
+<tbody id="hist"><tr><td colspan="4" class="muted">Carregando…</td></tr></tbody>
+</table>
+</div>
+</section>
+
+<section aria-labelledby="t-codigo">
+<h2 id="t-codigo">Transparência</h2>
+<p>O robô é um único script Python, sem dependências, e roda de graça no GitHub Actions. Nada fica escondido: dá para ler o código e conferir cada execução.</p>
+<div class="links">
+<a href="https://github.com/oroborolabs/oroborolabs.github.io/tree/main/vigia-ofertas">Código no GitHub</a>
+<a href="https://github.com/oroborolabs/oroborolabs.github.io/actions">Execuções do robô</a>
+<a href="/vigia-ofertas/historico.csv">Histórico em CSV</a>
+</div>
+</section>
+
+<section>
+<div class="cta">
+<h2>Quer um robô desses para o seu caso?</h2>
+<p>Preços de concorrentes, estoque de fornecedor, vaga, edital, cotação: se está numa página pública, o robô pode vigiar. <strong>R$ 390, entrega em 72 h.</strong></p>
+<a class="button" id="btn-cta" href="https://www.99freelas.com.br">Contratar pelo meu perfil</a>
+</div>
+</section>
+</main>
+<footer><p>Oroboro Labs · Demonstração técnica. Os preços mostrados vêm de páginas públicas e podem estar defasados em relação à loja.</p></footer>
+<script>
+// Constante fácil de trocar: link do perfil onde o serviço é contratado.
+const LINK_PERFIL = "https://www.99freelas.com.br/user/oroborolabs-oroboro";
+document.getElementById("btn-cta").href = LINK_PERFIL;
+
+const BRT = new Intl.DateTimeFormat("pt-BR", {timeZone:"America/Sao_Paulo", day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"});
+const BRL = new Intl.NumberFormat("pt-BR", {style:"currency", currency:"BRL"});
+const DISP = {InStock:"Em estoque", OutOfStock:"Esgotado", SoldOut:"Esgotado", PreOrder:"Pré-venda", BackOrder:"Sob encomenda", LimitedAvailability:"Estoque limitado", Discontinued:"Descontinuado", OnlineOnly:"Só online", InStoreOnly:"Só em loja"};
+
+function esc(s){return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function quando(iso){const d = new Date(iso); return isNaN(d) ? esc(iso) : BRT.format(d).replace(",", " às");}
+function preco(v){const n = parseFloat(v); return isNaN(n) ? "" : BRL.format(n);}
+function urlSegura(u){return /^https?:\/\//i.test(u) ? u : "#";}
+
+function parseCSV(texto){
+  const linhas = []; let campo = "", linha = [], aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i+1] === '"'){campo += '"'; i++;}
+      else if (c === '"'){aspas = false;}
+      else {campo += c;}
+    } else if (c === '"'){aspas = true;}
+    else if (c === ","){linha.push(campo); campo = "";}
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i+1] === "\n") i++;
+      linha.push(campo); campo = "";
+      if (linha.some(x => x !== "")) linhas.push(linha);
+      linha = [];
+    } else {campo += c;}
+  }
+  if (campo !== "" || linha.length){linha.push(campo); if (linha.some(x => x !== "")) linhas.push(linha);}
+  return linhas;
+}
+
+async function buscar(caminho){
+  const r = await fetch(caminho + "?t=" + Date.now(), {cache:"no-store"});
+  if (!r.ok) throw new Error(caminho + ": HTTP " + r.status);
+  return r;
+}
+
+async function historico(){
+  const corpo = document.getElementById("hist");
+  try{
+    const linhas = parseCSV(await (await buscar("historico.csv")).text());
+    const dados = linhas.slice(1).map((l, i) => ({i:i, q:l[0], nome:l[1], url:l[2], antigo:l[3], novo:l[4], disp:l[5]}));
+    dados.sort((a, b) => (a.q < b.q ? 1 : a.q > b.q ? -1 : b.i - a.i));  // empate: a linha mais nova do arquivo vem antes
+    if (!dados.length){corpo.innerHTML = '<tr><td colspan="4" class="muted">Ainda sem registros: o robô grava a primeira leitura na próxima execução.</td></tr>'; return;}
+    corpo.innerHTML = dados.map(d => {
+      const p = d.antigo === "" ? esc(preco(d.novo)) + ' <small class="muted">(leitura inicial)</small>'
+        : esc(preco(d.antigo)) + " → <strong>" + esc(preco(d.novo)) + "</strong>";
+      return "<tr><td class=\"num\">" + quando(d.q) + "</td><td><a href=\"" + esc(urlSegura(d.url)) + "\" rel=\"noopener\">" + esc(d.nome) + "</a></td><td class=\"num\">" + p + "</td><td>" + esc(DISP[d.disp] || d.disp || "não informada") + "</td></tr>";
+    }).join("");
+  }catch(e){
+    corpo.innerHTML = '<tr><td colspan="4" class="bad">Não foi possível carregar o histórico agora.</td></tr>';
+  }
+}
+
+async function ultimoCheck(){
+  const st = document.getElementById("status"), ul = document.getElementById("alvos");
+  try{
+    const j = await (await buscar("ultimo_check.json")).json();
+    if (!j.quando){st.innerHTML = '<span class="muted">Ainda sem verificações: o primeiro run acontece em até 15 minutos.</span>'; return;}
+    const alvos = j.alvos || [], ok = alvos.filter(a => a.ok).length;
+    const bom = alvos.length > 0 && ok === alvos.length;
+    st.innerHTML = "<span>Último check: <strong>" + quando(j.quando) + " (BRT)</strong></span>"
+      + '<span class="pill ' + (bom ? "ok" : "bad") + '">' + (bom ? "tudo certo" : ok + " de " + alvos.length + " produtos lidos") + "</span>";
+    ul.innerHTML = alvos.map(a => "<li>" + esc(a.nome) + ": " + (a.ok ? esc(preco(a.preco)) : '<span class="bad">falhou (' + esc(a.erro || "erro") + ")</span>") + "</li>").join("");
+  }catch(e){
+    st.innerHTML = '<span class="bad">Não foi possível carregar o status agora.</span>';
+  }
+}
+
+historico(); ultimoCheck();
+</script>
+</body>
+</html>
