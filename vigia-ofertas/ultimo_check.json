@@ -1,5 +1,5 @@
 {
-  "quando": "2026-11-01T14:25:48Z",
+  "quando": "2026-11-01T19:01:40Z",
   "alvos": [
     {
       "nome": "Fone Bluetooth Demo X1 (nossa página de teste)",
@@ -10,7 +10,7 @@
     {
       "nome": "Mouse Logitech G305 Lightspeed (KaBuM!)",
       "ok": true,
-      "preco": 199.99,
+      "preco": 189.99,
       "erro": null
     }
   ]
